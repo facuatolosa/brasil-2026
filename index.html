@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icon-192.png" type="image/png">
+<meta name="theme-color" content="#0B2E42">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Río + Búzios 2026 — Guía de viaje</title>
@@ -290,12 +293,16 @@
   .budget-table{
     width:100%;border-collapse:collapse;background:var(--paper);border-radius:16px;overflow:hidden;
     box-shadow:var(--shadow);margin-bottom:30px;font-size:.9rem;
+    display:block; /* Activa el comportamiento de bloque */
+    overflow-x:auto; /* Permite deslizar la tabla hacia los lados en celulares */
+    -webkit-overflow-scrolling:touch; /* Hace que el deslizamiento sea suave en iOS */
   }
   .budget-table th{
+    min-width: 130px;
     background:var(--navy);color:var(--sand);text-align:left;padding:14px 16px;
     font-family:'Space Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
   }
-  .budget-table td{padding:13px 16px;border-bottom:1px solid var(--line);color:#33454f;}
+  .budget-table td{min-width: 130px;padding:13px 16px;border-bottom:1px solid var(--line);color:#33454f;}
   .budget-table tr:last-child td{border-bottom:none;}
   .budget-table tr:nth-child(even) td{background:var(--sand-2);}
   .budget-table td.num{font-family:'Space Mono',monospace;font-weight:700;color:var(--navy);white-space:nowrap;}
@@ -435,8 +442,15 @@
   }
 
   /* ---------- CHECKLIST: edición ---------- */
-  .section-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;}
-  .section-top .section-head{flex:1 1 320px;}
+  .section-top{
+    display:flex;justify-content:space-between;align-items:center; /* Cambiado a center */
+    gap:16px;flex-wrap:wrap;
+    margin-bottom:34px; /* Margen trasladado al contenedor */
+  }
+  .section-top .section-head{
+    flex:1 1 320px;
+    margin-bottom:0; /* Se quita el margen para que no empuje al botón */
+  }
   .edit-btn{
     font-family:'Manrope',sans-serif;font-weight:700;font-size:.88rem;
     background:var(--paper);color:var(--navy);border:1.5px solid var(--navy);
@@ -569,32 +583,84 @@
   .quote-table{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);}
   .q-table{width:100%;border-collapse:collapse;}
   .q-table th{
-    background:var(--navy);color:var(--sand);text-align:left;padding:13px 16px;
-    font-family:'Space Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+    background:var(--navy);color:var(--sand);
+    text-align:left;
+    padding:8px 10px; /* ANTES: 13px 16px */
+    font-family:'Space Mono',monospace;
+    font-size:.65rem; /* ANTES: .7rem */ 
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    font-weight:700;
   }
   .q-table th.r,.q-table td.r{text-align:right;}
-  .q-table td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  .q-table td{
+    padding:8px 10px; /* ANTES: 12px 16px */ 
+    border-bottom:1px solid var(--line);
+    vertical-align:middle;
+  }
   .q-table tr:last-child td{border-bottom:none;}
-  .q-table td.rank{width:44px;font-family:'Space Mono',monospace;font-size:.8rem;color:#8a99a1;}
+  .q-table td.rank{
+    width:30px; /* ANTES: 44px */ 
+    font-family:'Space Mono',monospace;
+    font-size:.75rem; /* ANTES: .8rem */ 
+    color:#8a99a1;}
   .q-table tr.best td{background:rgba(27,153,139,0.10);}
   .q-table tr.best td.rank{box-shadow:inset 4px 0 0 var(--jungle);color:var(--jungle);font-weight:700;}
   .q-table tr.stale td{opacity:.72;}
-  .q-app{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .q-app{
+    display:flex;
+    align-items:center;
+    gap:6px; /* ANTES: 10px */
+    flex-wrap:wrap;
+  }
   .q-badge{
-    width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-    font-weight:800;color:#fff;font-size:.9rem;flex-shrink:0;
+    width:24px; /* ANTES: 32px */
+    height:24px; /* ANTES: 32px */
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;
+    font-size:.75rem; /* ANTES: .9rem */
+    flex-shrink:0;
+    overflow:hidden; /* Agregado para cortar bordes cuadrados de las imágenes */
+  }
+  .q-badge img { /* NUEVO: Estilo para las imágenes dentro del círculo */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .q-c0{background:var(--ocean);} .q-c1{background:var(--coral-2);} .q-c2{background:var(--jungle);}
   .q-c3{background:var(--navy);}  .q-c4{background:var(--ocean-2);} .q-c5{background:#B5832A;}
-  .q-name{font-weight:700;color:var(--navy);}
+  .q-name{
+    font-size:.85rem; /* NUEVO: Letra más chica, antes tomaba el tamaño por defecto */
+    font-weight:700;
+    color:var(--navy);
+  }
   .q-tag{
-    font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
-    padding:2px 8px;border-radius:100px;background:var(--sand-2);color:var(--navy);border:1px solid var(--line);
+    font-family:'Space Mono',monospace;
+    font-size:.6rem; /* ANTES: .62rem */
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    padding:2px 6px; /* ANTES: 2px 8px */
+    border-radius:100px;
+    background:var(--sand-2);
+    color:var(--navy);
+    border:1px solid var(--line);
   }
   .q-tag.best{background:var(--jungle);color:#fff;border-color:var(--jungle);}
   .q-tag.warn{background:#FDE4E0;color:var(--coral-2);border-color:#F5B9B0;}
-  .q-price{font-family:'Space Mono',monospace;font-weight:700;color:var(--navy);white-space:nowrap;}
-  .q-price small{display:block;font-family:'Manrope',sans-serif;font-weight:500;font-size:.72rem;color:#6a7b84;}
+  .q-price{
+    font-family:'Space Mono',monospace;
+    font-size:.8rem; /* NUEVO: Letra más chica, antes tomaba el tamaño por defecto */
+    font-weight:700;
+    color:var(--navy);
+    white-space:nowrap;}
+  .q-price small{
+    display:block;
+    font-family:'Manrope',sans-serif;
+    font-size:.68rem; /* ANTES: .72rem */
+    font-weight:500;
+    font-size:.72rem;
+    color:#6a7b84;}
   .quote-ref{margin-top:18px;background:var(--sand-2);border-radius:14px;padding:16px 18px;font-size:.88rem;color:var(--navy);}
   .quote-ref b{font-family:'Fraunces',serif;font-size:1.02rem;}
   .quote-ref ul{list-style:none;margin:10px 0 8px 0;padding:0;}
@@ -1875,6 +1941,29 @@
     'belo':'Belo', 'prex':'Prex', 'takenos':'Takenos', 'wallbit':'Wallbit', 'vesseo':'Vesseo',
     'yodl-pay':'Yodl Pay', 'binance':'Binance', 'peanut':'Peanut'
   };
+  const APP_LOGOS = {
+    'cocos': 'assets/logos/cocos.png',
+    'arq': 'assets/logos/arq.png',
+    'ripio': 'assets/logos/ripio.png',
+    'astropay': 'assets/logos/astropay.png',
+    'wayni': 'assets/logos/wayni.png',
+    'global66': 'assets/logos/global66.png',
+    'personal-pay': 'assets/logos/personal-pay.png',
+    'mercado-pago': 'assets/logos/mercado-pago.png',
+    'fiwind': 'assets/logos/fiwind.png',
+    'p2pme': 'assets/logos/p2pme.png',
+    'caipi': 'assets/logos/caipi.png',
+    'decrypto': 'assets/logos/decrypto.png',
+    'lemon': 'assets/logos/lemon.png',
+    'belo': 'assets/logos/belo.png',
+    'prex': 'assets/logos/prex.png',
+    'takenos': 'assets/logos/takenos.png',
+    'wallbit': 'assets/logos/wallbit.png',
+    'vesseo': 'assets/logos/vesseo.png',
+    'yodl-pay': 'assets/logos/yodl-pay.png',
+    'binance': 'assets/logos/binance.png',
+    'peanut': 'assets/logos/peanut.png'
+  };
   const quotesBody = document.getElementById('quotesBody');
   const quotesRef = document.getElementById('quotesRef');
   const quotesStatus = document.getElementById('quotesStatus');
@@ -1959,7 +2048,19 @@
 
       const tdApp = document.createElement('td');
       const app = el('div', 'q-app');
-      app.appendChild(el('span', badgeClass(r.slug), r.name.charAt(0).toUpperCase()));
+      //app.appendChild(el('span', badgeClass(r.slug), r.name.charAt(0).toUpperCase()));
+      // ------------------------------------------------------
+      const badge = el('span', badgeClass(r.slug));
+      if (APP_LOGOS[r.slug]) {
+        const img = el('img');
+        img.src = APP_LOGOS[r.slug];
+        img.alt = r.name;
+        badge.appendChild(img);
+      } else {
+        badge.textContent = r.name.charAt(0).toUpperCase();
+      }
+      // ------------------------------------------------------
+      app.appendChild(badge);
       app.appendChild(el('span', 'q-name', r.name));
       if(i === 0) app.appendChild(el('span', 'q-tag best', 'Mejor'));
       if(r.fees) app.appendChild(el('span', 'q-tag', 'Comisiones'));
@@ -2539,6 +2640,14 @@
   }
 
 </script>
-
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('Service Worker registrado con éxito.', reg))
+        .catch(err => console.error('Error al registrar el Service Worker:', err));
+    });
+  }
+</script>
 </body>
 </html>
