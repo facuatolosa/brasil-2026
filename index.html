@@ -310,6 +310,47 @@
   .payment-card h4{font-size:1rem;display:flex;align-items:center;margin-bottom:8px;color:var(--navy);}
   .payment-card p{font-size:.86rem;color:#3d5566;margin:0;}
 
+  /* ---------- GASTOS DIARIOS ---------- */
+  .gastos-summary {
+    display: flex; flex-wrap: wrap; gap: 34px; align-items: center; margin-bottom: 30px;
+    background: var(--paper); padding: 26px; border-radius: var(--radius);
+    border: 1px solid var(--line); box-shadow: var(--shadow);
+  }
+  .gastos-chart-container {
+    position: relative; width: 160px; height: 160px; flex-shrink: 0; margin: 0 auto;
+  }
+  .gastos-chart {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: conic-gradient(#e2e8f0 0 100%); transition: background 0.4s ease;
+  }
+  /* Círculo blanco central para hacer efecto "Donut" */
+  .gastos-chart-container::after {
+    content: ''; position: absolute; inset: 26px;
+    background: var(--paper); border-radius: 50%;
+  }
+  .gastos-total {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; z-index: 2;
+  }
+  .gastos-total span { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .gastos-total small { font-size: .7rem; color: #5a6b73; text-transform: uppercase; letter-spacing: .05em; font-family: 'Space Mono', monospace; }
+
+  .gastos-legend { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 12px; font-size: .9rem; color: var(--navy); }
+  .legend-color { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+  .legend-name { flex: 1; font-weight: 600; }
+  .legend-amount { font-family: 'Space Mono', monospace; font-weight: 700; white-space: nowrap;}
+
+  .cat-tag {
+    background: var(--sand-2); padding: 4px 12px; border-radius: 100px; font-size: .85rem;
+    display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line);
+  }
+  .cat-tag button {
+    background: none; border: none; color: var(--coral-2); cursor: pointer;
+    font-size: .9rem; padding: 0; display: flex; align-items: center;
+  }
+  .cat-tag button:hover { font-weight: bold; }
+  
   /* ---------- TURISMO ---------- */
   .dest-block{margin-bottom:44px;}
   .dest-title{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
@@ -632,6 +673,7 @@
     <button class="tabbtn" data-tab="clima">🌤️ Clima y ropa</button>
     <button class="tabbtn" data-tab="checklist">✅ Checklist</button>
     <button class="tabbtn" data-tab="presupuesto">💰 Presupuesto</button>
+    <button class="tabbtn" data-tab="gastos">📊 Gastos</button>
     <button class="tabbtn" data-tab="turismo">🗺️ Turismo</button>
     <button class="tabbtn" data-tab="diccionario">🗣️ Frases</button>
     <button class="tabbtn" data-tab="documentos">📄 Documentos</button>
@@ -887,6 +929,64 @@
         <h4><span class="rank">!</span> Tarjeta de débito en pesos</h4>
         <p>Es la opción más cara: se le suma el recargo del 30% de percepción de Ganancias de forma inmediata. Usala solo como último recurso.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= GASTOS DIARIOS ================= -->
+  <section class="panel" id="panel-gastos">
+    <div class="section-top">
+      <div class="section-head">
+        <div class="eyebrow">09 · Finanzas</div>
+        <h2>Control de gastos diarios</h2>
+        <p>Anotá tus consumos para saber cuánto vas gastando. La información se guarda automáticamente en tu dispositivo.</p>
+      </div>
+      <button class="edit-btn" id="editGastosBtn" aria-pressed="false">✏️ Modificar</button>
+    </div>
+
+    <!-- Resumen y Gráfico de Torta -->
+    <div class="gastos-summary">
+      <div class="gastos-chart-container">
+        <div id="gastosChart" class="gastos-chart"></div>
+        <div class="gastos-total">
+          <span id="gastosTotalAmount">R$ 0</span>
+          <small>Total gastado</small>
+        </div>
+      </div>
+      <div id="gastosLegend" class="gastos-legend"></div>
+    </div>
+
+    <!-- Panel de Edición (Oculto por defecto) -->
+    <div id="gastosEditArea" hidden>
+      <div class="edit-hint" style="margin-bottom: 20px;">
+        <b>Modo edición:</b> Acá podés agregar nuevos consumos, administrar tus categorías y borrar gastos anteriores.
+      </div>
+
+      <!-- Formulario para Nuevo Gasto -->
+      <form id="gastosForm" class="link-form" style="margin-bottom: 24px;" novalidate>
+        <h4>➕ Agregar gasto</h4>
+        <div style="display:flex; gap:10px; flex-wrap: wrap;">
+          <input type="text" id="gastoDesc" placeholder="Ej. Almuerzo en Tartaruga" required style="flex:1 1 200px;">
+          <input type="number" id="gastoMonto" placeholder="Monto (R$)" required min="0.01" step="0.01" style="flex:1 1 120px;">
+          <select id="gastoCat" style="flex:1 1 150px; font-family:'Manrope',sans-serif; font-size:.88rem; color:var(--ink); background:var(--sand); border:1px solid var(--line); border-radius:8px; padding:9px 11px;"></select>
+        </div>
+        <button type="submit" class="doc-btn primary">Guardar gasto</button>
+      </form>
+
+      <!-- Gestor de Categorías -->
+      <div class="check-card" style="margin-bottom: 24px;">
+        <h4>Gestión de categorías</h4>
+        <div id="catList" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;"></div>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="newCatName" placeholder="Nueva categoría..." style="font-family:'Manrope',sans-serif; font-size:.85rem; border:1px solid var(--line); border-radius:8px; padding:7px 10px; flex:1;">
+          <button type="button" id="addCatBtn" class="doc-btn">Agregar</button>
+        </div>
+      </div>
+
+      <!-- Lista de Gastos Históricos -->
+      <div class="section-head" style="margin-bottom: 16px;">
+        <h3 style="font-size:1.2rem; color:var(--navy);">Listado de movimientos</h3>
+      </div>
+      <div id="gastosList" class="doc-list"></div>
     </div>
   </section>
 
@@ -2032,6 +2132,210 @@
   // Escuchamos el clic en la pestaña "Clima y ropa" para cargar los datos solo cuando el usuario entra ahí
   document.querySelector('.tabbtn[data-tab="clima"]').addEventListener('click', actualizarClima);
 
+  // ---------- CONTROL DE GASTOS DIARIOS ----------
+  const KEY_GASTOS = 'rioBuziosGastos2026';
+  let gastosState = {
+    categorias: ['Comida', 'Transporte', 'Excursiones', 'Supermercado', 'Otros'],
+    gastos: [] // Formato: { id, desc, monto, cat, fecha }
+  };
+
+  // Intentamos cargar lo que haya en el Local Storage
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY_GASTOS));
+    if (saved && Array.isArray(saved.categorias) && Array.isArray(saved.gastos)) {
+      gastosState = saved;
+    }
+  } catch(e) {}
+
+  const saveGastos = () => localStorage.setItem(KEY_GASTOS, JSON.stringify(gastosState));
+
+  // Paleta de colores para el gráfico basada en los colores de tu web
+  const catColors = ['#1C7293', '#FF6F5E', '#1B998B', '#FFC145', '#123B54', '#8a99a1', '#E8503F', '#0F5C7A'];
+
+  const gastosChart = document.getElementById('gastosChart');
+  const gastosTotalAmount = document.getElementById('gastosTotalAmount');
+  const gastosLegend = document.getElementById('gastosLegend');
+  const gastoCatSelect = document.getElementById('gastoCat');
+  const catListDiv = document.getElementById('catList');
+  const gastosListDiv = document.getElementById('gastosList');
+
+  function renderGastos() {
+    // 1. Calcular totales
+    let total = 0;
+    const totalesPorCat = {};
+    gastosState.categorias.forEach(c => totalesPorCat[c] = 0);
+
+    gastosState.gastos.forEach(g => {
+      total += g.monto;
+      if (totalesPorCat[g.cat] !== undefined) {
+        totalesPorCat[g.cat] += g.monto;
+      } else {
+        // Si borró una categoría que ya tenía gastos, los manda a 'Otros' para que no se rompa
+        if(!totalesPorCat['Otros']) totalesPorCat['Otros'] = 0;
+        totalesPorCat['Otros'] += g.monto;
+      }
+    });
+
+    gastosTotalAmount.textContent = 'R$ ' + total.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+    // 2. Dibujar Gráfico de Torta y Leyenda
+    gastosLegend.innerHTML = '';
+    if (total === 0) {
+      gastosChart.style.background = 'conic-gradient(#e2e8f0 0 100%)';
+      gastosLegend.innerHTML = '<div style="color:#6a7b84; font-size:0.9rem;">No hay gastos registrados aún. Tocá "Modificar" para empezar.</div>';
+    } else {
+      let gradientStr = [];
+      let currentPct = 0;
+
+      gastosState.categorias.forEach((cat, index) => {
+        const catTotal = totalesPorCat[cat] || 0;
+        if (catTotal > 0) {
+          const pct = (catTotal / total) * 100;
+          const color = catColors[index % catColors.length];
+          // Vamos sumando las porciones para el CSS conic-gradient
+          gradientStr.push(`${color} ${currentPct}% ${currentPct + pct}%`);
+          currentPct += pct;
+
+          // Armamos la leyenda
+          const div = document.createElement('div');
+          div.className = 'legend-item';
+          div.innerHTML = `
+            <div class="legend-color" style="background:${color}"></div>
+            <div class="legend-name">${cat}</div>
+            <div class="legend-amount">R$ ${catTotal.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+          `;
+          gastosLegend.appendChild(div);
+        }
+      });
+      gastosChart.style.background = `conic-gradient(${gradientStr.join(', ')})`;
+    }
+
+    // 3. Select del formulario
+    gastoCatSelect.innerHTML = '';
+    gastosState.categorias.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat; opt.textContent = cat;
+      gastoCatSelect.appendChild(opt);
+    });
+
+    // 4. Panel de Categorías Administrables
+    catListDiv.innerHTML = '';
+    gastosState.categorias.forEach(cat => {
+      const tag = document.createElement('div');
+      tag.className = 'cat-tag';
+      tag.innerHTML = `<span>${cat}</span>`;
+      
+      const btnDel = document.createElement('button');
+      btnDel.innerHTML = '✕';
+      btnDel.title = 'Borrar categoría';
+      btnDel.type = 'button';
+      btnDel.onclick = () => {
+        if(gastosState.categorias.length <= 1) return alert('Debe quedar al menos una categoría.');
+        if(confirm(`¿Borrar la categoría "${cat}"? Sus gastos se asignarán a "Otros".`)) {
+           gastosState.categorias = gastosState.categorias.filter(c => c !== cat);
+           // Si no existe 'Otros', la creamos
+           if(!gastosState.categorias.includes('Otros')) gastosState.categorias.push('Otros');
+           // Reasignamos los gastos viejos
+           gastosState.gastos.forEach(g => { if(g.cat === cat) g.cat = 'Otros'; });
+           
+           saveGastos(); renderGastos();
+        }
+      };
+      tag.appendChild(btnDel);
+      catListDiv.appendChild(tag);
+    });
+
+    // 5. Lista Histórica de Gastos
+    gastosListDiv.innerHTML = '';
+    if (gastosState.gastos.length === 0) {
+      gastosListDiv.innerHTML = '<div class="doc-empty">No hay movimientos.</div>';
+    } else {
+      // Usamos .slice().reverse() para mostrar los últimos gastos arriba
+      gastosState.gastos.slice().reverse().forEach(g => {
+        const item = document.createElement('div');
+        item.className = 'doc-item';
+        
+        // Buscamos el color de la categoría para el borde lateral
+        const catIndex = Math.max(0, gastosState.categorias.indexOf(g.cat));
+        item.style.borderLeftColor = catColors[catIndex % catColors.length];
+        
+        item.innerHTML = `
+          <div class="doc-info">
+            <div class="doc-name">${g.desc}</div>
+            <div class="doc-meta">${g.cat} · ${new Date(g.fecha).toLocaleDateString('es-AR')}</div>
+          </div>
+          <div class="doc-actions">
+            <div style="font-family:'Space Mono',monospace; font-weight:700; color:var(--navy); margin-right:10px;">R$ ${g.monto.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+            <button type="button" class="doc-btn danger" onclick="borrarGasto('${g.id}')">✕ Quitar</button>
+          </div>
+        `;
+        gastosListDiv.appendChild(item);
+      });
+    }
+  }
+
+  // Borrar un gasto puntual (función global para el onclick del HTML inyectado)
+  window.borrarGasto = function(id) {
+    if(confirm('¿Seguro que querés borrar este gasto?')) {
+      gastosState.gastos = gastosState.gastos.filter(g => g.id !== id);
+      saveGastos(); renderGastos();
+    }
+  };
+
+  // Botón que despliega el panel de edición
+  const editGastosBtn = document.getElementById('editGastosBtn');
+  const gastosEditArea = document.getElementById('gastosEditArea');
+  
+  if (editGastosBtn && gastosEditArea) {
+    editGastosBtn.addEventListener('click', () => {
+      const isHidden = gastosEditArea.hidden;
+      gastosEditArea.hidden = !isHidden;
+      editGastosBtn.classList.toggle('on', isHidden);
+      editGastosBtn.textContent = isHidden ? '✓ Cerrar' : '✏️ Modificar';
+    });
+  }
+
+  // Guardar un nuevo gasto
+  const gastosForm = document.getElementById('gastosForm');
+  if (gastosForm) {
+    gastosForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const desc = document.getElementById('gastoDesc').value.trim();
+      const monto = parseFloat(document.getElementById('gastoMonto').value.replace(',', '.')); // Soporte para comas
+      const cat = document.getElementById('gastoCat').value;
+      if (!desc || isNaN(monto)) return;
+
+      gastosState.gastos.push({
+        id: 'g_' + Date.now(),
+        desc, monto, cat, fecha: Date.now()
+      });
+      
+      saveGastos(); renderGastos();
+      
+      // Limpiar campos
+      document.getElementById('gastoDesc').value = '';
+      document.getElementById('gastoMonto').value = '';
+      document.getElementById('gastoDesc').focus(); // Vuelve el cursor por si querés agregar otro
+    });
+  }
+
+  // Agregar una nueva categoría
+  const addCatBtn = document.getElementById('addCatBtn');
+  if (addCatBtn) {
+    addCatBtn.addEventListener('click', () => {
+      const input = document.getElementById('newCatName');
+      const val = input.value.trim();
+      if(val && !gastosState.categorias.includes(val)) {
+        gastosState.categorias.push(val);
+        saveGastos(); renderGastos();
+        input.value = '';
+      }
+    });
+  }
+
+  // Iniciar el renderizado
+  renderGastos();
+  
   // ---------- DICCIONARIO Y WEB SPEECH API ----------
   const dictPhrases = [
     { hint: "Saludo informal", pt: "Oi, tudo bem?" },
