@@ -696,13 +696,13 @@
     <div class="climate-grid">
       <div class="climate-card">
         <div class="place-eyebrow">Río de Janeiro</div>
-        <h3>☀️ Calor húmedo, con chaparrones</h3>
+        <h3 id="descRio">☀️ Calor húmedo, con chaparrones</h3>
         <div class="temp-row">
-          <div class="temp-big">27°/20°</div>
-          <div class="temp-sub">máxima / mínima promedio</div>
+          <div class="temp-big" id="tempRio">27°/20°</div>
+          <div class="temp-sub" id="subRio">máxima / mínima promedio</div>
         </div>
         <div class="climate-stats">
-          <div class="climate-stat"><b>~80%</b>Humedad</div>
+          <div class="climate-stat"><b id="humRio">~80%</b>Humedad</div>
           <div class="climate-stat"><b>~50%</b>Prob. de lluvia diaria</div>
           <div class="climate-stat"><b>22-23°C</b>Agua de mar</div>
         </div>
@@ -710,13 +710,13 @@
       </div>
       <div class="climate-card">
         <div class="place-eyebrow">Búzios</div>
-        <h3>🌬️ Similar, algo más ventoso</h3>
+        <h3 id="descBuzios">🌬️ Similar, algo más ventoso</h3>
         <div class="temp-row">
-          <div class="temp-big">26°/19°</div>
-          <div class="temp-sub">máxima / mínima promedio</div>
+          <div class="temp-big" id="tempBuzios">26°/19°</div>
+          <div class="temp-sub" id="subBuzios">máxima / mínima promedio</div>
         </div>
         <div class="climate-stats">
-          <div class="climate-stat"><b>Brisa</b>Constante</div>
+          <div class="climate-stat"><b id="humBuzios">Brisa</b>Humedad</div>
           <div class="climate-stat"><b>Variable</b>Según playa</div>
           <div class="climate-stat"><b>22°C aprox.</b>Agua de mar</div>
         </div>
@@ -1934,6 +1934,62 @@
   }
   document.getElementById('manualLoad').addEventListener('click', loadManual);
   renderQuotes();
+
+  // ---------- CLIMA EN TIEMPO REAL (OpenWeatherMap) ----------
+  const API_KEY_CLIMA = '26c9cd1758c120cc49a15af20df7f0a0'; // Reemplazá esto con tu key
+  let climaActualizado = false;
+
+  async function fetchWeather(lat, lon, idPrefix) {
+    if (!API_KEY_CLIMA || API_KEY_CLIMA === 'PEGÁ_TU_API_KEY_ACÁ') return;
+    try {
+      // Pide el clima en español y en grados Celsius (metric)
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=es&appid=${API_KEY_CLIMA}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Error al obtener clima');
+      const data = await res.json();
+      
+      const tempActual = Math.round(data.main.temp);
+      const tempMin = Math.round(data.main.temp_min);
+      const tempMax = Math.round(data.main.temp_max);
+      const humedad = data.main.humidity;
+      const descripcion = data.weather[0].description;
+      const icono = data.weather[0].icon;
+      
+      // Diccionario para cambiar el icono de la API por un emoji nativo
+      const emojis = {
+        '01d': '☀️', '01n': '🌙', '02d': '⛅', '02n': '☁️',
+        '03d': '☁️', '03n': '☁️', '04d': '☁️', '04n': '☁️',
+        '09d': '🌧️', '09n': '🌧️', '10d': '🌦️', '10n': '🌧️',
+        '11d': '⛈️', '11n': '⛈️', '13d': '❄️', '13n': '❄️', '50d': '🌫️', '50n': '🌫️'
+      };
+      const emoji = emojis[icono] || '🌤️';
+      
+      // Actualizamos los elementos en la pantalla
+      document.getElementById('temp' + idPrefix).textContent = `${tempActual}°`;
+      document.getElementById('desc' + idPrefix).textContent = `${emoji} ${descripcion.charAt(0).toUpperCase() + descripcion.slice(1)}`;
+      document.getElementById('sub' + idPrefix).textContent = `máx ${tempMax}° / mín ${tempMin}° (hoy)`;
+      document.getElementById('hum' + idPrefix).textContent = `${humedad}%`;
+      
+    } catch (e) {
+      console.warn(`No se pudo cargar el clima para ${idPrefix}:`, e);
+    }
+  }
+
+  function actualizarClima() {
+    if (climaActualizado) return; // Para no llamar a la API cada vez que cambiás de pestaña
+    
+    // Coordenadas exactas de Copacabana, Río de Janeiro
+    fetchWeather(-22.9711, -43.1822, 'Rio');
+    
+    // Coordenadas de Tartaruga, Búzios
+    fetchWeather(-22.7536, -41.9042, 'Buzios');
+    
+    climaActualizado = true;
+  }
+
+  // Escuchamos el clic en la pestaña "Clima y ropa" para cargar los datos solo cuando el usuario entra ahí
+  document.querySelector('.tabbtn[data-tab="clima"]').addEventListener('click', actualizarClima);
+
 </script>
 
 </body>
