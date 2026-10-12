@@ -461,6 +461,37 @@
     background:var(--sand-2);border-radius:14px;padding:22px;text-align:center;font-size:.9rem;color:#4a5f6d;
   }
 
+
+  /* ---------- DOCUMENTOS: enlaces + copia ---------- */
+  .doc-add-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;}
+  @media(max-width:760px){.doc-add-grid{grid-template-columns:1fr;}}
+  .link-form{
+    background:var(--paper);border:2px dashed var(--jungle);border-radius:var(--radius);
+    padding:20px 22px;display:flex;flex-direction:column;gap:10px;justify-content:center;
+  }
+  .link-form h4{font-family:'Fraunces',serif;font-size:1.15rem;margin:0;color:var(--navy);}
+  .link-form input{
+    font-family:'Manrope',sans-serif;font-size:.88rem;color:var(--ink);background:var(--sand);
+    border:1px solid var(--line);border-radius:8px;padding:9px 11px;width:100%;
+  }
+  .link-form input:focus{outline:2px solid var(--ocean);border-color:var(--ocean);}
+  .link-hint{font-size:.78rem;color:#5a6b73;margin:0;}
+  .doc-btn.primary{background:var(--jungle);border-color:var(--jungle);color:var(--paper);align-self:flex-start;padding:9px 18px;}
+  .doc-btn.primary:hover{background:var(--navy);border-color:var(--navy);}
+  a.doc-btn{text-decoration:none;display:inline-block;}
+
+  .backup-bar{max-width:1100px;margin:0 auto;padding:10px 24px 44px 24px;}
+  .backup-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 24px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    box-shadow:var(--shadow);
+  }
+  .backup-text{flex:1 1 360px;font-size:.86rem;color:#3d5566;}
+  .backup-text b{display:block;font-family:'Fraunces',serif;font-size:1.1rem;color:var(--navy);margin-bottom:4px;}
+  .backup-actions{display:flex;gap:10px;flex-wrap:wrap;}
+  .backup-msg{width:100%;font-size:.84rem;font-weight:600;color:var(--jungle);min-height:1.2em;}
+  .backup-msg.warn{color:var(--coral-2);}
+
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important;transition:none !important;}
   }
@@ -481,7 +512,7 @@
         <div class="cd-box"><div class="cd-num" id="cdMins">--</div><div class="cd-unit">min</div></div>
         <div class="cd-box"><div class="cd-num" id="cdSecs">--</div><div class="cd-unit">seg</div></div>
       </div>
-      <div class="countdown-note" id="cdNote">Salida tomada como 10/11/2026 a las 03:20 hs · horario a confirmar</div>
+      <div class="countdown-note" id="cdNote">Salida tomada como 10/11/2026 a las 00:00 hs · horario a confirmar</div>
     </div>
     <div class="hero-dates">10 NOV — 18 NOV 2026 · 8 NOCHES</div>
     <div class="chips">
@@ -821,18 +852,27 @@
       <p>Adjuntá los PDF que te dio la agencia (itinerario, vouchers, comprobantes de pago) y tenelos juntos en un solo lugar.</p>
     </div>
 
-    <div class="tip-box"><b>Dónde se guardan:</b> los archivos quedan solo en este navegador y en este dispositivo; no se suben a internet ni se incluyen dentro del HTML. Si abrís la guía en otro dispositivo o navegador, o borrás los datos del navegador, tenés que volver a cargarlos. Conservá siempre los PDF originales.</div>
+    <div class="tip-box"><b>Dónde se guardan:</b> los PDF que subís quedan solo en este navegador y en este dispositivo (no se suben a internet). Los enlaces de Drive se guardan como texto y los archivos siguen en tu cuenta de Google. Para llevar tus enlaces y tu checklist a otro dispositivo, usá “Guardar copia” al pie de la página. Conservá siempre los PDF originales.</div>
 
     <div class="doc-upload">
-      <label class="doc-cat-pick">Guardar los archivos nuevos en:
+      <label class="doc-cat-pick">Categoría de lo que agregues ahora:
         <select id="docCatNew"></select>
       </label>
-      <label class="dropzone" id="dropzone">
-        <input type="file" id="docInput" class="sr-only" accept="application/pdf,.pdf" multiple>
-        <span class="dz-icon">📄</span>
-        <b>Arrastrá tus PDF acá</b>
-        <span class="dz-sub">o tocá para elegirlos desde tu dispositivo</span>
-      </label>
+      <div class="doc-add-grid">
+        <label class="dropzone" id="dropzone">
+          <input type="file" id="docInput" class="sr-only" accept="application/pdf,.pdf" multiple>
+          <span class="dz-icon">📄</span>
+          <b>Subir PDF (queda en este dispositivo)</b>
+          <span class="dz-sub">Arrastralos acá o tocá para elegirlos</span>
+        </label>
+        <form class="link-form" id="linkForm" novalidate>
+          <h4>🔗 O pegá un enlace de Google Drive</h4>
+          <input type="text" id="linkName" placeholder="Título (opcional), ej. Voucher hotel Río" maxlength="200" aria-label="Título del enlace">
+          <input type="text" id="linkUrl" inputmode="url" placeholder="https://drive.google.com/…" aria-label="Enlace al documento">
+          <button type="submit" class="doc-btn primary">Agregar enlace</button>
+          <p class="link-hint">En Drive: Compartir → Copiar enlace. Si lo dejás como “Restringido”, solo abre con tu cuenta de Google. Para verlo sin internet, marcalo como “Disponible sin conexión” en la app de Drive.</p>
+        </form>
+      </div>
     </div>
 
     <div class="doc-msg" id="docMsg" role="status"></div>
@@ -841,6 +881,18 @@
   </section>
 
 </main>
+
+<div class="backup-bar">
+  <div class="backup-card">
+    <div class="backup-text"><b>💾 Copia de tu guía</b>Guarda tu checklist editada y tus enlaces de Drive dentro de un archivo HTML nuevo, para llevarlo a otro dispositivo o no perder nada. Los PDF subidos no se incluyen. No publiques esa copia en un sitio abierto: contiene tu lista y tus enlaces.</div>
+    <div class="backup-actions">
+      <button type="button" class="doc-btn primary" id="exportBtn">⬇️ Guardar copia</button>
+      <button type="button" class="doc-btn" id="importBtn">⬆️ Restaurar copia</button>
+      <input type="file" id="importInput" class="sr-only" accept=".html,text/html" tabindex="-1">
+    </div>
+    <div class="backup-msg" id="backupMsg" role="status"></div>
+  </div>
+</div>
 
 <footer>
   <div class="wave-divider" style="max-width:300px;margin:0 auto 18px auto;opacity:.5;">
@@ -852,6 +904,7 @@
   <p>Guía generada como referencia — verificá siempre precios, horarios y condiciones antes de cada actividad.</p>
 </footer>
 
+<script type="application/json" id="embeddedData">null</script>
 <script>
   // ---------- TABS ----------
   const tabBtns = document.querySelectorAll('.tabbtn');
@@ -879,12 +932,10 @@
       "Pesar la valija en casa antes de salir",
       "Ropa enrollada para ahorrar espacio",
       "Líquidos en frascos de menos de 100ml, en bolsa transparente",
-      "Adaptador de enchufe si hace falta (Brasil usa tomas tipo N/C)",
-	  "Equipo de mate y yerba (Mochila o valija carry on - Termo vacío)",
-	  "Fernet (Comprar en Duty Free post control)"
+      "Adaptador de enchufe si hace falta (Brasil usa tomas tipo N/C)"
     ]},
     { title: "👕 Ropa y calzado", items: [
-      "Trajes de baño",
+      "2 trajes de baño",
       "Ropa liviana de algodón o lino para el día",
       "Piloto o poncho de lluvia compacto",
       "Ojotas + zapatillas cómodas para caminar",
@@ -905,8 +956,8 @@
       "Tarjeta de crédito y débito como respaldo"
     ]},
     { title: "📱 Tecnología", items: [
-      "Activar eSIM o Paquete de Roaming de Datos (Personal)",
-      "Cargador portátil (Power bank)",
+      "Activar eSIM o chip con roaming de datos",
+      "Cargador portátil (power bank)",
       "Descargar el mapa de Río y Búzios offline en Google Maps",
       "Instalar apps: Uber/99 y tu billetera con Pix"
     ]},
@@ -918,14 +969,18 @@
     ]}
   ];
 
-  // ---------- CHECKLIST (editable) ----------
-  const grid = document.getElementById('checklistGrid');
-  const editBtn = document.getElementById('editBtn');
-  const editHint = document.getElementById('editHint');
-  const resetBtn = document.getElementById('resetBtn');
+  // ---------- DATOS COMPARTIDOS ----------
+  const DOC_CATS = [
+    { key:'vuelos',      label:'✈️ Vuelos e itinerario' },
+    { key:'pagos',       label:'💳 Comprobantes de pago' },
+    { key:'alojamiento', label:'🏨 Alojamiento y traslados' },
+    { key:'seguro',      label:'🏥 Asistencia médica' },
+    { key:'otros',       label:'📎 Otros' }
+  ];
   const KEY_V1 = 'rioBuziosChecklist2026';
   const KEY_V2 = 'rioBuziosChecklist2026_v2';
-  let editMode = false;
+  const KEY_LINKS = 'rioBuziosLinks2026';
+  const KEY_META = 'rioBuziosMeta2026';
   let idCounter = 0;
   const newId = () => 'i' + Date.now().toString(36) + (idCounter++);
 
@@ -935,6 +990,48 @@
     if(text !== undefined) n.textContent = text;
     return n;
   }
+  function safeUrl(u){
+    try{ const x = new URL(u); return x.protocol === 'https:' || x.protocol === 'http:'; }catch(e){ return false; }
+  }
+  function localUpdated(){
+    try{ return Number(localStorage.getItem(KEY_META)) || 0; }catch(e){ return 0; }
+  }
+  function setMeta(ts){ try{ localStorage.setItem(KEY_META, String(ts)); }catch(e){} }
+  function touch(){ setMeta(Date.now()); }
+  function fmtDateTime(ts){
+    return new Date(ts).toLocaleString('es-AR', { dateStyle:'short', timeStyle:'short' });
+  }
+
+  // Limpia y valida una copia (la embebida en el archivo o la importada)
+  function normalizeBackup(raw){
+    if(!raw || raw.v !== 1 || !raw.checklist || !Array.isArray(raw.checklist.cats)) return null;
+    const keys = DOC_CATS.map(c=>c.key);
+    const cats = raw.checklist.cats.slice(0, 50).map(c=>({
+      title: String((c && c.title) || '').slice(0, 100),
+      items: (Array.isArray(c && c.items) ? c.items : []).slice(0, 300).map(it=>({
+        id: newId(), text: String((it && it.text) || '').slice(0, 140), done: !!(it && it.done)
+      })).filter(it=>it.text.trim())
+    })).filter(c=>c.title.trim());
+    const lks = (Array.isArray(raw.links) ? raw.links : []).slice(0, 200).map(l=>({
+      id: newId(),
+      name: String((l && l.name) || '').slice(0, 200),
+      url: String((l && l.url) || ''),
+      category: keys.indexOf(l && l.category) >= 0 ? l.category : 'otros',
+      added: Number(l && l.added) || Date.now()
+    })).filter(l=>safeUrl(l.url));
+    return { savedAt: Number(raw.savedAt) || 0, checklist: { cats: cats }, links: lks };
+  }
+  const sigOf = (cats, lks) => JSON.stringify([
+    cats.map(c=>[c.title, c.items.map(i=>[i.text, !!i.done])]),
+    lks.map(l=>[l.name, l.url, l.category])
+  ]);
+
+  // ---------- ESTADO: checklist + enlaces ----------
+  const grid = document.getElementById('checklistGrid');
+  const editBtn = document.getElementById('editBtn');
+  const editHint = document.getElementById('editHint');
+  const resetBtn = document.getElementById('resetBtn');
+  let editMode = false;
 
   function defaultState(){
     let old = {};
@@ -949,11 +1046,41 @@
   try{ state = JSON.parse(localStorage.getItem(KEY_V2)); }catch(e){ state = null; }
   if(!state || !Array.isArray(state.cats)) state = defaultState();
 
-  function saveState(){
-    try{ localStorage.setItem(KEY_V2, JSON.stringify(state)); }catch(e){}
-  }
-  saveState();
+  let links = [];
+  try{
+    const rawLinks = JSON.parse(localStorage.getItem(KEY_LINKS));
+    if(Array.isArray(rawLinks)) links = rawLinks.filter(l=>l && safeUrl(l.url));
+  }catch(e){ links = []; }
 
+  function persistState(){ try{ localStorage.setItem(KEY_V2, JSON.stringify(state)); }catch(e){} }
+  function persistLinks(){ try{ localStorage.setItem(KEY_LINKS, JSON.stringify(links)); }catch(e){} }
+  function saveState(){ persistState(); touch(); }
+  function saveLinks(){ persistLinks(); touch(); }
+
+  // Copia guardada dentro de este archivo (si lo exportaste antes)
+  (function applyEmbedded(){
+    let embedded = null;
+    try{ embedded = normalizeBackup(JSON.parse(document.getElementById('embeddedData').textContent)); }catch(e){ embedded = null; }
+    if(!embedded) return;
+    const localTs = localUpdated();
+    let use = false;
+    if(sigOf(state.cats, links) !== sigOf(embedded.checklist.cats, embedded.links)){
+      if(localTs === 0){ use = true; }
+      else if(embedded.savedAt > localTs){
+        use = confirm('Este archivo trae una copia de tu guía guardada el ' + fmtDateTime(embedded.savedAt) +
+          ', más reciente que los cambios de este navegador.\n\n¿Querés usar la copia del archivo?\n(Si cancelás, se mantienen los cambios de este navegador.)');
+        if(!use) touch();
+      }
+    }
+    if(use){
+      state = { cats: embedded.checklist.cats };
+      links = embedded.links;
+      persistState(); persistLinks(); setMeta(embedded.savedAt);
+    }
+  })();
+  persistState();
+
+  // ---------- CHECKLIST (editable) ----------
   function addItem(ci){
     const cat = state.cats[ci];
     let empty = cat.items.find(i=>!i.text.trim());
@@ -1074,8 +1201,8 @@
 
   // ---------- CUENTA REGRESIVA ----------
   (function(){
-    const target = new Date(2026, 10, 10, 3, 20, 0).getTime();   // 10/11/2026 03:20 (hora local)
-    const tripEnd = new Date(2026, 10, 19, 2, 20, 0).getTime();  // fin del 18/11 (19/11 a las 02:20)
+    const target = new Date(2026, 10, 10, 0, 0, 0).getTime();   // 10/11/2026 00:00 (hora local)
+    const tripEnd = new Date(2026, 10, 19, 0, 0, 0).getTime();  // fin del 18/11
     const label = document.getElementById('cdLabel');
     const gridEl = document.getElementById('cdGrid');
     const note = document.getElementById('cdNote');
@@ -1102,17 +1229,10 @@
     setInterval(tick, 1000);
   })();
 
-  // ---------- DOCUMENTOS ----------
-  const DOC_CATS = [
-    { key:'vuelos',      label:'✈️ Vuelos e itinerario' },
-    { key:'pagos',       label:'💳 Comprobantes de pago' },
-    { key:'alojamiento', label:'🏨 Alojamiento y traslados' },
-    { key:'seguro',      label:'🏥 Asistencia médica' },
-    { key:'otros',       label:'📎 Otros' }
-  ];
+  // ---------- DOCUMENTOS (archivos locales + enlaces) ----------
   const DB_NAME = 'rioBuziosDocs2026';
   const STORE = 'docs';
-  let db = null, persistent = false, memDocs = [], currentDocs = [];
+  let db = null, persistent = false, memDocs = [], currentItems = [];
 
   const docInput = document.getElementById('docInput');
   const dropzone = document.getElementById('dropzone');
@@ -1120,6 +1240,9 @@
   const docList = document.getElementById('docList');
   const docMsg = document.getElementById('docMsg');
   const docSummary = document.getElementById('docSummary');
+  const linkForm = document.getElementById('linkForm');
+  const linkName = document.getElementById('linkName');
+  const linkUrl = document.getElementById('linkUrl');
 
   DOC_CATS.forEach(c=>{
     const o = document.createElement('option');
@@ -1167,6 +1290,7 @@
     if(b < 1048576) return Math.max(1, Math.round(b/1024)) + ' KB';
     return (b/1048576).toFixed(1).replace('.', ',') + ' MB';
   }
+  function hostOf(u){ try{ return new URL(u).hostname.replace(/^www\./, ''); }catch(e){ return ''; } }
 
   function openDoc(d){
     const url = URL.createObjectURL(d.blob);
@@ -1183,28 +1307,38 @@
   }
 
   async function renderDocs(){
-    try{ currentDocs = await docStore.all(); }catch(e){ currentDocs = []; showMsg('No se pudieron leer los documentos guardados.', 'warn'); }
+    let files = [];
+    try{ files = await docStore.all(); }catch(e){ showMsg('No se pudieron leer los documentos guardados.', 'warn'); }
+    currentItems = files.concat(links);
     const order = k => { const i = DOC_CATS.findIndex(c=>c.key === k); return i < 0 ? DOC_CATS.length : i; };
-    currentDocs.sort((a,b)=> order(a.category) - order(b.category) || a.added - b.added);
+    currentItems.sort((a,b)=> order(a.category) - order(b.category) || a.added - b.added);
     docList.innerHTML = '';
 
-    if(currentDocs.length === 0){
+    if(currentItems.length === 0){
       docSummary.textContent = '';
-      docList.appendChild(el('div', 'doc-empty', 'Todavía no cargaste ningún documento. Arrastrá los PDF de la agencia a la zona de arriba o tocala para elegirlos.'));
+      docList.appendChild(el('div', 'doc-empty', 'Todavía no agregaste nada. Subí un PDF de la agencia o pegá el enlace de Drive en las zonas de arriba.'));
       return;
     }
-    const totalBytes = currentDocs.reduce((t,d)=>t + (d.size || 0), 0);
-    docSummary.textContent = currentDocs.length + (currentDocs.length === 1 ? ' documento · ' : ' documentos · ') + fmtSize(totalBytes);
+    const nFiles = files.length, nLinks = links.length;
+    const totalBytes = files.reduce((t,d)=>t + (d.size || 0), 0);
+    const parts = [];
+    if(nFiles) parts.push(nFiles + (nFiles === 1 ? ' archivo' : ' archivos') + ' (' + fmtSize(totalBytes) + ')');
+    if(nLinks) parts.push(nLinks + (nLinks === 1 ? ' enlace' : ' enlaces'));
+    docSummary.textContent = parts.join(' · ');
 
-    currentDocs.forEach(d=>{
+    currentItems.forEach(d=>{
+      const isLink = !!d.url;
       const item = el('div', 'doc-item');
       item.dataset.cat = d.category;
 
       const info = el('div', 'doc-info');
-      const name = el('div', 'doc-name', '📄 ' + d.name);
+      const name = el('div', 'doc-name', (isLink ? '🔗 ' : '📄 ') + d.name);
       name.title = d.name;
       info.appendChild(name);
-      info.appendChild(el('div', 'doc-meta', fmtSize(d.size || 0) + ' · agregado el ' + new Date(d.added).toLocaleDateString('es-AR')));
+      const added = new Date(d.added).toLocaleDateString('es-AR');
+      info.appendChild(el('div', 'doc-meta', isLink
+        ? 'Enlace · ' + hostOf(d.url) + ' · agregado el ' + added
+        : 'Archivo local · ' + fmtSize(d.size || 0) + ' · agregado el ' + added));
 
       const actions = el('div', 'doc-actions');
       const sel = el('select');
@@ -1217,25 +1351,41 @@
       });
       sel.addEventListener('change', async ()=>{
         d.category = sel.value;
-        try{ await docStore.put(d); }catch(e){ showMsg('No se pudo cambiar la categoría.', 'warn'); }
+        try{
+          if(isLink) saveLinks(); else await docStore.put(d);
+        }catch(e){ showMsg('No se pudo cambiar la categoría.', 'warn'); }
         renderDocs();
       });
+      actions.appendChild(sel);
 
-      const bOpen = el('button', 'doc-btn', 'Abrir'); bOpen.type = 'button';
-      bOpen.addEventListener('click', ()=>openDoc(d));
-      const bDown = el('button', 'doc-btn', 'Descargar'); bDown.type = 'button';
-      bDown.addEventListener('click', ()=>downloadDoc(d));
+      if(isLink){
+        const open = el('a', 'doc-btn', 'Abrir');
+        open.href = d.url; open.target = '_blank'; open.rel = 'noopener noreferrer';
+        actions.appendChild(open);
+      } else {
+        const bOpen = el('button', 'doc-btn', 'Abrir'); bOpen.type = 'button';
+        bOpen.addEventListener('click', ()=>openDoc(d));
+        const bDown = el('button', 'doc-btn', 'Descargar'); bDown.type = 'button';
+        bDown.addEventListener('click', ()=>downloadDoc(d));
+        actions.appendChild(bOpen);
+        actions.appendChild(bDown);
+      }
+
       const bDel = el('button', 'doc-btn danger', 'Quitar'); bDel.type = 'button';
       bDel.addEventListener('click', async ()=>{
-        if(!confirm('¿Quitar “' + d.name + '” de la guía? Se borra de este navegador (no de tu dispositivo).')) return;
-        try{ await docStore.del(d.id); showMsg('Se quitó “' + d.name + '”.'); }catch(e){ showMsg('No se pudo quitar el archivo.', 'warn'); }
+        const msg = isLink
+          ? '¿Quitar el enlace “' + d.name + '” de la guía? El archivo en Drive no se borra.'
+          : '¿Quitar “' + d.name + '” de la guía? Se borra de este navegador (no de tu dispositivo).';
+        if(!confirm(msg)) return;
+        try{
+          if(isLink){ links = links.filter(l=>l.id !== d.id); saveLinks(); }
+          else { await docStore.del(d.id); }
+          showMsg('Se quitó “' + d.name + '”.');
+        }catch(e){ showMsg('No se pudo quitar el elemento.', 'warn'); }
         renderDocs();
       });
-
-      actions.appendChild(sel);
-      actions.appendChild(bOpen);
-      actions.appendChild(bDown);
       actions.appendChild(bDel);
+
       item.appendChild(info);
       item.appendChild(actions);
       docList.appendChild(item);
@@ -1265,10 +1415,24 @@
     await renderDocs();
   }
 
+  function addLink(){
+    let url = linkUrl.value.trim();
+    if(!url){ showMsg('Pegá primero el enlace del documento.', 'warn'); linkUrl.focus(); return; }
+    if(!/^https?:\/\//i.test(url)) url = 'https://' + url;
+    if(!safeUrl(url)){ showMsg('Ese enlace no parece válido. Tiene que empezar con https://', 'warn'); linkUrl.focus(); return; }
+    const name = linkName.value.trim() || ('Enlace de ' + hostOf(url));
+    links.push({ id:newId(), name:name.slice(0, 200), url:url, category:docCatNew.value, added:Date.now() });
+    saveLinks();
+    linkName.value = ''; linkUrl.value = '';
+    showMsg('Se agregó el enlace “' + name + '”.');
+    renderDocs();
+  }
+
   docInput.addEventListener('change', async ()=>{
     await addFiles(docInput.files);
     docInput.value = '';
   });
+  linkForm.addEventListener('submit', e=>{ e.preventDefault(); addLink(); });
   ['dragenter','dragover'].forEach(ev=>dropzone.addEventListener(ev, e=>{ e.preventDefault(); dropzone.classList.add('drag'); }));
   ['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev, e=>{ e.preventDefault(); dropzone.classList.remove('drag'); }));
   dropzone.addEventListener('drop', e=>{ addFiles(e.dataTransfer && e.dataTransfer.files); });
@@ -1277,10 +1441,99 @@
     try{ db = await openDb(); persistent = true; }
     catch(e){
       persistent = false;
-      showMsg('Este navegador no permite guardar archivos de forma permanente: los documentos que cargues se mantienen solo mientras esta pestaña esté abierta.', 'warn');
+      showMsg('Este navegador no permite guardar archivos de forma permanente: los PDF que subas se mantienen solo mientras esta pestaña esté abierta. Los enlaces sí se guardan.', 'warn');
     }
     await renderDocs();
   })();
+
+  // ---------- COPIA: guardar / restaurar ----------
+  const exportBtn = document.getElementById('exportBtn');
+  const importBtn = document.getElementById('importBtn');
+  const importInput = document.getElementById('importInput');
+  const backupMsg = document.getElementById('backupMsg');
+
+  function showBackupMsg(text, kind){
+    backupMsg.textContent = text || '';
+    backupMsg.className = 'backup-msg' + (kind === 'warn' ? ' warn' : '');
+  }
+
+  function buildBackup(){
+    return {
+      v: 1,
+      savedAt: Date.now(),
+      checklist: { cats: state.cats.map(c=>({
+        title: c.title,
+        items: c.items.filter(i=>i.text.trim()).map(i=>({ text:i.text.trim(), done:!!i.done }))
+      }))},
+      links: links.map(l=>({ name:l.name, url:l.url, category:l.category, added:l.added }))
+    };
+  }
+
+  function exportCopy(){
+    if(editMode) setEditMode(false);
+    const data = buildBackup();
+    const clone = document.documentElement.cloneNode(true);
+    // Se limpia lo que el script vuelve a generar al abrir el archivo
+    clone.querySelector('#checklistGrid').innerHTML = '';
+    clone.querySelector('#docList').innerHTML = '';
+    clone.querySelector('#docSummary').textContent = '';
+    clone.querySelector('#docMsg').textContent = '';
+    clone.querySelector('#backupMsg').textContent = '';
+    clone.querySelector('#docCatNew').innerHTML = '';
+    clone.querySelectorAll('.tabbtn').forEach((b,i)=>b.classList.toggle('active', i === 0));
+    clone.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active', i === 0));
+    ['cdDays','cdHours','cdMins','cdSecs'].forEach(id=>{ clone.querySelector('#'+id).textContent = '--'; });
+    clone.querySelector('#cdGrid').removeAttribute('hidden');
+    clone.querySelector('#cdNote').removeAttribute('hidden');
+    clone.querySelector('#cdLabel').textContent = 'Faltan para el despegue';
+    clone.querySelector('#embeddedData').textContent = JSON.stringify(data).replace(/</g, '\\u003c');
+
+    const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    const blob = new Blob([html], { type:'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const d = new Date();
+    const stamp = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    a.href = url; a.download = 'rio-buzios-2026-copia-' + stamp + '.html';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 10000);
+    showBackupMsg('Listo: se descargó “' + a.download + '” con tu checklist y tus enlaces. Los PDF subidos no van incluidos.');
+  }
+
+  async function importCopy(file){
+    if(!file) return;
+    let backup = null;
+    try{
+      const text = await file.text();
+      const doc = new DOMParser().parseFromString(text, 'text/html');
+      const node = doc.getElementById('embeddedData');
+      if(!node || !node.textContent.trim() || node.textContent.trim() === 'null'){
+        showBackupMsg('Ese archivo no trae una copia guardada. Elegí un archivo creado con “Guardar copia”.', 'warn');
+        return;
+      }
+      backup = normalizeBackup(JSON.parse(node.textContent));
+    }catch(e){ backup = null; }
+    if(!backup){
+      showBackupMsg('No pude leer una copia válida en ese archivo.', 'warn');
+      return;
+    }
+    const when = backup.savedAt ? ' del ' + fmtDateTime(backup.savedAt) : '';
+    if(!confirm('Esto reemplaza tu checklist y tus enlaces actuales por los de la copia' + when + '.\n\n¿Continuar?')) return;
+    if(editMode) setEditMode(false);
+    state = { cats: backup.checklist.cats };
+    links = backup.links;
+    saveState(); saveLinks();
+    render();
+    await renderDocs();
+    showBackupMsg('Copia restaurada: ' + state.cats.length + ' secciones de checklist y ' + links.length + (links.length === 1 ? ' enlace.' : ' enlaces.'));
+  }
+
+  exportBtn.addEventListener('click', exportCopy);
+  importBtn.addEventListener('click', ()=>importInput.click());
+  importInput.addEventListener('change', async ()=>{
+    await importCopy(importInput.files[0]);
+    importInput.value = '';
+  });
 </script>
 
 </body>
