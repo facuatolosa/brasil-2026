@@ -544,6 +544,21 @@
   .quote-ref p{margin:6px 0 0 0;color:#3d5566;}
   .quote-note{font-size:.78rem;color:#6a7b84;margin-top:16px;}
 
+
+  .manual-load{
+    background:var(--paper);border:1px dashed var(--ocean);border-radius:14px;
+    padding:12px 16px;margin-bottom:16px;font-size:.88rem;color:#3d5566;
+  }
+  .manual-load summary{cursor:pointer;font-weight:700;color:var(--navy);}
+  .manual-load ol{margin:10px 0 10px 18px;padding:0;}
+  .manual-load li{margin-bottom:4px;}
+  .manual-load textarea{
+    width:100%;font-family:'Space Mono',monospace;font-size:.76rem;border:1px solid var(--line);
+    border-radius:8px;padding:9px 11px;background:var(--sand);color:var(--ink);resize:vertical;margin-bottom:8px;
+  }
+  .manual-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  .quote-reason{font-size:.78rem;color:#6a7b84;margin:-6px 0 14px 0;}
+
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important;transition:none !important;}
   }
@@ -564,7 +579,7 @@
         <div class="cd-box"><div class="cd-num" id="cdMins">--</div><div class="cd-unit">min</div></div>
         <div class="cd-box"><div class="cd-num" id="cdSecs">--</div><div class="cd-unit">seg</div></div>
       </div>
-      <div class="countdown-note" id="cdNote">Salida tomada como 10/11/2026 a las 00:00 hs · horario a confirmar</div>
+      <div class="countdown-note" id="cdNote">Salida: 10/11/2026 a las 03:20 hs · Llegada de regreso: 19/11/2026 a las 02:20 hs</div>
     </div>
     <div class="hero-dates">10 NOV — 18 NOV 2026 · 8 NOCHES</div>
     <div class="chips">
@@ -953,6 +968,22 @@
       <span class="quote-status" id="quotesStatus" role="status"></span>
     </div>
 
+    <div class="quote-reason" id="quotesReason" hidden></div>
+
+    <details class="manual-load" id="manualBox">
+      <summary>¿No se actualiza? Cargá los datos a mano</summary>
+      <ol>
+        <li>Tocá <a href="https://api.comparapix.ar/quotes" target="_blank" rel="noopener noreferrer">abrir los datos en vivo ↗</a>: se abre una pantalla con texto.</li>
+        <li>Seleccioná todo el texto y copialo.</li>
+        <li>Volvé acá, pegalo en el recuadro y tocá “Cargar datos”.</li>
+      </ol>
+      <textarea id="manualText" rows="4" spellcheck="false" aria-label="Datos de ComparaPix" placeholder='Pegá acá el texto copiado (empieza con { y termina con })'></textarea>
+      <div class="manual-actions">
+        <button type="button" class="doc-btn primary" id="manualLoad">Cargar datos</button>
+        <span class="quote-status" id="manualMsg" role="status"></span>
+      </div>
+    </details>
+
     <div class="quote-table">
       <table class="q-table">
         <thead><tr><th>#</th><th>App</th><th class="r">Para pagar</th></tr></thead>
@@ -990,6 +1021,19 @@
 <script type="application/json" id="embeddedData">null</script>
 <script>
   // ---------- TABS ----------
+  // Al cambiar de sección no se vuelve al inicio: si ya pasaste el encabezado,
+  // la nueva sección arranca justo debajo de la barra de pestañas; si no, no se mueve nada.
+  function keepTabsInView(btn){
+    const hero = document.querySelector('.hero');
+    const stickStart = hero.getBoundingClientRect().bottom + (window.scrollY || window.pageYOffset || 0);
+    if((window.scrollY || window.pageYOffset || 0) > stickStart){
+      window.scrollTo({ top: stickStart, behavior: 'instant' });
+    }
+    const bar = document.getElementById('tabnav');
+    if(bar && bar.scrollTo){
+      bar.scrollTo({ left: btn.offsetLeft - (bar.clientWidth - btn.offsetWidth) / 2, behavior: 'smooth' });
+    }
+  }
   const tabBtns = document.querySelectorAll('.tabbtn');
   const panels = document.querySelectorAll('.panel');
   tabBtns.forEach(btn=>{
@@ -998,7 +1042,7 @@
       panels.forEach(p=>p.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
-      window.scrollTo({top:0, behavior:'instant'});
+      keepTabsInView(btn);
     });
   });
 
@@ -1284,8 +1328,8 @@
 
   // ---------- CUENTA REGRESIVA ----------
   (function(){
-    const target = new Date(2026, 10, 10, 0, 0, 0).getTime();   // 10/11/2026 00:00 (hora local)
-    const tripEnd = new Date(2026, 10, 19, 0, 0, 0).getTime();  // fin del 18/11
+    const target = new Date(2026, 10, 10, 3, 20, 0).getTime();  // salida: 10/11/2026 03:20 (hora local)
+    const tripEnd = new Date(2026, 10, 19, 2, 20, 0).getTime(); // llegada de regreso: 19/11/2026 02:20
     const label = document.getElementById('cdLabel');
     const gridEl = document.getElementById('cdGrid');
     const note = document.getElementById('cdNote');
@@ -1571,6 +1615,10 @@
     clone.querySelector('#cdLabel').textContent = 'Faltan para el despegue';
     ['quotesBody','quotesRef'].forEach(id=>{ const n = clone.querySelector('#'+id); if(n) n.innerHTML = ''; });
     const qs = clone.querySelector('#quotesStatus'); if(qs){ qs.textContent = ''; qs.className = 'quote-status'; }
+    const qrs = clone.querySelector('#quotesReason'); if(qrs){ qrs.textContent = ''; qrs.setAttribute('hidden', ''); }
+    const mb = clone.querySelector('#manualBox'); if(mb) mb.removeAttribute('open');
+    const mt = clone.querySelector('#manualText'); if(mt) mt.textContent = '';
+    const mm = clone.querySelector('#manualMsg'); if(mm) mm.textContent = '';
     const qr = clone.querySelector('#quotesRefresh'); if(qr) qr.removeAttribute('disabled');
     clone.querySelectorAll('.seg-btn').forEach((b,i)=>{ b.classList.toggle('active', i === 0); b.setAttribute('aria-pressed', String(i === 0)); });
     clone.querySelector('#embeddedData').textContent = JSON.stringify(data).replace(/</g, '\\u003c');
@@ -1623,7 +1671,7 @@
   });
 
   // ---------- COTIZACIONES (ComparaPix) ----------
-  const QUOTES_URL = 'https://api.comparapix.ar/quotes';
+  const QUOTES_URL = 'https://corsproxy.io/?' + encodeURIComponent('https://api.comparapix.ar/quotes');
   const KEY_QUOTES = 'rioBuziosQuotes2026';
   // Cotización de referencia (consultada el 11/10/2026 ~21:40 hs) por si no hay conexión
   const QUOTES_SNAPSHOT = {"fiwind":{"quotes":[{"symbol":"BRLUSDT","buy":0.203725},{"symbol":"BRLARS","buy":328.812149}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.113Z","stale":false},"belo":{"quotes":[{"symbol":"BRLUSDT","buy":0.2054},{"symbol":"BRLARS","buy":332.1318}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.263Z","stale":false},"cocos":{"quotes":[{"symbol":"BRLARS","buy":321.552411470136},{"symbol":"BRLUSD","buy":0.21018448499999998}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.060Z","stale":false},"takenos":{"quotes":[{"symbol":"BRLUSD","buy":0.20503409132591588}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.392Z","stale":false},"prex":{"quotes":[{"symbol":"BRLARS","buy":334.2594},{"symbol":"BRLUSD","buy":0.20703933747412007}],"isPix":true,"updatedAt":"2026-10-12T00:40:00.909Z","stale":false},"lemon":{"quotes":[{"symbol":"BRLUSD","buy":0.205162},{"symbol":"BRLARS","buy":330.85}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.067Z","stale":false,"hasFees":true},"astropay":{"quotes":[{"symbol":"BRLUSD","buy":0.20521017665400001},{"symbol":"BRLARS","buy":327.69232071466797}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.190Z","stale":false},"decrypto":{"quotes":[{"symbol":"BRLUSD","buy":0.20388430011251926},{"symbol":"BRLARS","buy":330.71562611}],"isPix":true,"updatedAt":"2026-10-12T00:40:02.108Z","stale":false},"wallbit":{"quotes":[{"symbol":"BRLUSD","buy":0.20491803278688525}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.150Z","stale":false},"arq":{"quotes":[{"symbol":"BRLUSD","buy":0.2010521622597105},{"symbol":"BRLARS","buy":322.98828814860235}],"isPix":true,"updatedAt":"2026-10-12T00:40:00.850Z","stale":false},"mercado-pago":{"quotes":[{"symbol":"BRLARS","buy":328.44}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.314Z","stale":false},"p2pme":{"quotes":[{"symbol":"BRLUSDT","buy":0.20366598778004072},{"symbol":"BRLARS","buy":328.07942973523416}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.907Z","stale":false},"vesseo":{"quotes":[{"symbol":"BRLUSDT","buy":0.202757502027575}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.614Z","stale":false},"yodl-pay":{"quotes":[{"symbol":"BRLUSDT","buy":0.20284}],"isPix":true,"updatedAt":"2026-10-12T00:40:03.586Z","stale":false},"wayni":{"quotes":[{"symbol":"BRLARS","buy":327.88}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.658Z","stale":false},"global66":{"quotes":[{"symbol":"BRLARS","buy":327.76138970829237},{"symbol":"BRLUSD","buy":0.20478374836173002}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.017Z","stale":false},"caipi":{"quotes":[{"symbol":"BRLARS","buy":329.81}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.404Z","stale":false},"ripio":{"quotes":[{"symbol":"BRLARS","buy":325.6649235},{"symbol":"BRLUSDT","buy":0.20180399999999998}],"isPix":true,"updatedAt":"2026-10-11T18:40:03.817Z","stale":true},"binance":{"quotes":[{"symbol":"BRLUSD","buy":0.2012}],"isPix":true,"updatedAt":"2026-10-12T00:40:04.282Z","stale":false},"peanut":{"quotes":[{"symbol":"BRLUSDT","buy":0.2039983680130559}],"isPix":true,"updatedAt":"2026-10-12T00:40:01.125Z","stale":false},"personal-pay":{"quotes":[{"symbol":"BRLARS","buy":328.2123386}],"isPix":true,"updatedAt":"2026-10-12T00:40:04.624Z","stale":false},"real-tarjeta":{"quotes":[{"symbol":"BRLARS","buy":410.8}],"isPix":false,"updatedAt":"2026-10-12T00:40:01.463Z","stale":false},"real-tarjeta-mep":{"quotes":[{"symbol":"BRLARS","buy":307.61895237588806}],"isPix":false,"updatedAt":"2026-10-12T00:00:09.955Z","stale":false}};
@@ -1639,7 +1687,12 @@
   const quotesStatus = document.getElementById('quotesStatus');
   const quotesRefresh = document.getElementById('quotesRefresh');
   let quotesCur = 'ARS';
+  const quotesReason = document.getElementById('quotesReason');
+  const manualBox = document.getElementById('manualBox');
+  const manualText = document.getElementById('manualText');
+  const manualMsg = document.getElementById('manualMsg');
   let quotesLoading = false, quotesAttempted = false, quotesFailed = false, lastFetchTs = 0;
+  let quotesReasonText = '', manualHintShown = false;
   let quotesState = { data: QUOTES_SNAPSHOT, source: 'snapshot', fetchedAt: 0 };
 
   try{
@@ -1763,35 +1816,61 @@
 
   function renderQuotesStatus(){
     let text, kind = '';
+    const src = quotesState.source;
     if(quotesLoading){
       text = 'Actualizando cotizaciones…';
-    } else if(quotesState.source === 'live'){
+    } else if(!quotesFailed && src === 'live'){
       text = '● En vivo · datos de ComparaPix actualizados el ' + fmtDateTime(newestUpdate(quotesState.data));
+      kind = 'live';
+    } else if(!quotesFailed && src === 'manual'){
+      text = '● Cargado a mano · datos de ComparaPix actualizados el ' + fmtDateTime(newestUpdate(quotesState.data));
       kind = 'live';
     } else if(quotesFailed){
       kind = 'warn';
-      text = quotesState.source === 'cache'
-        ? 'No pude actualizar. Muestro lo último guardado en este navegador (' + fmtDateTime(quotesState.fetchedAt) + '). Para el valor en vivo, tocá “Ver en ComparaPix”.'
-        : 'No pude actualizar. Muestro una cotización de referencia (' + fmtDateTime(newestUpdate(quotesState.data)) + '). Para el valor en vivo, tocá “Ver en ComparaPix”.';
-    } else if(quotesState.source === 'cache'){
+      if(src === 'snapshot'){
+        text = 'No pude actualizar. Muestro una cotización de referencia (' + fmtDateTime(newestUpdate(quotesState.data)) + '). Podés cargar los datos a mano (recuadro de abajo) o tocar “Ver en ComparaPix”.';
+      } else if(src === 'manual'){
+        text = 'No pude actualizar solo. Muestro los datos que cargaste a mano (' + fmtDateTime(quotesState.fetchedAt) + ').';
+      } else {
+        text = 'No pude actualizar. Muestro lo último guardado en este navegador (' + fmtDateTime(quotesState.fetchedAt) + '). Podés cargar los datos a mano (recuadro de abajo).';
+      }
+    } else if(src === 'cache'){
       text = 'Datos guardados el ' + fmtDateTime(quotesState.fetchedAt) + ' · se actualizan al abrir esta pestaña.';
     } else {
       text = 'Cotización de referencia (' + fmtDateTime(newestUpdate(quotesState.data)) + ') · se actualiza al abrir esta pestaña.';
     }
     quotesStatus.textContent = text;
     quotesStatus.className = 'quote-status' + (kind ? ' ' + kind : '');
+    if(quotesFailed && !quotesLoading && quotesReasonText){
+      quotesReason.textContent = 'Motivo: ' + quotesReasonText;
+      quotesReason.hidden = false;
+    } else {
+      quotesReason.hidden = true;
+    }
+  }
+
+  function errorReason(e){
+    const msg = (e && e.message) ? String(e.message) : '';
+    if(e && (e.name === 'AbortError' || e.name === 'TimeoutError')) return 'la consulta tardó más de 10 segundos.';
+    if(/^HTTP /.test(msg)) return 'el servidor respondió con error (' + msg + ').';
+    if(e instanceof TypeError) return 'el navegador no pudo completar la consulta (' + (msg || 'TypeError') + '). Puede ser falta de conexión, un bloqueador, una vista previa que no permite consultas externas, o que el servidor no acepte consultas desde esta página.';
+    return msg || 'error desconocido.';
+  }
+
+  // Sin AbortController: algunas vistas previas reenvían fetch con postMessage y no pueden clonar la señal.
+  function withTimeout(promise, ms){
+    return new Promise((resolve, reject)=>{
+      const t = setTimeout(()=>{ const e = new Error('timeout'); e.name = 'TimeoutError'; reject(e); }, ms);
+      promise.then(v=>{ clearTimeout(t); resolve(v); }, err=>{ clearTimeout(t); reject(err); });
+    });
   }
 
   async function fetchQuotes(){
-    const ctrl = new AbortController();
-    const timer = setTimeout(()=>ctrl.abort(), 10000);
-    try{
-      const res = await fetch(QUOTES_URL, { signal: ctrl.signal, cache: 'no-store' });
-      if(!res.ok) throw new Error('HTTP ' + res.status);
-      const json = await res.json();
-      if(!json || typeof json !== 'object' || Array.isArray(json)) throw new Error('formato inesperado');
-      return json;
-    } finally { clearTimeout(timer); }
+    const res = await withTimeout(fetch(QUOTES_URL), 10000);
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await withTimeout(res.json(), 10000);
+    if(!json || typeof json !== 'object' || Array.isArray(json)) throw new Error('formato inesperado');
+    return json;
   }
 
   async function loadQuotes(force){
@@ -1808,6 +1887,9 @@
       try{ localStorage.setItem(KEY_QUOTES, JSON.stringify({ fetchedAt: quotesState.fetchedAt, data: json })); }catch(e){}
     }catch(e){
       quotesFailed = true;
+      quotesReasonText = errorReason(e);
+      try{ console.warn('ComparaPix:', e); }catch(_){}
+      if(!manualHintShown){ manualBox.open = true; manualHintShown = true; }
     }
     quotesLoading = false;
     quotesRefresh.disabled = false;
@@ -1830,6 +1912,27 @@
   setInterval(()=>{
     if(!document.hidden && document.getElementById('panel-cotizaciones').classList.contains('active')) loadQuotes(false);
   }, 60000);
+
+  function loadManual(){
+    const raw = manualText.value.trim();
+    const say = (t, kind)=>{ manualMsg.textContent = t; manualMsg.className = 'quote-status' + (kind ? ' ' + kind : ''); };
+    if(!raw){ say('Pegá primero el texto copiado.', 'warn'); return; }
+    if(raw.length > 2000000){ say('El texto es demasiado grande para ser la cotización.', 'warn'); return; }
+    let json;
+    try{ json = JSON.parse(raw); }
+    catch(e){ say('No pude leer el texto. Tiene que ser todo el contenido de la pantalla de datos (empieza con { y termina con }).', 'warn'); return; }
+    const valid = json && typeof json === 'object' && !Array.isArray(json) &&
+      Object.keys(json).some(k=>json[k] && Array.isArray(json[k].quotes));
+    if(!valid){ say('Eso no parece la respuesta de ComparaPix.', 'warn'); return; }
+    quotesState = { data: json, source: 'manual', fetchedAt: Date.now() };
+    quotesFailed = false; quotesReasonText = '';
+    try{ localStorage.setItem(KEY_QUOTES, JSON.stringify({ fetchedAt: quotesState.fetchedAt, data: json })); }catch(e){}
+    manualText.value = '';
+    say('');
+    manualBox.open = false;
+    renderQuotes();
+  }
+  document.getElementById('manualLoad').addEventListener('click', loadManual);
   renderQuotes();
 </script>
 
