@@ -687,7 +687,7 @@
 
 
   /* ---------- MAPAS DE TURISMO ---------- */
-  :root{ --poi-free:#2E9E4E; --poi-paid:#D93025; }
+  :root{ --poi-free:#2E9E4E; --poi-paid:#D93025; --poi-hotel:#0B2E42; }
   .poi-block{margin-top:30px;}
   .poi-title{font-family:'Manrope',sans-serif;font-size:1.05rem;color:var(--navy);margin:0 0 10px 0;}
   .poi-legend{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:.84rem;color:#3d5566;margin-bottom:12px;}
@@ -710,6 +710,7 @@
   }
   .poi-marker.free{background:var(--poi-free);}
   .poi-marker.paid{background:var(--poi-paid);}
+  .poi-marker.hotel { background: var(--poi-hotel); font-size: 1.1rem; }
   .poi-circle{width:28px;height:28px;border-radius:50%;}
   .poi-diamond{width:22px;height:22px;border-radius:4px;transform:rotate(45deg);}
   .poi-diamond > span{display:block;transform:rotate(-45deg);}
@@ -734,6 +735,7 @@
   }
   .poi-tag.free{background:var(--poi-free);}
   .poi-tag.paid{background:var(--poi-paid);}
+  .poi-tag.hotel { background: var(--poi-hotel); }
   .poi-gmaps{
     flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;
     justify-content:center;text-decoration:none;color:var(--ocean-2);font-weight:800;
@@ -818,6 +820,7 @@
 	width: 1600px;
 	height: 1600px;
 	-webkit-transform-origin: 0 0;
+      transform-origin: 0 0;
 	}
 .leaflet-marker-icon,
 .leaflet-marker-shadow {
@@ -3410,6 +3413,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   // Círculos = Río, rombos = Búzios. Verde = gratis, rojo (con $) = pago.
   const POI = {
     rio: { mapId:'mapRio', listId:'poiListRio', shape:'circle', city:'Río de Janeiro', pois:[
+      { n:'🏠', name:'Hotel Canadá', hotel:true, tag:'Alojamiento', lat:-22.9692, lng:-43.1852, q:'Rede Andrade Hotel Canadá, Rio de Janeiro', desc:'Tu hotel a pasos de la Avenida Atlântica.' },
       { n:1, name:'Playa de Copacabana', free:true, tag:'Gratis', lat:-22.9728, lng:-43.1843, q:'Praia de Copacabana, Rio de Janeiro',
         desc:'Playa icónica, a pasos del hotel. Caminá el calçadão de olas blancas y negras.' },
       { n:2, name:'Playa de Ipanema', free:true, tag:'Gratis', lat:-22.9866, lng:-43.2035, q:'Praia de Ipanema, Rio de Janeiro',
@@ -3426,6 +3430,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
         desc:'Teleférico en dos tramos. El punto marca la estación de salida en Praia Vermelha.' }
     ]},
     buzios: { mapId:'mapBuzios', listId:'poiListBuzios', shape:'diamond', city:'Búzios', pois:[
+      { n:'🏠', name:'Pousada Brisas', hotel:true, tag:'Alojamiento', lat:-22.7565, lng:-41.8973, q:'Pousada Brisas de Búzios', desc:'Tu alojamiento cerca de la Playa Tartaruga.' },
       { n:1, name:'Playa Tartaruga', free:true, tag:'Gratis', lat:-22.7555, lng:-41.9039, q:'Praia da Tartaruga, Armação dos Búzios',
         desc:'La más cercana a la pousada, ideal para el primer chapuzón.' },
       { n:2, name:'Playa Ferradura', free:true, tag:'Gratis', lat:-22.7716, lng:-41.8860, q:'Praia da Ferradura, Armação dos Búzios',
@@ -3446,9 +3451,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
   const POI_TOUCH = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
   const gmapsUrl = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
 
-  function poiIconHtml(shape, free, n){
-    return '<span class="poi-wrap"><span class="poi-marker poi-' + shape + ' ' + (free ? 'free' : 'paid') + '"><span>' + n + '</span></span>' +
-           (free ? '' : '<i class="poi-dollar">$</i>') + '</span>';
+  function poiIconHtml(shape, free, n, hotel){
+    const type = hotel ? 'hotel' : (free ? 'free' : 'paid');
+    return '<span class="poi-wrap"><span class="poi-marker poi-' + shape + ' ' + type + '"><span>' + n + '</span></span>' +
+           ((free || hotel) ? '' : '<i class="poi-dollar">$</i>') + '</span>';
   }
 
   function setPoiNote(key, text){
@@ -3467,9 +3473,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
       const li = el('li', 'poi-item');
       const btn = el('button', 'poi-open');
       btn.type = 'button';
-      btn.innerHTML = poiIconHtml(cfg.shape, p.free, p.n);
+      btn.innerHTML = poiIconHtml(cfg.shape, p.free, p.n, p.hotel);
       btn.appendChild(el('span', 'poi-name', p.name));
-      btn.appendChild(el('span', 'poi-tag ' + (p.free ? 'free' : 'paid'), p.tag));
+      btn.appendChild(el('span', 'poi-tag ' + (p.hotel ? 'hotel' : (p.free ? 'free' : 'paid')), p.tag));
       btn.addEventListener('click', ()=>focusPoi(key, i));
       const a = el('a', 'poi-gmaps', '↗');
       a.href = gmapsUrl(p.q); a.target = '_blank'; a.rel = 'noopener noreferrer';
@@ -3482,8 +3488,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
   function popupFor(p){
     const box = el('div', 'poi-pop');
-    box.appendChild(el('strong', null, p.n + '. ' + p.name));
-    box.appendChild(el('span', 'poi-tag ' + (p.free ? 'free' : 'paid'), p.tag));
+    box.appendChild(el('strong', null, (p.hotel ? '' : p.n + '. ') + p.name));
+    box.appendChild(el('span', 'poi-tag ' + (p.hotel ? 'hotel' : (p.free ? 'free' : 'paid')), p.tag));
     box.appendChild(el('p', null, p.desc));
     const a = el('a', null, 'Abrir en Google Maps ↗');
     a.href = gmapsUrl(p.q); a.target = '_blank'; a.rel = 'noopener noreferrer';
@@ -3530,7 +3536,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     addBaseTiles(map, key);
     const markers = cfg.pois.map(p=>{
       const icon = L.divIcon({
-        className:'poi-icon', html: poiIconHtml(cfg.shape, p.free, p.n),
+        className:'poi-icon', html: poiIconHtml(cfg.shape, p.free, p.n, p.hotel),
         iconSize:[34, 34], iconAnchor:[17, 17], popupAnchor:[0, -18]
       });
       const mk = L.marker([p.lat, p.lng], { icon:icon, title:p.name, alt:p.name, riseOnHover:true }).addTo(map);
