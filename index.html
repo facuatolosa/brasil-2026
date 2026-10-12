@@ -562,6 +562,34 @@
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important;transition:none !important;}
   }
+
+  /* ---------- DICCIONARIO ---------- */
+  .dict-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 30px; }
+  @media(max-width: 760px) { .dict-grid { grid-template-columns: 1fr; } }
+  .dict-card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--shadow);
+  }
+  .dict-hint {
+    font-size: .8rem; color: #5a6b73; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .dict-input-wrap { display: flex; gap: 8px; align-items: center; }
+  .dict-input {
+    flex: 1; font-family: 'Manrope', sans-serif; font-size: .95rem; color: var(--navy);
+    font-weight: 600; background: var(--sand-2); border: 1px solid var(--line);
+    border-radius: 8px; padding: 10px 12px; width: 100%;
+  }
+  .dict-input:focus { outline: 2px solid var(--ocean); border-color: var(--ocean); }
+  .dict-btn {
+    flex-shrink: 0; width: 44px; height: 44px; border-radius: 8px;
+    background: var(--jungle); color: var(--paper); font-size: 1.2rem;
+    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .dict-btn:hover { background: var(--navy); }
+  .dict-btn:active { transform: scale(0.95); }
+
 </style>
 </head>
 <body>
@@ -605,6 +633,7 @@
     <button class="tabbtn" data-tab="checklist">✅ Checklist</button>
     <button class="tabbtn" data-tab="presupuesto">💰 Presupuesto</button>
     <button class="tabbtn" data-tab="turismo">🗺️ Turismo</button>
+    <button class="tabbtn" data-tab="diccionario">🗣️ Frases</button>
     <button class="tabbtn" data-tab="documentos">📄 Documentos</button>
     <button class="tabbtn" data-tab="cotizaciones">💱 Cotizaciones</button>
   </div>
@@ -909,6 +938,19 @@
         <div class="howto-card"><div class="icon">🏖️</div><h5>Buggy turístico</h5><p>Recorrido armado por las playas y miradores más lindos de la península, buena opción el primer día para ubicarse.</p></div>
         <div class="howto-card"><div class="icon">🚕</div><h5>99 / taxi</h5><p>Útil de noche para volver desde Rua das Pedras hasta la pousada.</p></div>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= DICCIONARIO ================= -->
+  <section class="panel" id="panel-diccionario">
+    <div class="section-head">
+      <div class="eyebrow">08 · Idioma local</div>
+      <h2>Mini-diccionario</h2>
+      <p>Frases útiles en portugués para usar en Río y Búzios. Podés editar el texto para armar tu propia frase y tocar el botón 🔊 para que el celular la pronuncie por vos.</p>
+    </div>
+    
+    <div class="dict-grid" id="dictGrid">
+      <!-- Las tarjetas se generan desde JavaScript -->
     </div>
   </section>
 
@@ -1989,6 +2031,69 @@
 
   // Escuchamos el clic en la pestaña "Clima y ropa" para cargar los datos solo cuando el usuario entra ahí
   document.querySelector('.tabbtn[data-tab="clima"]').addEventListener('click', actualizarClima);
+
+  // ---------- DICCIONARIO Y WEB SPEECH API ----------
+  const dictPhrases = [
+    { hint: "Saludo informal", pt: "Oi, tudo bem?" },
+    { hint: "Para pedir la cuenta", pt: "A conta, por favor." },
+    { hint: "Preguntar por la parada de la combi", pt: "Onde fica o ponto da van?" },
+    { hint: "Comprar bebida en la playa", pt: "Uma cerveja bem gelada, por favor." },
+    { hint: "Pedir agua sin gas", pt: "Uma água sem gás, por favor." },
+    { hint: "Preguntar el precio", pt: "Quanto custa isso?" },
+    { hint: "Agradecer (si sos hombre)", pt: "Muito obrigado." },
+    { hint: "Avisar que no hablás el idioma", pt: "Desculpe, não falo português." }
+  ];
+
+  const dictGrid = document.getElementById('dictGrid');
+  
+  if (dictGrid) {
+    dictPhrases.forEach(phrase => {
+      const card = document.createElement('div');
+      card.className = 'dict-card';
+      
+      const hint = document.createElement('div');
+      hint.className = 'dict-hint';
+      hint.textContent = phrase.hint;
+      
+      const wrap = document.createElement('div');
+      wrap.className = 'dict-input-wrap';
+      
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'dict-input';
+      input.value = phrase.pt;
+      
+      const btn = document.createElement('button');
+      btn.className = 'dict-btn';
+      btn.innerHTML = '🔊';
+      btn.setAttribute('title', 'Escuchar frase');
+      
+      btn.addEventListener('click', () => {
+        // Chequeamos si el navegador soporta síntesis de voz
+        if ('speechSynthesis' in window) {
+          // Cancelamos cualquier audio que se esté reproduciendo
+          window.speechSynthesis.cancel();
+          
+          // Tomamos el texto del input (por si lo editaste)
+          const textToSpeak = input.value.trim() || phrase.pt;
+          
+          const utterance = new SpeechSynthesisUtterance(textToSpeak);
+          utterance.lang = 'pt-BR'; // Forzamos portugués de Brasil
+          utterance.rate = 0.9;     // Velocidad apenas más lenta para que se entienda claro
+          
+          window.speechSynthesis.speak(utterance);
+        } else {
+          alert('Tu navegador no soporta la reproducción de voz.');
+        }
+      });
+      
+      wrap.appendChild(input);
+      wrap.appendChild(btn);
+      card.appendChild(hint);
+      card.appendChild(wrap);
+      dictGrid.appendChild(card);
+    });
+  }
 
 </script>
 
