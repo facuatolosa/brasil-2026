@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Río + Búzios 2026 — Guía de viaje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:#FBF3E4;
+    --sand-2:#F3E7D0;
+    --navy:#0B2E42;
+    --navy-2:#123B54;
+    --ocean:#1C7293;
+    --ocean-2:#0F5C7A;
+    --coral:#FF6F5E;
+    --coral-2:#E8503F;
+    --sun:#FFC145;
+    --jungle:#1B998B;
+    --ink:#12232F;
+    --paper:#FFFDF9;
+    --line: rgba(11,46,66,0.14);
+    --shadow: 0 10px 30px -14px rgba(11,46,66,0.35);
+    --radius: 20px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Manrope', sans-serif;
+    background:var(--sand);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    margin:0 0 .4em 0;
+    color:var(--navy);
+    letter-spacing:-0.01em;
+  }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:.72rem;
+    font-weight:700;
+    color:var(--coral-2);
+  }
+  a{color:var(--ocean-2);}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- WAVE MOTIF (Copacabana calçadão) ---------- */
+  .wave-divider{
+    width:100%;
+    height:34px;
+    display:block;
+    line-height:0;
+  }
+  .wave-divider svg{width:100%;height:100%;display:block;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(ellipse at 15% -10%, rgba(255,193,69,0.25), transparent 55%),
+      radial-gradient(ellipse at 90% 0%, rgba(255,111,94,0.28), transparent 50%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:var(--sand);
+    position:relative;
+    overflow:hidden;
+    padding:64px 0 0 0;
+  }
+  .hero-inner{
+    max-width:1100px;margin:0 auto;padding:0 24px 56px 24px;
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    position:relative;z-index:2;
+  }
+  .hero .eyebrow{color:var(--sun);}
+  .hero h1{
+    color:var(--paper);
+    font-size:clamp(2.6rem, 7vw, 5rem);
+    font-weight:900;
+    margin:.25em 0 .18em 0;
+    line-height:1.0;
+  }
+  .hero h1 .accent{color:var(--coral);font-style:italic;font-weight:600;}
+  .hero p.sub{
+    font-size:1.15rem;
+    max-width:560px;
+    color:rgba(251,243,228,0.82);
+    margin:0 0 28px 0;
+  }
+  .hero-dates{
+    font-family:'Space Mono',monospace;
+    font-size:.95rem;
+    background:rgba(251,243,228,0.1);
+    border:1px solid rgba(251,243,228,0.25);
+    padding:8px 18px;
+    border-radius:100px;
+    margin-bottom:30px;
+    letter-spacing:.03em;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+  .chip{
+    background:rgba(251,243,228,0.08);
+    border:1px solid rgba(251,243,228,0.22);
+    color:var(--sand);
+    padding:9px 16px;
+    border-radius:100px;
+    font-size:.86rem;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .hero-art{
+    position:absolute; inset:0; z-index:1; opacity:.9; pointer-events:none;
+  }
+
+  /* ---------- NAV ---------- */
+  .tabnav{
+    position:sticky; top:0; z-index:50;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .tabnav-inner{
+    max-width:1100px;margin:0 auto;padding:0 24px;
+    display:flex; gap:4px; overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .tabnav-inner::-webkit-scrollbar{display:none;}
+  .tabbtn{
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    font-size:.92rem;
+    background:none;border:none;
+    color:var(--navy);
+    opacity:.55;
+    padding:18px 16px 15px 16px;
+    cursor:pointer;
+    white-space:nowrap;
+    border-bottom:3px solid transparent;
+    transition:all .15s ease;
+  }
+  .tabbtn:hover{opacity:.85;}
+  .tabbtn.active{
+    opacity:1;
+    border-bottom-color:var(--coral);
+  }
+
+  main{max-width:1100px;margin:0 auto;padding:52px 24px 30px 24px;}
+  .panel{display:none;animation:fade .35s ease;}
+  .panel.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .section-head{max-width:640px;margin-bottom:36px;}
+  .section-head h2{font-size:clamp(1.8rem,4vw,2.4rem);}
+  .section-head p{color:#3d5566;font-size:1.02rem;}
+
+  /* ---------- CARDS: alojamiento ---------- */
+  .stay-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  @media(max-width:760px){.stay-grid{grid-template-columns:1fr;}}
+  .stay-card{
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .stay-banner{
+    padding:22px 26px;
+    color:var(--paper);
+    position:relative;
+  }
+  .stay-banner.rio{background:linear-gradient(120deg,var(--ocean-2),var(--ocean));}
+  .stay-banner.buzios{background:linear-gradient(120deg,var(--coral-2),var(--coral));}
+  .stay-banner .place-eyebrow{
+    font-family:'Space Mono',monospace;font-size:.7rem;text-transform:uppercase;
+    letter-spacing:.12em;opacity:.85;
+  }
+  .stay-banner h3{color:var(--paper);font-size:1.5rem;margin:.15em 0 .05em 0;}
+  .stay-banner .nights{font-size:.85rem;opacity:.9;font-weight:600;}
+  .stay-body{padding:22px 26px 26px 26px;}
+  .stay-addr{
+    font-size:.86rem;color:#4a5f6d;margin-bottom:14px;
+    display:flex;gap:8px;align-items:flex-start;
+  }
+  .stay-rating{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--sand-2);border-radius:100px;
+    padding:5px 14px;font-size:.82rem;font-weight:700;color:var(--navy);
+    margin-bottom:16px;
+  }
+  .stay-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;}
+  @media(max-width:480px){.stay-cols{grid-template-columns:1fr;}}
+  .stay-cols h4{
+    font-family:'Manrope',sans-serif;font-weight:800;font-size:.78rem;
+    text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;
+  }
+  .stay-cols.pros h4{color:var(--jungle);}
+  .stay-cols.cons h4{color:var(--coral-2);}
+  .stay-cols ul{margin:0;padding-left:18px;font-size:.88rem;color:#33454f;}
+  .stay-cols li{margin-bottom:5px;}
+  .tip-box{
+    background:var(--sand-2);border-left:3px solid var(--sun);
+    border-radius:8px;padding:12px 14px;font-size:.86rem;color:var(--navy);
+    margin-top:6px;
+  }
+  .tip-box b{color:var(--coral-2);}
+
+  /* ---------- CLIMA ---------- */
+  .climate-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-bottom:34px;}
+  @media(max-width:760px){.climate-grid{grid-template-columns:1fr;}}
+  .climate-card{
+    background:var(--navy);color:var(--sand);border-radius:var(--radius);
+    padding:26px 28px; position:relative; overflow:hidden;
+  }
+  .climate-card .place-eyebrow{font-family:'Space Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--sun);}
+  .climate-card h3{color:var(--paper);font-size:1.4rem;margin:.2em 0 .5em 0;}
+  .temp-row{display:flex;align-items:baseline;gap:14px;margin-bottom:10px;}
+  .temp-big{font-family:'Fraunces',serif;font-size:2.6rem;font-weight:700;color:var(--sun);}
+  .temp-sub{font-size:.85rem;color:rgba(251,243,228,.75);}
+  .climate-stats{display:flex;gap:22px;margin-top:16px;flex-wrap:wrap;}
+  .climate-stat{font-size:.82rem;color:rgba(251,243,228,.85);}
+  .climate-stat b{display:block;font-family:'Space Mono',monospace;font-size:1rem;color:var(--paper);}
+  .climate-note{font-size:.85rem;color:rgba(251,243,228,.8);margin-top:16px;padding-top:14px;border-top:1px solid rgba(251,243,228,.18);}
+
+  .clothing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  @media(max-width:760px){.clothing-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.clothing-grid{grid-template-columns:1fr;}}
+  .clothing-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:16px;
+    padding:20px;
+  }
+  .clothing-card .icon{font-size:1.6rem;}
+  .clothing-card h4{font-size:1rem;margin:.4em 0 .5em 0;color:var(--navy);}
+  .clothing-card ul{margin:0;padding-left:18px;font-size:.87rem;color:#3d5566;}
+  .clothing-card li{margin-bottom:4px;}
+
+  /* ---------- CHECKLIST ---------- */
+  .progress-wrap{
+    background:var(--paper);border:1px solid var(--line);border-radius:100px;
+    padding:6px; display:flex;align-items:center;gap:14px;margin-bottom:34px;
+    box-shadow:var(--shadow);
+  }
+  .progress-track{flex:1;height:12px;background:var(--sand-2);border-radius:100px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--jungle),var(--ocean));width:0%;transition:width .4s ease;border-radius:100px;}
+  .progress-label{font-family:'Space Mono',monospace;font-size:.82rem;font-weight:700;color:var(--navy);padding-right:14px;white-space:nowrap;}
+
+  .checklist-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media(max-width:760px){.checklist-grid{grid-template-columns:1fr;}}
+  .check-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;
+  }
+  .check-card h4{
+    display:flex;align-items:center;gap:8px;
+    font-family:'Manrope',sans-serif;font-weight:800;font-size:.95rem;
+    color:var(--navy);margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed var(--line);
+  }
+  .check-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;cursor:pointer;}
+  .check-item input{
+    margin-top:3px; width:17px;height:17px;accent-color:var(--jungle);cursor:pointer;flex-shrink:0;
+  }
+  .check-item span{font-size:.89rem;color:#33454f;transition:all .15s ease;}
+  .check-item input:checked + span{color:#9aa8ae;text-decoration:line-through;}
+  .reset-btn{
+    font-family:'Space Mono',monospace;font-size:.78rem;background:none;border:1px solid var(--line);
+    color:var(--navy);padding:8px 16px;border-radius:100px;cursor:pointer;margin-top:8px;
+  }
+  .reset-btn:hover{border-color:var(--coral);color:var(--coral-2);}
+
+  /* ---------- PRESUPUESTO ---------- */
+  .budget-table{
+    width:100%;border-collapse:collapse;background:var(--paper);border-radius:16px;overflow:hidden;
+    box-shadow:var(--shadow);margin-bottom:30px;font-size:.9rem;
+  }
+  .budget-table th{
+    background:var(--navy);color:var(--sand);text-align:left;padding:14px 16px;
+    font-family:'Space Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+  }
+  .budget-table td{padding:13px 16px;border-bottom:1px solid var(--line);color:#33454f;}
+  .budget-table tr:last-child td{border-bottom:none;}
+  .budget-table tr:nth-child(even) td{background:var(--sand-2);}
+  .budget-table td.num{font-family:'Space Mono',monospace;font-weight:700;color:var(--navy);white-space:nowrap;}
+  .total-row td{background:var(--navy) !important;color:var(--paper) !important;font-weight:800;}
+  .total-row td.num{color:var(--sun) !important;}
+
+  .budget-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:36px;}
+  @media(max-width:760px){.budget-tiers{grid-template-columns:1fr;}}
+  .tier-card{border-radius:16px;padding:22px;background:var(--paper);border:1px solid var(--line);text-align:center;}
+  .tier-card.mid{border:2px solid var(--sun);position:relative;}
+  .tier-card .tier-badge{
+    font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--coral-2);font-weight:700;
+  }
+  .tier-card .tier-amount{font-family:'Fraunces',serif;font-size:2.1rem;font-weight:700;color:var(--navy);margin:.2em 0;}
+  .tier-card .tier-amount small{font-size:1rem;font-weight:500;color:#7c8a92;}
+  .tier-card p{font-size:.82rem;color:#5a6b73;margin:0;}
+
+  .payment-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media(max-width:760px){.payment-grid{grid-template-columns:1fr;}}
+  .payment-card{background:var(--paper);border-radius:16px;padding:20px 22px;border:1px solid var(--line);}
+  .payment-card .rank{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:50%;background:var(--jungle);color:var(--paper);
+    font-family:'Space Mono',monospace;font-weight:700;font-size:.8rem;margin-right:8px;
+  }
+  .payment-card.warn .rank{background:var(--coral-2);}
+  .payment-card h4{font-size:1rem;display:flex;align-items:center;margin-bottom:8px;color:var(--navy);}
+  .payment-card p{font-size:.86rem;color:#3d5566;margin:0;}
+
+  /* ---------- TURISMO ---------- */
+  .dest-block{margin-bottom:44px;}
+  .dest-title{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+  .dest-title .dot{width:12px;height:12px;border-radius:50%;}
+  .dest-title.rio .dot{background:var(--ocean);}
+  .dest-title.buzios .dot{background:var(--coral);}
+  .dest-title h3{margin:0;font-size:1.5rem;}
+
+  .free-label{
+    display:inline-block;background:var(--jungle);color:var(--paper);font-size:.66rem;font-weight:800;
+    padding:2px 9px;border-radius:100px;text-transform:uppercase;letter-spacing:.05em;font-family:'Space Mono',monospace;
+    margin-left:8px;vertical-align:middle;
+  }
+  .paid-label{
+    display:inline-block;background:var(--sand-2);color:var(--navy);font-size:.66rem;font-weight:800;
+    padding:2px 9px;border-radius:100px;text-transform:uppercase;letter-spacing:.05em;font-family:'Space Mono',monospace;
+    margin-left:8px;vertical-align:middle;border:1px solid var(--line);
+  }
+  .place-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:760px){.place-grid{grid-template-columns:1fr;}}
+  .place-card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .place-card h5{margin:0 0 6px 0;font-family:'Manrope',sans-serif;font-size:.95rem;color:var(--navy);}
+  .place-card p{margin:0;font-size:.85rem;color:#4a5f6d;}
+
+  .howto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px;}
+  @media(max-width:760px){.howto-grid{grid-template-columns:1fr;}}
+  .howto-card{background:var(--sand-2);border-radius:14px;padding:16px 18px;}
+  .howto-card .icon{font-size:1.3rem;}
+  .howto-card h5{margin:.3em 0 .3em 0;font-size:.9rem;color:var(--navy);}
+  .howto-card p{margin:0;font-size:.82rem;color:#4a5f6d;}
+
+  footer{
+    background:var(--navy);color:rgba(251,243,228,.7);text-align:center;padding:38px 24px 30px 24px;
+    font-size:.85rem;
+  }
+  footer strong{color:var(--sun);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Guía de viaje · Argentina → Brasil</div>
+    <h1>Río <span class="accent">+</span> Búzios</h1>
+    <p class="sub">Todo lo que necesitás para preparar el viaje: alojamiento, clima, valija, presupuesto y los mejores planes en cada destino.</p>
+    <div class="hero-dates">10 NOV — 18 NOV 2026 · 8 NOCHES</div>
+    <div class="chips">
+      <div class="chip">✈️ Vuelo directo Córdoba · Gol</div>
+      <div class="chip">🎒 Solo equipaje de cabina (10kg + mochila)</div>
+      <div class="chip">🏨 3 noches Río + 5 noches Búzios</div>
+      <div class="chip">🍳 Desayuno incluido</div>
+      <div class="chip">🏥 Asistencia médica</div>
+    </div>
+  </div>
+  <div class="wave-divider" style="position:relative;z-index:2;">
+    <svg viewBox="0 0 1200 34" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 20 C 50 0, 100 0, 150 20 C 200 40, 250 40, 300 20 C 350 0, 400 0, 450 20 C 500 40, 550 40, 600 20 C 650 0, 700 0, 750 20 C 800 40, 850 40, 900 20 C 950 0, 1000 0, 1050 20 C 1100 40, 1150 40, 1200 20 L1200 34 L0 34 Z" fill="#FBF3E4"/>
+      <path d="M0 20 C 50 0, 100 0, 150 20 C 200 40, 250 40, 300 20 C 350 0, 400 0, 450 20 C 500 40, 550 40, 600 20 C 650 0, 700 0, 750 20 C 800 40, 850 40, 900 20 C 950 0, 1000 0, 1050 20 C 1100 40, 1150 40, 1200 20" fill="none" stroke="#0B2E42" stroke-width="2.5"/>
+    </svg>
+  </div>
+</header>
+
+<nav class="tabnav">
+  <div class="tabnav-inner" id="tabnav">
+    <button class="tabbtn active" data-tab="alojamiento">🏨 Alojamiento</button>
+    <button class="tabbtn" data-tab="clima">🌤️ Clima y ropa</button>
+    <button class="tabbtn" data-tab="checklist">✅ Checklist</button>
+    <button class="tabbtn" data-tab="presupuesto">💰 Presupuesto</button>
+    <button class="tabbtn" data-tab="turismo">🗺️ Turismo</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ================= ALOJAMIENTO ================= -->
+  <section class="panel active" id="panel-alojamiento">
+    <div class="section-head">
+      <div class="eyebrow">01 · Dónde te alojás</div>
+      <h2>Alojamiento</h2>
+      <p>Ubicación exacta de cada hotel y lo que dicen los huéspedes, para que sepas qué esperar y llegues sin sorpresas.</p>
+    </div>
+
+    <div class="stay-grid">
+      <!-- RIO -->
+      <div class="stay-card">
+        <div class="stay-banner rio">
+          <div class="place-eyebrow">Río de Janeiro · Copacabana</div>
+          <h3>Rede Andrade Hotel Canadá</h3>
+          <div class="nights">3 noches · 3 estrellas</div>
+        </div>
+        <div class="stay-body">
+          <div class="stay-addr">📍 Av. Nossa Senhora de Copacabana 687, Copacabana, Río de Janeiro</div>
+          <div class="stay-rating">⭐ 3 estrellas · Opiniones mixtas — "excelente ubicación, hotel básico"</div>
+          <div class="stay-cols pros">
+            <h4>A favor</h4>
+            <ul>
+              <li>A 4-5 min caminando de la Playa de Copacabana y la Av. Atlântica</li>
+              <li>A 550 m de la estación de metro Siqueira Campos</li>
+              <li>Ipanema a 3,3 km y Cristo Redentor a 13 km en auto</li>
+              <li>Desayuno buffet, recepción 24 hs y personal muy bien valorado</li>
+            </ul>
+          </div>
+          <div class="stay-cols cons">
+            <h4>A tener en cuenta</h4>
+            <ul>
+              <li>Habitaciones descriptas como algo antiguas; conviene pedir una renovada</li>
+              <li>Aire acondicionado ruidoso según varias reseñas</li>
+              <li>No tiene pileta ni estacionamiento propio</li>
+            </ul>
+          </div>
+          <div class="tip-box"><b>Tip:</b> usá la caja fuerte de la habitación y no dejes objetos de valor a la vista. Al llegar, si notás algo roto o sucio, pedí cambio de habitación en recepción — varias reseñas mencionan variabilidad entre habitaciones del mismo hotel.</div>
+        </div>
+      </div>
+
+      <!-- BUZIOS -->
+      <div class="stay-card">
+        <div class="stay-banner buzios">
+          <div class="place-eyebrow">Búzios · Zona Tartaruga / Portal da Ferradura</div>
+          <h3>Pousada Brisas de Búzios</h3>
+          <div class="nights">5 noches · 3 estrellas</div>
+        </div>
+        <div class="stay-body">
+          <div class="stay-addr">📍 Av. José Bento Ribeiro Dantas 1188, Tartaruga, Búzios (Portal da Ferradura)</div>
+          <div class="stay-rating">⭐ 4,1 / 5 en Google (450 opiniones) — "cómoda, buena ubicación, muy amables"</div>
+          <div class="stay-cols pros">
+            <h4>A favor</h4>
+            <ul>
+              <li>A 800 m - 1 km de la Playa Tartaruga, caminando en ~13 min</li>
+              <li>A 1 - 1,2 km del centro (Rua das Pedras) — pasan combis por la puerta</li>
+              <li>Pileta al aire libre, jardín y terraza tranquilos</li>
+              <li>Desayuno artesanal brasileño con tortas caseras muy elogiado</li>
+            </ul>
+          </div>
+          <div class="stay-cols cons">
+            <h4>A tener en cuenta</h4>
+            <ul>
+              <li>No está en el centro mismo, sino "al lado" — se llega en combi o caminando</li>
+              <li>No tiene restaurante propio para el almuerzo/cena</li>
+              <li>Habitaciones sencillas, estilo posada más que hotel</li>
+            </ul>
+          </div>
+          <div class="tip-box"><b>Tip:</b> ni bien llegues, preguntá en recepción los horarios de la combi al centro. Para volver de noche desde Rua das Pedras, la app 99 (similar a Uber, muy usada en Búzios) es la opción más práctica.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CLIMA Y ROPA ================= -->
+  <section class="panel" id="panel-clima">
+    <div class="section-head">
+      <div class="eyebrow">02 · Cómo armar la valija</div>
+      <h2>Clima y qué ropa llevar</h2>
+      <p>Noviembre es inicio de verano carioca: calor, humedad alta y lluvias tropicales cortas pero intensas. Acá el detalle para armar una valija liviana (recordá: solo cabina, 10 kg).</p>
+    </div>
+
+    <div class="climate-grid">
+      <div class="climate-card">
+        <div class="place-eyebrow">Río de Janeiro</div>
+        <h3>☀️ Calor húmedo, con chaparrones</h3>
+        <div class="temp-row">
+          <div class="temp-big">27°/20°</div>
+          <div class="temp-sub">máxima / mínima promedio</div>
+        </div>
+        <div class="climate-stats">
+          <div class="climate-stat"><b>~80%</b>Humedad</div>
+          <div class="climate-stat"><b>~50%</b>Prob. de lluvia diaria</div>
+          <div class="climate-stat"><b>22-23°C</b>Agua de mar</div>
+        </div>
+        <div class="climate-note">Las lluvias de noviembre suelen ser chaparrones cortos e inesperados de tarde, no lluvia todo el día. El sol pega fuerte incluso con cielo nublado.</div>
+      </div>
+      <div class="climate-card">
+        <div class="place-eyebrow">Búzios</div>
+        <h3>🌬️ Similar, algo más ventoso</h3>
+        <div class="temp-row">
+          <div class="temp-big">26°/19°</div>
+          <div class="temp-sub">máxima / mínima promedio</div>
+        </div>
+        <div class="climate-stats">
+          <div class="climate-stat"><b>Brisa</b>Constante</div>
+          <div class="climate-stat"><b>Variable</b>Según playa</div>
+          <div class="climate-stat"><b>22°C aprox.</b>Agua de mar</div>
+        </div>
+        <div class="climate-note">Al ser una península, el viento cambia mucho de una playa a otra: Ferradura y Azeda son las más resguardadas para nadar tranquilo; Geribá tiene más oleaje y viento.</div>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-bottom:20px;">
+      <h3 style="font-family:'Manrope',sans-serif;font-size:1.15rem;color:var(--navy);">🎒 Qué meter en la valija</h3>
+    </div>
+    <div class="clothing-grid">
+      <div class="clothing-card">
+        <div class="icon">👙</div>
+        <h4>Playa y día</h4>
+        <ul>
+          <li>2 trajes de baño (para rotar mientras se seca uno)</li>
+          <li>Remeras y musculosas de algodón o lino</li>
+          <li>Shorts / vestidos livianos</li>
+          <li>Ojotas + un par de zapatillas cómodas para caminar</li>
+        </ul>
+      </div>
+      <div class="clothing-card">
+        <div class="icon">🌂</div>
+        <h4>Para la lluvia y el sol</h4>
+        <ul>
+          <li>Piloto o poncho de lluvia bien compacto (ocupa casi nada)</li>
+          <li>Paraguas plegable chico</li>
+          <li>Protector solar FPS 50+</li>
+          <li>Gorra o sombrero + anteojos de sol</li>
+        </ul>
+      </div>
+      <div class="clothing-card">
+        <div class="icon">🌙</div>
+        <h4>Noche y salidas</h4>
+        <ul>
+          <li>Una muda más arreglada para cenar en Rua das Pedras o Copacabana</li>
+          <li>Camisa o remangas livianas de manga larga (aire acondicionado / brisa nocturna)</li>
+          <li>Poco abrigo extra — no hace frío, pero refresca de noche</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip-box" style="margin-top:22px;"><b>Tip de valija de cabina:</b> enrollá la ropa en vez de doblarla, llevá una sola toalla de secado rápido (no vienen en el hotel para playa) y dejá el protector solar y los líquidos en un neceser transparente de menos de 100ml para el control de seguridad.</div>
+  </section>
+
+  <!-- ================= CHECKLIST ================= -->
+  <section class="panel" id="panel-checklist">
+    <div class="section-head">
+      <div class="eyebrow">03 · Antes de salir de casa</div>
+      <h2>Checklist del viaje</h2>
+      <p>Tildá cada ítem a medida que lo vas resolviendo. Tu progreso se guarda solo en este archivo, en tu navegador.</p>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">0 / 0 listo</div>
+    </div>
+
+    <div class="checklist-grid" id="checklistGrid">
+      <!-- filled by JS -->
+    </div>
+
+    <button class="reset-btn" id="resetBtn">↺ Reiniciar checklist</button>
+  </section>
+
+  <!-- ================= PRESUPUESTO ================= -->
+  <section class="panel" id="panel-presupuesto">
+    <div class="section-head">
+      <div class="eyebrow">04 · Cuánta plata llevar</div>
+      <h2>Presupuesto de viaje</h2>
+      <p>El paquete ya incluye vuelos, alojamiento, traslados y desayuno. Esto es una estimación de lo que gasta un turista argentino promedio en <b>comida, transporte local, actividades e imprevistos</b> para los 8 días.</p>
+    </div>
+
+    <table class="budget-table">
+      <thead>
+        <tr><th>Concepto</th><th>Precio aprox.</th><th>Notas</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Almuerzo o cena, restaurante local / "Prato Feito"</td><td class="num">USD 10-20</td><td>El clásico menú ejecutivo del mediodía es la opción más rendidora</td></tr>
+        <tr><td>Comida en restaurante turístico / frente al mar</td><td class="num">USD 25-50</td><td>Copacabana e Ipanema sobre la costanera son más caros</td></tr>
+        <tr><td>Caipirinha / cerveza en boliche</td><td class="num">USD 3-7</td><td>Más barata en botecos de barrio que en la playa</td></tr>
+        <tr><td>Metro / bus en Río (por viaje)</td><td class="num">USD 1-1,5</td><td>Rápido, con aire, conecta bien Copacabana con el resto</td></tr>
+        <tr><td>Uber / 99 (trayecto corto en ciudad)</td><td class="num">USD 3-8</td><td>Recomendado de noche por seguridad</td></tr>
+        <tr><td>Combi al centro de Búzios</td><td class="num">USD 1-2</td><td>Pasa cerca de la pousada</td></tr>
+        <tr><td>Cristo Redentor (tren do Corcovado)</td><td class="num">USD 22-25</td><td>Reservar online con anticipación</td></tr>
+        <tr><td>Pan de Azúcar (teleférico completo)</td><td class="num">USD 30-34</td><td>Se puede ahorrar la mitad haciendo a pie el primer tramo hasta Morro da Urca</td></tr>
+        <tr><td>Paseo en goleta / catamarán en Búzios</td><td class="num">USD 30-45</td><td>Recorre varias playas, algunas con parada para nadar</td></tr>
+        <tr><td>Excursión a Arraial do Cabo (día completo)</td><td class="num">USD 75-95</td><td>Con almuerzo incluido en la mayoría de las opciones</td></tr>
+        <tr><td>Barquito a playas Azeda / Azedinha</td><td class="num">USD 2 (R$10)</td><td>Solo en efectivo, ida y vuelta</td></tr>
+      </tbody>
+    </table>
+
+    <div class="budget-tiers">
+      <div class="tier-card">
+        <div class="tier-badge">Mochilero</div>
+        <div class="tier-amount">USD 40<small>/día</small></div>
+        <p>Comida simple, metro/combi, poca excursión paga. Playas y caminatas como plan principal.</p>
+      </div>
+      <div class="tier-card mid">
+        <div class="tier-badge">Gama media (recomendado)</div>
+        <div class="tier-amount">USD 65<small>/día</small></div>
+        <p>Mezcla de restaurantes locales y algún gusto, Uber ocasional, 1-2 excursiones pagas por destino.</p>
+      </div>
+      <div class="tier-card">
+        <div class="tier-badge">Cómodo</div>
+        <div class="tier-amount">USD 100+<small>/día</small></div>
+        <p>Restaurantes turísticos, Uber frecuente, todas las excursiones y paseos en barco incluidos.</p>
+      </div>
+    </div>
+
+    <table class="budget-table">
+      <tbody>
+        <tr><td>Estimación total gama media (8 días, por persona)</td><td class="num">≈ USD 500-650</td><td>Solo comida + transporte + actividades + varios. No incluye vuelo/hotel/desayuno (ya pagos)</td></tr>
+        <tr class="total-row"><td>Sugerido para llevar con margen de seguridad</td><td class="num">USD 700-750 pp</td><td>Cubre imprevistos, souvenirs y algún gustito extra</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-head" style="margin-bottom:18px;">
+      <h3 style="font-family:'Manrope',sans-serif;font-size:1.15rem;color:var(--navy);">💳 Cómo conviene pagar siendo argentino</h3>
+    </div>
+    <div class="payment-grid">
+      <div class="payment-card">
+        <h4><span class="rank">1</span> Billetera con Pix (Prex, Lemon, Belo, Ualá, Mercado Pago...)</h4>
+        <p>Es el método más elegido por los argentinos en Brasil: pagás escaneando el QR del comercio, con un tipo de cambio parecido al dólar MEP y sin el recargo del 30% que aplica pagar con tarjeta en pesos. Funciona en casi todos lados: kioscos, restaurantes, excursiones.</p>
+      </div>
+      <div class="payment-card">
+        <h4><span class="rank">2</span> Tarjeta de crédito, pagando el resumen en dólares</h4>
+        <p>Si tenés cuenta en USD, comprá dólares MEP y cancelá el consumo en esa moneda: evitás el recargo del 30% por pago en pesos. Avisale al banco antes de viajar para que no te bloqueen la tarjeta.</p>
+      </div>
+      <div class="payment-card warn">
+        <h4><span class="rank">!</span> Efectivo (reales) — como respaldo</h4>
+        <p>Llevá algo de efectivo para el barquito a Azeda/Azedinha (solo cash), propinas y vendedores de playa. Evitá cambiar pesos argentinos en Brasil: la tasa es muy desfavorable. Mejor cambiar dólares si necesitás cash.</p>
+      </div>
+      <div class="payment-card warn">
+        <h4><span class="rank">!</span> Tarjeta de débito en pesos</h4>
+        <p>Es la opción más cara: se le suma el recargo del 30% de percepción de Ganancias de forma inmediata. Usala solo como último recurso.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TURISMO ================= -->
+  <section class="panel" id="panel-turismo">
+    <div class="section-head">
+      <div class="eyebrow">05 · Qué hacer en cada destino</div>
+      <h2>Recomendaciones turísticas</h2>
+      <p>Pensado desde donde te alojás: a pasos de Copacabana en Río, y cerca de la Playa Tartaruga en Búzios.</p>
+    </div>
+
+    <div class="dest-block">
+      <div class="dest-title rio"><div class="dot"></div><h3>Río de Janeiro</h3></div>
+      <div class="place-grid">
+        <div class="place-card"><h5>Playas de Copacabana e Ipanema<span class="free-label">Gratis</span></h5><p>Están a un paso del hotel. Caminá el calçadão (el famoso piso de olas blancas y negras) hasta Ipanema, son unos 40-50 min a pie o 2 estaciones de metro.</p></div>
+        <div class="place-card"><h5>Atardecer en Arpoador<span class="free-label">Gratis</span></h5><p>La punta rocosa entre Ipanema y Copacabana. Clásico plan carioca: llegar antes de la puesta de sol y aplaudir cuando el sol se esconde en el mar.</p></div>
+        <div class="place-card"><h5>Escadaria Selarón<span class="free-label">Gratis</span></h5><p>Escalinata cubierta de mosaicos de colores en Lapa/Santa Teresa, ideal para fotos. Combinala con una caminata por el barrio bohemio de Santa Teresa.</p></div>
+        <div class="place-card"><h5>Parque Garota de Ipanema<span class="free-label">Gratis</span></h5><p>A pocos minutos del hotel, buen mirador y punto de paso entre Copacabana e Ipanema.</p></div>
+        <div class="place-card"><h5>Cristo Redentor<span class="paid-label">Pago</span></h5><p>Se sube en el Trem do Corcovado. Reservá el horario online con anticipación para evitar filas y asegurar precio.</p></div>
+        <div class="place-card"><h5>Pan de Azúcar<span class="paid-label">Pago</span></h5><p>Teleférico en dos tramos. Se puede ahorrar haciendo a pie el sendero hasta Morro da Urca y pagando solo el segundo tramo en teleférico.</p></div>
+      </div>
+
+      <div class="howto-grid">
+        <div class="howto-card"><div class="icon">🚇</div><h5>Metro</h5><p>La estación Siqueira Campos está a 550 m del hotel. Es la forma más rápida y segura de moverse de día por Río.</p></div>
+        <div class="howto-card"><div class="icon">🚗</div><h5>Uber / 99</h5><p>Recomendado para volver de noche o ir a zonas sin metro cercano. Tarifas accesibles dentro de la Zona Sur.</p></div>
+        <div class="howto-card"><div class="icon">🚶</div><h5>A pie</h5><p>Copacabana - Ipanema se puede caminar por el paseo marítimo; es una de las mejores formas de conocer la zona.</p></div>
+      </div>
+    </div>
+
+    <div class="wave-divider" style="margin:36px 0;">
+      <svg viewBox="0 0 1200 34" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 17 C 50 30, 100 30, 150 17 C 200 4, 250 4, 300 17 C 350 30, 400 30, 450 17 C 500 4, 550 4, 600 17 C 650 30, 700 30, 750 17 C 800 4, 850 4, 900 17 C 950 30, 1000 30, 1050 17 C 1100 4, 1150 4, 1200 17" fill="none" stroke="#0B2E42" stroke-width="2" opacity="0.15"/>
+      </svg>
+    </div>
+
+    <div class="dest-block">
+      <div class="dest-title buzios"><div class="dot"></div><h3>Búzios</h3></div>
+      <div class="place-grid">
+        <div class="place-card"><h5>Playa Tartaruga<span class="free-label">Gratis</span></h5><p>La más cercana a la pousada, ideal para el primer chapuzón sin moverte mucho.</p></div>
+        <div class="place-card"><h5>Playa Ferradura y João Fernandes<span class="free-label">Gratis</span></h5><p>Aguas más calmas y protegidas, muy recomendadas para nadar tranquilo.</p></div>
+        <div class="place-card"><h5>Rua das Pedras<span class="free-label">Gratis</span></h5><p>La calle peatonal con locales, bares y restaurantes. El paseo nocturno obligado de Búzios.</p></div>
+        <div class="place-card"><h5>Orla Bardot<span class="free-label">Gratis</span></h5><p>Paseo costero con la estatua de Brigitte Bardot, ideal para sacar fotos al atardecer.</p></div>
+        <div class="place-card"><h5>Playas Azeda y Azedinha<span class="paid-label">Barquito ~R$10</span></h5><p>Se llega en un botecito desde la Playa dos Ossos. Área protegida, sin bares en la arena — llevar agua y protector.</p></div>
+        <div class="place-card"><h5>Paseo en goleta / Excursión a Arraial do Cabo<span class="paid-label">Pago</span></h5><p>El "Caribe brasileño" a menos de una hora. Vale la pena reservar con un día de anticipación en temporada.</p></div>
+      </div>
+
+      <div class="howto-grid">
+        <div class="howto-card"><div class="icon">🚐</div><h5>Combi / van local</h5><p>Conecta la zona de la pousada con el centro y las playas más lejanas por muy poca plata.</p></div>
+        <div class="howto-card"><div class="icon">🏖️</div><h5>Buggy turístico</h5><p>Recorrido armado por las playas y miradores más lindos de la península, buena opción el primer día para ubicarse.</p></div>
+        <div class="howto-card"><div class="icon">🚕</div><h5>99 / taxi</h5><p>Útil de noche para volver desde Rua das Pedras hasta la pousada.</p></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wave-divider" style="max-width:300px;margin:0 auto 18px auto;opacity:.5;">
+    <svg viewBox="0 0 300 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 10 C 12 2, 25 2, 37 10 C 50 18, 62 18, 75 10 C 87 2, 100 2, 112 10 C 125 18, 137 18, 150 10 C 162 2, 175 2, 187 10 C 200 18, 212 18, 225 10 C 237 2, 250 2, 262 10 C 275 18, 287 18, 300 10" fill="none" stroke="#FFC145" stroke-width="2"/>
+    </svg>
+  </div>
+  <p><strong>¡Buen viaje!</strong> Río + Búzios, 10 al 18 de noviembre de 2026.</p>
+  <p>Guía generada como referencia — verificá siempre precios, horarios y condiciones antes de cada actividad.</p>
+</footer>
+
+<script>
+  // ---------- TABS ----------
+  const tabBtns = document.querySelectorAll('.tabbtn');
+  const panels = document.querySelectorAll('.panel');
+  tabBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tabBtns.forEach(b=>b.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+      window.scrollTo({top:0, behavior:'instant'});
+    });
+  });
+
+  // ---------- CHECKLIST DATA ----------
+  const checklistData = [
+    { title: "📄 Documentación", items: [
+      "DNI o pasaporte vigente (con Mercosur, el DNI argentino alcanza)",
+      "Reserva del paquete impresa o en PDF",
+      "Voucher de traslados y alojamiento",
+      "Seguro de asistencia al viajero (incluido en el paquete)",
+      "Copia digital de todos los documentos (foto o mail)"
+    ]},
+    { title: "🎒 Equipaje de cabina (10kg + mochila)", items: [
+      "Pesar la valija en casa antes de salir",
+      "Ropa enrollada para ahorrar espacio",
+      "Líquidos en frascos de menos de 100ml, en bolsa transparente",
+      "Adaptador de enchufe si hace falta (Brasil usa tomas tipo N/C)"
+    ]},
+    { title: "👕 Ropa y calzado", items: [
+      "2 trajes de baño",
+      "Ropa liviana de algodón o lino para el día",
+      "Piloto o poncho de lluvia compacto",
+      "Ojotas + zapatillas cómodas para caminar",
+      "Gorra o sombrero y anteojos de sol",
+      "Una muda más arreglada para la noche"
+    ]},
+    { title: "💊 Salud y botiquín", items: [
+      "Protector solar FPS 50+",
+      "Repelente de mosquitos",
+      "Medicación personal habitual",
+      "Analgésico, antidiarreico y antihistamínico básicos",
+      "Alcohol en gel"
+    ]},
+    { title: "💳 Dinero y pagos", items: [
+      "Avisar al banco que viajás y habilitar tarjetas para el exterior",
+      "Activar una billetera con Pix (Prex, Lemon, Belo, etc.)",
+      "Llevar algo de efectivo en reales para gastos chicos",
+      "Tarjeta de crédito y débito como respaldo"
+    ]},
+    { title: "📱 Tecnología", items: [
+      "Activar eSIM o chip con roaming de datos",
+      "Cargador portátil (power bank)",
+      "Descargar el mapa de Río y Búzios offline en Google Maps",
+      "Instalar apps: Uber/99 y tu billetera con Pix"
+    ]},
+    { title: "🏠 Antes de salir de casa", items: [
+      "Check-in online del vuelo con Gol",
+      "Confirmar el horario de los traslados de llegada",
+      "Avisar el itinerario a alguien de confianza",
+      "Desenchufar aparatos y sacar la basura"
+    ]}
+  ];
+
+  const grid = document.getElementById('checklistGrid');
+  let storage = {};
+  try{ storage = JSON.parse(localStorage.getItem('rioBuziosChecklist2026') || '{}'); }catch(e){ storage = {}; }
+
+  function saveStorage(){
+    try{ localStorage.setItem('rioBuziosChecklist2026', JSON.stringify(storage)); }catch(e){}
+  }
+
+  function buildChecklist(){
+    grid.innerHTML = '';
+    checklistData.forEach((cat, ci)=>{
+      const card = document.createElement('div');
+      card.className = 'check-card';
+      const h4 = document.createElement('h4');
+      h4.textContent = cat.title;
+      card.appendChild(h4);
+      cat.items.forEach((item, ii)=>{
+        const key = ci+'-'+ii;
+        const label = document.createElement('label');
+        label.className = 'check-item';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = !!storage[key];
+        input.addEventListener('change', ()=>{
+          storage[key] = input.checked;
+          saveStorage();
+          updateProgress();
+        });
+        const span = document.createElement('span');
+        span.textContent = item;
+        label.appendChild(input);
+        label.appendChild(span);
+        card.appendChild(label);
+      });
+      grid.appendChild(card);
+    });
+    updateProgress();
+  }
+
+  function updateProgress(){
+    const allInputs = grid.querySelectorAll('input[type=checkbox]');
+    const total = allInputs.length;
+    let done = 0;
+    allInputs.forEach(i=>{ if(i.checked) done++; });
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct+'%';
+    document.getElementById('progressLabel').textContent = done+' / '+total+' listo';
+  }
+
+  document.getElementById('resetBtn').addEventListener('click', ()=>{
+    if(confirm('¿Reiniciar todo el checklist?')){
+      storage = {};
+      saveStorage();
+      buildChecklist();
+    }
+  });
+
+  buildChecklist();
+</script>
+
+</body>
+</html>
