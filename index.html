@@ -125,18 +125,18 @@
   }
   .tabnav-inner{
     max-width:1100px;margin:0 auto;padding:0 24px;
-    display:flex; gap:4px; overflow-x:auto;
+    display:flex; gap:0; overflow-x:auto;
     scrollbar-width:none;
   }
   .tabnav-inner::-webkit-scrollbar{display:none;}
   .tabbtn{
     font-family:'Manrope',sans-serif;
     font-weight:700;
-    font-size:.92rem;
+    font-size:.88rem; /* Letra apenas más chica, antes .92rem */
     background:none;border:none;
     color:var(--navy);
     opacity:.55;
-    padding:18px 16px 15px 16px;
+    padding:16px 10px 13px 10px; /* Redujimos los laterales a 10px */
     cursor:pointer;
     white-space:nowrap;
     border-bottom:3px solid transparent;
@@ -965,7 +965,8 @@
       <form id="gastosForm" class="link-form" style="margin-bottom: 24px;" novalidate>
         <h4>➕ Agregar gasto</h4>
         <div style="display:flex; gap:10px; flex-wrap: wrap;">
-          <input type="text" id="gastoDesc" placeholder="Ej. Almuerzo en Tartaruga" required style="flex:1 1 200px;">
+          <input type="date" id="gastoFecha" required style="flex:1 1 140px; font-family:'Manrope',sans-serif; font-size:.88rem; color:var(--ink); background:var(--sand); border:1px solid var(--line); border-radius:8px; padding:9px 11px;">
+          <input type="text" id="gastoDesc" placeholder="Ej. Almuerzo en Tartaruga" required style="flex:1 1 180px;">
           <input type="number" id="gastoMonto" placeholder="Monto (R$)" required min="0.01" step="0.01" style="flex:1 1 120px;">
           <select id="gastoCat" style="flex:1 1 150px; font-family:'Manrope',sans-serif; font-size:.88rem; color:var(--ink); background:var(--sand); border:1px solid var(--line); border-radius:8px; padding:9px 11px;"></select>
         </div>
@@ -981,13 +982,22 @@
           <button type="button" id="addCatBtn" class="doc-btn">Agregar</button>
         </div>
       </div>
-
-      <!-- Lista de Gastos Históricos -->
-      <div class="section-head" style="margin-bottom: 16px;">
-        <h3 style="font-size:1.2rem; color:var(--navy);">Listado de movimientos</h3>
-      </div>
-      <div id="gastosList" class="doc-list"></div>
     </div>
+
+    <!-- Lista de Gastos Históricos (Ahora siempre visible) -->
+    <div class="section-head" style="margin-bottom: 16px; margin-top: 20px;">
+      <h3 style="font-size:1.2rem; color:var(--navy);">Listado de movimientos</h3>
+    </div>
+    
+    <!-- Filtros de búsqueda -->
+    <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap: wrap;">
+      <input type="text" id="filterDesc" placeholder="Buscar gasto..." style="flex:1 1 200px; font-family:'Manrope',sans-serif; font-size:.88rem; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:9px 11px;">
+      <select id="filterCat" style="flex:1 1 150px; font-family:'Manrope',sans-serif; font-size:.88rem; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:9px 11px;">
+        <option value="">Todas las categorías</option>
+      </select>
+    </div>
+
+    <div id="gastosList" class="doc-list"></div>
   </section>
 
   <!-- ================= TURISMO ================= -->
@@ -2139,7 +2149,6 @@
     gastos: [] // Formato: { id, desc, monto, cat, fecha }
   };
 
-  // Intentamos cargar lo que haya en el Local Storage
   try {
     const saved = JSON.parse(localStorage.getItem(KEY_GASTOS));
     if (saved && Array.isArray(saved.categorias) && Array.isArray(saved.gastos)) {
@@ -2149,7 +2158,6 @@
 
   const saveGastos = () => localStorage.setItem(KEY_GASTOS, JSON.stringify(gastosState));
 
-  // Paleta de colores para el gráfico basada en los colores de tu web
   const catColors = ['#1C7293', '#FF6F5E', '#1B998B', '#FFC145', '#123B54', '#8a99a1', '#E8503F', '#0F5C7A'];
 
   const gastosChart = document.getElementById('gastosChart');
@@ -2158,6 +2166,15 @@
   const gastoCatSelect = document.getElementById('gastoCat');
   const catListDiv = document.getElementById('catList');
   const gastosListDiv = document.getElementById('gastosList');
+  const gastoFechaInput = document.getElementById('gastoFecha');
+  const filterDesc = document.getElementById('filterDesc');
+  const filterCatSelect = document.getElementById('filterCat');
+  
+  // Establecer fecha de hoy por defecto
+  if (gastoFechaInput) gastoFechaInput.value = new Date().toISOString().split('T')[0];
+
+  // Estado para controlar qué gasto se está editando
+  let editingGastoId = null;
 
   function renderGastos() {
     // 1. Calcular totales
@@ -2170,7 +2187,6 @@
       if (totalesPorCat[g.cat] !== undefined) {
         totalesPorCat[g.cat] += g.monto;
       } else {
-        // Si borró una categoría que ya tenía gastos, los manda a 'Otros' para que no se rompa
         if(!totalesPorCat['Otros']) totalesPorCat['Otros'] = 0;
         totalesPorCat['Otros'] += g.monto;
       }
@@ -2178,7 +2194,7 @@
 
     gastosTotalAmount.textContent = 'R$ ' + total.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-    // 2. Dibujar Gráfico de Torta y Leyenda
+    // 2. Dibujar Gráfico de Torta y Leyenda con Porcentajes
     gastosLegend.innerHTML = '';
     if (total === 0) {
       gastosChart.style.background = 'conic-gradient(#e2e8f0 0 100%)';
@@ -2192,17 +2208,17 @@
         if (catTotal > 0) {
           const pct = (catTotal / total) * 100;
           const color = catColors[index % catColors.length];
-          // Vamos sumando las porciones para el CSS conic-gradient
           gradientStr.push(`${color} ${currentPct}% ${currentPct + pct}%`);
           currentPct += pct;
 
-          // Armamos la leyenda
           const div = document.createElement('div');
           div.className = 'legend-item';
+          // Se agrega el porcentaje redondeado a la leyenda
+          // Se reemplazó la función Math.round(pct) por pct.toFixed(2).replace('.', ',')
           div.innerHTML = `
             <div class="legend-color" style="background:${color}"></div>
-            <div class="legend-name">${cat}</div>
-            <div class="legend-amount">R$ ${catTotal.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+            <div class="legend-name">${cat} <span style="opacity:0.6; font-size:0.8em;">(${pct.toFixed(2).replace('.', ',')}%)</span></div> 
+            <div class="legend-amount">R$ ${catTotal.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div> 
           `;
           gastosLegend.appendChild(div);
         }
@@ -2210,13 +2226,25 @@
       gastosChart.style.background = `conic-gradient(${gradientStr.join(', ')})`;
     }
 
-    // 3. Select del formulario
+    // 3. Actualizar Selects (Formulario y Filtro)
+    const currentCatVal = gastoCatSelect.value;
+    const currentFilterVal = filterCatSelect.value;
+    
     gastoCatSelect.innerHTML = '';
+    filterCatSelect.innerHTML = '<option value="">Todas las categorías</option>';
+    
     gastosState.categorias.forEach(cat => {
-      const opt = document.createElement('option');
-      opt.value = cat; opt.textContent = cat;
-      gastoCatSelect.appendChild(opt);
+      const opt1 = document.createElement('option');
+      opt1.value = cat; opt1.textContent = cat;
+      gastoCatSelect.appendChild(opt1);
+      
+      const opt2 = document.createElement('option');
+      opt2.value = cat; opt2.textContent = cat;
+      filterCatSelect.appendChild(opt2);
     });
+    
+    if (currentCatVal && gastosState.categorias.includes(currentCatVal)) gastoCatSelect.value = currentCatVal;
+    if (currentFilterVal && gastosState.categorias.includes(currentFilterVal)) filterCatSelect.value = currentFilterVal;
 
     // 4. Panel de Categorías Administrables
     catListDiv.innerHTML = '';
@@ -2233,11 +2261,8 @@
         if(gastosState.categorias.length <= 1) return alert('Debe quedar al menos una categoría.');
         if(confirm(`¿Borrar la categoría "${cat}"? Sus gastos se asignarán a "Otros".`)) {
            gastosState.categorias = gastosState.categorias.filter(c => c !== cat);
-           // Si no existe 'Otros', la creamos
            if(!gastosState.categorias.includes('Otros')) gastosState.categorias.push('Otros');
-           // Reasignamos los gastos viejos
            gastosState.gastos.forEach(g => { if(g.cat === cat) g.cat = 'Otros'; });
-           
            saveGastos(); renderGastos();
         }
       };
@@ -2245,36 +2270,68 @@
       catListDiv.appendChild(tag);
     });
 
-    // 5. Lista Histórica de Gastos
+    // 5. Lista Histórica de Gastos (Con Filtros y Edición en línea)
     gastosListDiv.innerHTML = '';
+    
+    const term = (filterDesc.value || '').toLowerCase();
+    const catFiltro = filterCatSelect.value;
+    
+    // Filtrar y ordenar (más recientes primero)
+    const filtrados = gastosState.gastos.filter(g => {
+      const matchText = g.desc.toLowerCase().includes(term);
+      const matchCat = catFiltro === '' || g.cat === catFiltro;
+      return matchText && matchCat;
+    }).sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
     if (gastosState.gastos.length === 0) {
       gastosListDiv.innerHTML = '<div class="doc-empty">No hay movimientos.</div>';
+    } else if (filtrados.length === 0) {
+      gastosListDiv.innerHTML = '<div class="doc-empty">No se encontraron gastos con esos filtros.</div>';
     } else {
-      // Usamos .slice().reverse() para mostrar los últimos gastos arriba
-      gastosState.gastos.slice().reverse().forEach(g => {
+      filtrados.forEach(g => {
         const item = document.createElement('div');
         item.className = 'doc-item';
-        
-        // Buscamos el color de la categoría para el borde lateral
         const catIndex = Math.max(0, gastosState.categorias.indexOf(g.cat));
         item.style.borderLeftColor = catColors[catIndex % catColors.length];
         
-        item.innerHTML = `
-          <div class="doc-info">
-            <div class="doc-name">${g.desc}</div>
-            <div class="doc-meta">${g.cat} · ${new Date(g.fecha).toLocaleDateString('es-AR')}</div>
-          </div>
-          <div class="doc-actions">
-            <div style="font-family:'Space Mono',monospace; font-weight:700; color:var(--navy); margin-right:10px;">R$ ${g.monto.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
-            <button type="button" class="doc-btn danger" onclick="borrarGasto('${g.id}')">✕ Quitar</button>
-          </div>
-        `;
+        if (editingGastoId === g.id) {
+          // MODO EDICIÓN
+          item.innerHTML = `
+            <div style="display:flex; gap:10px; flex-wrap:wrap; width:100%; align-items:center;">
+              <input type="date" id="editFecha_${g.id}" value="${g.fecha}" style="font-family:'Manrope',sans-serif; padding:5px 8px; border:1px solid var(--line); border-radius:6px; background:var(--sand);">
+              <input type="text" id="editDesc_${g.id}" value="${g.desc}" style="flex:1; min-width:120px; font-family:'Manrope',sans-serif; padding:5px 8px; border:1px solid var(--line); border-radius:6px; background:var(--sand);">
+              <select id="editCat_${g.id}" style="font-family:'Manrope',sans-serif; padding:5px 8px; border:1px solid var(--line); border-radius:6px; background:var(--sand);">
+                ${gastosState.categorias.map(c => `<option value="${c}" ${c === g.cat ? 'selected' : ''}>${c}</option>`).join('')}
+              </select>
+              <div style="display:flex; align-items:center; gap:5px;">
+                R$ <input type="number" id="editMonto_${g.id}" value="${g.monto}" step="0.01" style="width:80px; font-family:'Manrope',sans-serif; padding:5px 8px; border:1px solid var(--line); border-radius:6px; background:var(--sand);">
+              </div>
+              <div style="display:flex; gap:6px; margin-left:auto;">
+                <button type="button" class="doc-btn primary" onclick="guardarEdicion('${g.id}')">Guardar</button>
+                <button type="button" class="doc-btn" onclick="cancelarEdicion()">Cancelar</button>
+              </div>
+            </div>
+          `;
+        } else {
+          // MODO LECTURA
+          item.innerHTML = `
+            <div class="doc-info">
+              <div class="doc-name">${g.desc}</div>
+              <div class="doc-meta">${g.cat} · ${new Date(g.fecha + 'T00:00:00').toLocaleDateString('es-AR')}</div>
+            </div>
+            <div class="doc-actions">
+              <div style="font-family:'Space Mono',monospace; font-weight:700; color:var(--navy); margin-right:10px;">R$ ${g.monto.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+              <button type="button" class="doc-btn" onclick="iniciarEdicion('${g.id}')">✏️</button>
+              <button type="button" class="doc-btn danger" onclick="borrarGasto('${g.id}')">✕</button>
+            </div>
+          `;
+        }
         gastosListDiv.appendChild(item);
       });
     }
   }
 
-  // Borrar un gasto puntual (función global para el onclick del HTML inyectado)
+  // Funciones globales para botones
   window.borrarGasto = function(id) {
     if(confirm('¿Seguro que querés borrar este gasto?')) {
       gastosState.gastos = gastosState.gastos.filter(g => g.id !== id);
@@ -2282,7 +2339,45 @@
     }
   };
 
-  // Botón que despliega el panel de edición
+  window.iniciarEdicion = function(id) {
+    editingGastoId = id;
+    renderGastos();
+  };
+
+  window.cancelarEdicion = function() {
+    editingGastoId = null;
+    renderGastos();
+  };
+
+  window.guardarEdicion = function(id) {
+    const nuevaFecha = document.getElementById('editFecha_' + id).value;
+    const nuevaDesc = document.getElementById('editDesc_' + id).value.trim();
+    const nuevaCat = document.getElementById('editCat_' + id).value;
+    const nuevoMonto = parseFloat(document.getElementById('editMonto_' + id).value);
+
+    if (!nuevaDesc || isNaN(nuevoMonto) || !nuevaFecha) {
+      alert("Por favor completá todos los campos correctamente.");
+      return;
+    }
+
+    const gasto = gastosState.gastos.find(g => g.id === id);
+    if (gasto) {
+      gasto.fecha = nuevaFecha;
+      gasto.desc = nuevaDesc;
+      gasto.cat = nuevaCat;
+      gasto.monto = nuevoMonto;
+      saveGastos();
+    }
+    
+    editingGastoId = null;
+    renderGastos();
+  };
+
+  // Event Listeners de Filtros
+  filterDesc.addEventListener('input', renderGastos);
+  filterCatSelect.addEventListener('change', renderGastos);
+
+  // Botón Modificar (Oculta/Muestra solo el área de carga de gastos nuevos y categorías)
   const editGastosBtn = document.getElementById('editGastosBtn');
   const gastosEditArea = document.getElementById('gastosEditArea');
   
@@ -2300,22 +2395,26 @@
   if (gastosForm) {
     gastosForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const fecha = document.getElementById('gastoFecha').value;
       const desc = document.getElementById('gastoDesc').value.trim();
-      const monto = parseFloat(document.getElementById('gastoMonto').value.replace(',', '.')); // Soporte para comas
+      const monto = parseFloat(document.getElementById('gastoMonto').value.replace(',', '.'));
       const cat = document.getElementById('gastoCat').value;
-      if (!desc || isNaN(monto)) return;
+      if (!desc || isNaN(monto) || !fecha) return;
 
       gastosState.gastos.push({
         id: 'g_' + Date.now(),
-        desc, monto, cat, fecha: Date.now()
+        desc, monto, cat, fecha
       });
       
-      saveGastos(); renderGastos();
+      saveGastos(); 
+      // Limpiamos filtros para ver el gasto recién agregado
+      filterDesc.value = '';
+      filterCatSelect.value = '';
+      renderGastos();
       
-      // Limpiar campos
       document.getElementById('gastoDesc').value = '';
       document.getElementById('gastoMonto').value = '';
-      document.getElementById('gastoDesc').focus(); // Vuelve el cursor por si querés agregar otro
+      document.getElementById('gastoDesc').focus();
     });
   }
 
@@ -2333,7 +2432,6 @@
     });
   }
 
-  // Iniciar el renderizado
   renderGastos();
   
   // ---------- DICCIONARIO Y WEB SPEECH API ----------
