@@ -943,6 +943,98 @@
   flex-direction: column;
 }
 
+/* ---------- FOOTER PERSONAL ---------- */
+.footer-personal {
+  padding-top: 15px; /* Un poco menos de espacio superior */
+  border-top: none; /* Esto elimina la línea delgada separadora */
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra todos los elementos horizontalmente */
+  gap: 6px; /* Reduce el espacio general entre los bloques */
+  margin-bottom: 20px;
+}
+
+.footer-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px; /* Reduce el espacio entre tu nombre y los roles */
+}
+
+.footer-img {
+  width: 120px; /* Define un tamaño fijo para la foto */
+  height: 120px;
+  border-radius: 50%; /* Hace la foto circular */
+  object-fit: cover; /* Evita que la foto se deforme */
+  border: 2px solid var(--sun); /* Agrega un borde decorativo */
+  background-color: var(--navy-2); /* Fondo temporal por si la imagen no carga */
+  margin-bottom: 20px; /* <-- Aumentamos este valor para separar la foto del nombre */
+}
+
+.footer-info h3 {
+  color: var(--paper);
+  font-size: 1.1rem;
+  margin: 0;
+  line-height: 1.2; /* Achica el alto del renglón */
+}
+
+.footer-info p {
+  color: rgba(251, 243, 228, 0.7);
+  font-size: 0.85rem;
+  margin: 0;
+  line-height: 1.2; /* Achica el alto del renglón */
+}
+
+.footer-contact {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2px; /* Acerca los links de contacto al bloque de texto */
+}
+
+.contact-link {
+  color: var(--sun);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.contact-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.footer-copyright p {
+  margin: 0;
+  color: rgba(251, 243, 228, 0.5);
+  font-size: 0.8rem;
+}
+
+/* Adaptación para pantallas móviles */
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .footer-profile {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footer-contact {
+    margin-top: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
 </style>
 <style id="leaflet-css">
 /* required styles */
@@ -2202,6 +2294,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
     <div class="backup-msg" id="backupMsg" role="status"></div>
   </div>
 </div>
+
+
 
 <footer>
   <div class="wave-divider" style="max-width:300px;margin:0 auto 18px auto;opacity:.5;">
@@ -3845,5 +3939,32 @@ svg.leaflet-image-layer.leaflet-interactive path {
   }
 
 </script>
+<!-- ---------- FOOTER ---------- -->
+<footer class="footer-personal">
+  <div class="footer-content">
+    
+    <!-- Sección de Perfil -->
+    <div class="footer-profile">
+      <img src="./assets/MiFoto.png" alt="Facundo Argüello Tolosa" class="footer-img">
+      <div class="footer-info">
+        <h3>Facundo Argüello Tolosa</h3>
+        <p>Software Developer - Functional Analyst - QA Tester</p>
+      </div>
+    </div>
+    
+    <!-- Sección de Contacto -->
+    <div class="footer-contact">
+      <a href="mailto:facuatolosa@gmail.com" class="contact-link">✉️ Contacto</a>
+      <a href="https://www.linkedin.com/in/facundo-arg%c3%bcello-tolosa-153115162/" target="_blank" class="contact-link">💼 LinkedIn</a>
+      <a href="https://github.com/facuatolosa" target="_blank" class="contact-link">🐙 GitHub</a>
+    </div>
+    
+  </div>
+  
+  <!-- Derechos de Autor -->
+  <div class="footer-copyright">
+    <p>&copy; 2026 - Desarrollado por Facundo Argüello Tolosa. Todos los derechos reservados.</p>
+  </div>
+</footer>
 </body>
 </html>
