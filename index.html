@@ -892,30 +892,34 @@
 
 /* Contenedor principal de la calculadora */
 .calculadora-contenedor {
-  border: 1px solid #0d2c3a; /* Azul oscuro de la tabla */
-  border-radius: 16px; /* Cambiado de 8px a 16px para igualar a .quote-table */
-  overflow: hidden; /* Evita que el fondo del encabezado se salga de las esquinas redondeadas */
-  background-color: #ffffff;
-  margin-bottom: 24px;
+  border: 1px solid var(--navy); 
+  border-radius: 16px; 
+  background-color: #f8f9fa;
+  margin-bottom: 24px; /* Ahora el margen inferior funcionará correctamente */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch; 
+  padding: 0; 
+  overflow: hidden; 
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Encabezado oscuro */
 .calculadora-encabezado {
-  background-color: #0d2c3a; /* Mismo color de fondo que el encabezado de la tabla */
-  color: #ffffff; /* Texto blanco */
-  font-family: 'Space Mono', monospace; /* Añadida la fuente de la tabla de cotizaciones */
-  padding: 12px 16px;
-  font-size: 13px; /* Tamaño de fuente similar al de la tabla */
-  font-weight: 700; /* Negrita */
-  text-transform: uppercase; /* Letras en mayúscula si el diseño lo requiere */
+  background-color: var(--navy); 
+  color: var(--paper); 
+  font-family: 'Space Mono', monospace; 
+  padding: 16px 20px;
+  font-size: 13px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
   letter-spacing: 0.5px;
   text-align: center;
-  border-bottom: 1px solid #0d2c3a;
-}
-
-/* Agrega espacio arriba de los campos de texto de la calculadora */
-.calculadora-contenedor input {
-  margin-top: 8px; /* Puedes subir este número a 10px o 12px si quieres más espacio */
+  border-right: 1px solid var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Si el valor está en un contenedor o span de resultado */
@@ -923,24 +927,80 @@
   color: #ffffff !important;
 }
 
-/* Cuerpo de la calculadora */
-.calculadora-cuerpo {
-  padding: 24px;
-  background-color: #f8f9fa; /* Color de fondo claro, similar al del resto de la página */
+/* SE QUITA? Agrega espacio arriba de los campos de texto de la calculadora */
+.calculadora-contenedor input {
+  margin-top: 8px; /* Puedes subir este número a 10px o 12px si quieres más espacio */
 }
 
-/* Ajustes opcionales para los inputs por si los necesitas alinear */
+
+/* Cuerpo de la calculadora */
+.calculadora-cuerpo {
+  background-color: #f8f9fa; 
+  flex: 1; /* Hace que el fondo gris ocupe todo el ancho restante */
+  display: flex;
+  align-items: center;
+}
+
 .inputs-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 20px;
   gap: 15px;
+  width: 100%; /* Asegura que tome todo el espacio de su contenedor */
+  box-sizing: border-box;
 }
 
 .input-group {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+/* Personalización de los textos (Labels) */
+.input-group label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.input-group label span {
+  font-family: 'Space Mono', monospace;
+  color: var(--ocean);
+  margin-right: 4px;
+}
+
+/* Personalización de las cajas de texto (Inputs) */
+.input-group input {
+  width: 100%;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--navy);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  text-align: center;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 2px 4px rgba(11, 46, 66, 0.04);
+}
+
+.input-group input:focus {
+  outline: 2px solid var(--ocean);
+  outline-offset: -1px;
+  border-color: var(--ocean);
+}
+
+/* Icono de intercambio */
+.icono-intercambio {
+  font-size: 1.4rem;
+  color: var(--ocean);
+  font-weight: bold;
+  margin-top: 24px; /* Alineado visualmente con las cajas de texto */
 }
 
 /* ---------- FOOTER PERSONAL ---------- */
@@ -1017,6 +1077,29 @@
 
 /* Adaptación para pantallas móviles */
 @media (max-width: 600px) {
+  
+  .calculadora-contenedor {
+    flex-direction: column; 
+    align-items: stretch; 
+  }
+
+  .calculadora-contenedor .icono-intercambio {
+    transform: rotate(90deg);
+    align-self: center;
+    margin: 4px 0; /* Ajustado para dispositivos móviles */
+    z-index: 2; 
+  }
+
+  .inputs-container {
+    flex-direction: column; 
+    gap: 12px; /* Un poco de separación vertical entre campos */
+    padding: 16px;
+  }
+
+  .input-group {
+    width: 100%; 
+  }
+
   .footer-content {
     flex-direction: column;
     text-align: center;
@@ -2248,7 +2331,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
       
       <!-- Encabezado oscuro similar al de la tabla -->
       <div class="calculadora-encabezado">
-        Calculadora rápida (Cotización: $<span id="calc-rate">...</span>)
+        Calculadora (Cotización: $<span id="calc-rate">...</span>)
       </div>
       
       <!-- Cuerpo donde van los inputs -->
@@ -2264,7 +2347,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
           </div>
           
           <div class="input-group">
-            <label><span>AR</span> Pesos (AR$)</label>
+            <label id="label-moneda-origen"><span>🇦🇷</span> AR Pesos (AR$)</label>
             <input type="number" id="calc-ars" placeholder="0.00">
           </div>
         </div>
@@ -3926,6 +4009,32 @@ svg.leaflet-image-layer.leaflet-interactive path {
     const x = e.pageX - slider.offsetLeft;
     const walk = (x - startX) * 1.5; // El multiplicador ajusta la velocidad del arrastre
     slider.scrollLeft = scrollLeft - walk;
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // 1. Buscamos todos los botones de la selección de moneda
+    const botonesMoneda = document.querySelectorAll('.seg-btn');
+    // 2. Buscamos el label que vamos a cambiar
+    const labelMoneda = document.getElementById('label-moneda-origen');
+
+    // Si ambos existen en la página, aplicamos la lógica
+    if (botonesMoneda.length > 0 && labelMoneda) {
+      botonesMoneda.forEach(function(boton) {
+        boton.addEventListener('click', function() {
+          
+          // Obtenemos qué moneda tiene el botón clickeado (ARS o USD)
+          const monedaSeleccionada = this.getAttribute('data-cur');
+
+          // Cambiamos el texto del label según corresponda
+          if (monedaSeleccionada === 'ARS') {
+            labelMoneda.innerHTML = '<span>🇦🇷</span> AR Pesos (AR$)';
+          } else if (monedaSeleccionada === 'USD') {
+            labelMoneda.innerHTML = '<span>🇺🇸</span> USD / USDT';
+          }
+
+        });
+      });
+    }
   });
 
 </script>
