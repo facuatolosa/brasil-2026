@@ -127,11 +127,49 @@
     border-bottom:1px solid var(--line);
   }
   .tabnav-inner{
-    max-width:1100px;margin:0 auto;padding:0 24px;
-    display:flex; gap:0; overflow-x:auto;
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 24px;
+    display:flex; 
+    gap:0; 
+    overflow-x: auto !important; /* Fuerza a que exista scroll horizontal */
     scrollbar-width:none;
+    white-space: nowrap;
+    /* padding-bottom: 8px; /* Da un pequeño margen para que la barra no se encime en los botones */
+    
+    /* --- NUEVAS PROPIEDADES PARA EL ARRASTRE --- */
+    cursor: grab;        /* Muestra el cursor de "mano abierta" */
+    user-select: none;   /* Evita que el texto se ponga azul/se seleccione al arrastrar */
   }
-  .tabnav-inner::-webkit-scrollbar{display:none;}
+  /* --- CLASE DINÁMICA AÑADIDA POR JS --- */
+  .tabnav-inner.arrastrando {
+    cursor: grabbing; /* Muestra el cursor de "mano cerrada" al hacer clic */
+  }
+
+  /* --- ASEGURAR QUE LOS BOTONES HIJOS NO SE ENCOJAN --- */
+  .tabnav-inner > * {
+    flex-shrink: 0;
+  }
+
+  /* === Agregar esto para hacer visible la barra en PC === */
+  /* Antes= .tabnav-inner::-webkit-scrollbar{display:none;} */
+  .tabnav-inner::-webkit-scrollbar {
+    height: 6px; /* Grosor de la barra horizontal */
+  }
+
+  .tabnav-inner::-webkit-scrollbar-track {
+    background: transparent; /* Fondo transparente */
+  }
+
+  .tabnav-inner::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1; /* Color gris clarito para la barra */
+    border-radius: 10px; /* Bordes redondeados */
+  }
+
+  .tabnav-inner::-webkit-scrollbar-thumb:hover {
+    background-color: #0d2c3a; /* Se vuelve azul oscuro al pasar el mouse por encima */
+  }
+  
   .tabbtn{
     font-family:'Manrope',sans-serif;
     font-weight:700;
@@ -144,11 +182,17 @@
     white-space:nowrap;
     border-bottom:3px solid transparent;
     transition:all .15s ease;
+    flex-shrink: 0; /* Evita que los botones se deformen intentando entrar en la pantalla */
   }
   .tabbtn:hover{opacity:.85;}
   .tabbtn.active{
     opacity:1;
     border-bottom-color:var(--coral);
+  }
+
+  .elemento-seccion {
+    flex: 0 0 auto; /* Esto evita que el elemento se comprima y fuerza el desbordamiento horizontal */
+    /* white-space: nowrap; (Agrega esto si el texto dentro de la pestaña se divide en dos líneas) */
   }
 
   main{max-width:1100px;margin:0 auto;padding:52px 24px 30px 24px;}
@@ -570,10 +614,21 @@
   /* ---------- COTIZACIONES ---------- */
   a.edit-btn{text-decoration:none;display:inline-block;}
   .quote-controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:16px;}
-  .seg{display:inline-flex;border:1.5px solid var(--navy);border-radius:100px;overflow:hidden;background:var(--paper);}
+  .seg {
+    display: inline-flex;
+    border: 1px solid var(--navy); /* Cambiado de 1.5px a 1px para igualar a .doc-btn */
+    border-radius: 100px;
+    overflow: hidden;
+    background: var(--paper);
+  }
   .seg-btn{
-    font-family:'Manrope',sans-serif;font-weight:700;font-size:.86rem;background:none;border:none;
-    color:var(--navy);padding:9px 16px;cursor:pointer;
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    font-size: .8rem; /* Cambiado de .86rem a .8rem */
+    background:none;border:none;
+    color:var(--navy);
+    padding: 7px 14px; /* Cambiado de 9px 16px a 7px 14px */
+    cursor:pointer;
   }
   .seg-btn.active{background:var(--navy);color:var(--paper);}
   .seg-btn:focus-visible,#quotesRefresh:focus-visible{outline:3px solid var(--sun);outline-offset:2px;}
@@ -777,6 +832,116 @@
   }
   .dict-btn:hover { background: var(--navy); }
   .dict-btn:active { transform: scale(0.95); }
+
+  /* ---------- CALCULADORA DE CAMBIO ---------- */
+.calc-box {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.calc-header {
+  font-size: 0.85rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 15px;
+}
+#calc-rate {
+  font-weight: bold;
+  color: #333;
+}
+.calc-inputs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.calc-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.calc-group label {
+  font-size: 0.8rem;
+  color: #555;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.calc-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  text-align: center;
+  box-sizing: border-box;
+  background: white;
+  transition: border-color 0.2s;
+}
+.calc-group input:focus {
+  outline: none;
+  border-color: #2E9E4E; /* Color verde como tus pines gratis */
+}
+.calc-icon {
+  font-size: 1.5rem;
+  color: #999;
+  padding-top: 15px;
+}
+
+/* Contenedor principal de la calculadora */
+.calculadora-contenedor {
+  border: 1px solid #0d2c3a; /* Azul oscuro de la tabla */
+  border-radius: 16px; /* Cambiado de 8px a 16px para igualar a .quote-table */
+  overflow: hidden; /* Evita que el fondo del encabezado se salga de las esquinas redondeadas */
+  background-color: #ffffff;
+  margin-bottom: 24px;
+}
+
+/* Encabezado oscuro */
+.calculadora-encabezado {
+  background-color: #0d2c3a; /* Mismo color de fondo que el encabezado de la tabla */
+  color: #ffffff; /* Texto blanco */
+  font-family: 'Space Mono', monospace; /* Añadida la fuente de la tabla de cotizaciones */
+  padding: 12px 16px;
+  font-size: 13px; /* Tamaño de fuente similar al de la tabla */
+  font-weight: 700; /* Negrita */
+  text-transform: uppercase; /* Letras en mayúscula si el diseño lo requiere */
+  letter-spacing: 0.5px;
+  text-align: center;
+  border-bottom: 1px solid #0d2c3a;
+}
+
+/* Agrega espacio arriba de los campos de texto de la calculadora */
+.calculadora-contenedor input {
+  margin-top: 8px; /* Puedes subir este número a 10px o 12px si quieres más espacio */
+}
+
+/* Si el valor está en un contenedor o span de resultado */
+#calc-rate {
+  color: #ffffff !important;
+}
+
+/* Cuerpo de la calculadora */
+.calculadora-cuerpo {
+  padding: 24px;
+  background-color: #f8f9fa; /* Color de fondo claro, similar al del resto de la página */
+}
+
+/* Ajustes opcionales para los inputs por si los necesitas alinear */
+.inputs-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 
 </style>
 <style id="leaflet-css">
@@ -1986,6 +2151,34 @@ svg.leaflet-image-layer.leaflet-interactive path {
       </div>
     </details>
 
+    <!-- Contenedor principal con el borde -->
+    <div class="calculadora-contenedor">
+      
+      <!-- Encabezado oscuro similar al de la tabla -->
+      <div class="calculadora-encabezado">
+        Calculadora rápida (Cotización: $<span id="calc-rate">...</span>)
+      </div>
+      
+      <!-- Cuerpo donde van los inputs -->
+      <div class="calculadora-cuerpo">
+        <div class="inputs-container">
+          <div class="input-group">
+            <label><span>BR</span> Reales (R$)</label>
+            <input type="number" id="calc-brl" placeholder="100">
+          </div>
+          
+          <div class="icono-intercambio">
+            ⇄
+          </div>
+          
+          <div class="input-group">
+            <label><span>AR</span> Pesos (AR$)</label>
+            <input type="number" id="calc-ars" placeholder="0.00">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="quote-table">
       <table class="q-table">
         <thead><tr><th>#</th><th>App</th><th class="r">Para pagar</th></tr></thead>
@@ -2756,6 +2949,33 @@ svg.leaflet-image-layer.leaflet-interactive path {
   const prettify = slug => String(slug).replace(/-/g, ' ').replace(/\b\w/g, c=>c.toUpperCase());
   const fmtNum = (n, dec) => n.toLocaleString('es-AR', { minimumFractionDigits:dec, maximumFractionDigits:dec });
 
+  // --- LÓGICA DEL CONVERSOR DE MONEDAS ---
+  let tasaCambioActiva = 0; // Aquí guardaremos el precio más barato
+  const inputBRL = document.getElementById('calc-brl');
+  const inputARS = document.getElementById('calc-ars');
+  const spanRate = document.getElementById('calc-rate');
+
+  // Realiza el cálculo al instante
+  function calcularConversion(origen) {
+    if (tasaCambioActiva === 0) return; // Si la API aún no cargó, no hace nada
+
+    if (origen === 'BRL') {
+      let reales = parseFloat(inputBRL.value);
+      if (isNaN(reales)) inputARS.value = '';
+      else inputARS.value = (reales * tasaCambioActiva).toFixed(2);
+    } else {
+      let pesos = parseFloat(inputARS.value);
+      if (isNaN(pesos)) inputBRL.value = '';
+      else inputBRL.value = (pesos / tasaCambioActiva).toFixed(2);
+    }
+  }
+
+  // Detecta cuando escribes en cualquiera de los dos campos
+  if (inputBRL && inputARS) {
+    inputBRL.addEventListener('input', () => calcularConversion('BRL'));
+    inputARS.addEventListener('input', () => calcularConversion('ARS'));
+  }
+
   function findQuote(app, symbol){
     if(!app || !Array.isArray(app.quotes)) return null;
     const q = app.quotes.find(x=>x && x.symbol === symbol);
@@ -2807,8 +3027,16 @@ svg.leaflet-image-layer.leaflet-interactive path {
       quotesBody.appendChild(tr);
     }
     const best = rows.length ? rows[0].price : 0;
+
+    // ---> LÍNEAS NUEVAS A AGREGAR <---
+    tasaCambioActiva = best;
+    if(spanRate) spanRate.textContent = best > 0 ? fmtNum(best, 2) : '...';
+    calcularConversion('BRL'); 
+    // ---------------------------------
+
     const prefix = quotesCur === 'ARS' ? '$ ' : 'US$ ';
     const dec = quotesCur === 'ARS' ? 2 : 4;
+
     rows.forEach((r, i)=>{
       const tr = document.createElement('tr');
       if(i === 0) tr.className = 'best';
@@ -3572,6 +3800,40 @@ svg.leaflet-image-layer.leaflet-interactive path {
   document.querySelector('.tabbtn[data-tab="turismo"]').addEventListener('click', ()=>{
     requestAnimationFrame(()=>{ initPoiMap('rio'); initPoiMap('buzios'); });
   });
+
+  // COMPORTAMIENTO DE SCROLL HORIZONTAL POR ARRASTRE (BARRA DE SECCIONES VERSION DE ESCRITORIO)
+  const slider = document.querySelector('.tabnav-inner'); // Reemplaza con el selector de tu contenedor flex
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('arrastrando'); // Clase opcional para cambiar el cursor
+    // Se calcula la posición inicial del clic relativa al contenedor
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('arrastrando');
+  });
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('arrastrando');
+  });
+
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return; // Si no hay clic presionado, detener la función
+    e.preventDefault(); // Evita que se seleccione texto o elementos accidentalmente
+    
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 1.5; // El multiplicador ajusta la velocidad del arrastre
+    slider.scrollLeft = scrollLeft - walk;
+  });
+
 </script>
 <script>
   if ('serviceWorker' in navigator) {
@@ -3581,6 +3843,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
         .catch(err => console.error('Error al registrar el Service Worker:', err));
     });
   }
+
 </script>
 </body>
 </html>
