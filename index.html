@@ -802,6 +802,68 @@
   .poi-pop a{font-weight:700;font-size:.82rem;color:var(--ocean-2);}
   .leaflet-container{font-family:'Manrope',sans-serif;}
 
+
+  /* ---------- COMPARAPIX: botón alineado en escritorio ---------- */
+  .cp-inline{display:none;text-decoration:none;white-space:nowrap;}
+  @media(min-width:761px){
+    #panel-cotizaciones .cp-top{display:none;}
+    #panel-cotizaciones .cp-inline{display:inline-block;}
+  }
+
+  /* ---------- ITINERARIO ---------- */
+  .it-total{font-family:'Space Mono',monospace;font-size:.8rem;font-weight:700;color:var(--navy);background:var(--sand-2);border-radius:12px;padding:10px 14px;display:inline-block;margin:0 0 6px 0;}
+  .it-legend{display:flex;flex-wrap:wrap;gap:8px 12px;margin:10px 0 4px 0;font-size:.8rem;color:#3d5566;align-items:center;}
+  .it-overview{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px;margin:14px 0 24px 0;}
+  .it-city-rio{--c:var(--ocean-2);--c2:var(--ocean);}
+  .it-city-buzios{--c:var(--coral-2);--c2:var(--coral);}
+  .it-city-viaje{--c:var(--navy);--c2:var(--navy-2);}
+  .it-day{
+    text-align:left;background:var(--paper);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:12px;
+    padding:10px 12px;cursor:pointer;font-family:'Manrope',sans-serif;color:var(--ink);
+  }
+  .it-day:hover{box-shadow:var(--shadow);}
+  .it-day[aria-pressed="true"]{box-shadow:0 0 0 3px var(--c);}
+  .it-day:focus-visible{outline:3px solid var(--sun);outline-offset:2px;}
+  .it-day .d-n{font-family:'Space Mono',monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:var(--c);font-weight:700;}
+  .it-day .d-date{display:block;font-weight:800;font-size:.9rem;color:var(--navy);}
+  .it-day .d-theme{display:block;font-size:.78rem;color:#4a5f6d;margin:4px 0 6px 0;line-height:1.3;}
+  .it-day .d-cost{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--navy);font-weight:700;}
+  .it-head{background:linear-gradient(120deg,var(--c),var(--c2));color:#fff;border-radius:16px;padding:18px 22px;margin-bottom:16px;}
+  .it-head .it-eyebrow{font-family:'Space Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;opacity:.9;}
+  .it-head h3{color:#fff;margin:.15em 0 .25em 0;font-size:clamp(1.15rem,3vw,1.5rem);}
+  .it-head p{margin:0;font-size:.88rem;opacity:.95;}
+  .it-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .it-chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.38);border-radius:100px;padding:4px 12px;font-size:.78rem;font-weight:700;}
+  .it-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .it-item{display:grid;grid-template-columns:74px 1fr;gap:12px;}
+  @media(max-width:600px){.it-item{grid-template-columns:1fr;gap:4px;}}
+  .it-time{font-family:'Space Mono',monospace;font-weight:700;color:var(--navy);font-size:.88rem;padding-top:12px;text-align:right;}
+  @media(max-width:600px){.it-time{text-align:left;padding-top:0;}}
+  .it-body{background:var(--paper);border:1px solid var(--line);border-left:6px solid var(--tc);border-radius:12px;padding:12px 14px;}
+  .t-sight{--tc:#4C5FD5;} .t-food{--tc:#E0A100;} .t-move{--tc:#6B7C85;} .t-rest{--tc:#2E9E4E;} .t-night{--tc:#D6336C;}
+  .it-tag{
+    display:inline-block;background:var(--tc);color:#fff;font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;border-radius:100px;padding:2px 9px;margin-right:8px;vertical-align:middle;
+  }
+  .t-food .it-tag{color:#2a1f00;}
+  .it-title{font-weight:800;font-size:.98rem;color:var(--navy);}
+  .it-desc{margin:6px 0 8px 0;font-size:.87rem;color:#3d5566;line-height:1.5;}
+  .it-chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .it-pill{font-size:.74rem;font-weight:700;border-radius:100px;padding:3px 10px;background:var(--sand-2);color:var(--navy);border:1px solid var(--line);}
+  .it-pill.free{background:var(--poi-free);color:#fff;border-color:var(--poi-free);}
+  .it-pill.incl{background:var(--ocean-2);color:#fff;border-color:var(--ocean-2);}
+  .it-pill.opt{background:#fff;color:#8a5a00;border:1px dashed #E0A100;}
+  a.it-pill{text-decoration:none;color:var(--ocean-2);}
+  a.it-pill:hover{background:var(--ocean-2);color:#fff;}
+  .it-extra{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+  @media(max-width:700px){.it-extra{grid-template-columns:1fr;}}
+  .it-box{border-radius:12px;padding:14px 16px;font-size:.86rem;color:var(--navy);}
+  .it-box h4{font-family:'Manrope',sans-serif;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 6px 0;}
+  .it-box.rain{background:#E8F1F8;border-left:4px solid var(--ocean);}
+  .it-box.tips{background:var(--sand-2);border-left:4px solid var(--sun);}
+  .it-box ul{margin:0;padding-left:18px;}
+  .it-box li{margin-bottom:4px;}
+
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important;transition:none !important;}
   }
@@ -1827,6 +1889,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     <button class="tabbtn" data-tab="presupuesto">💰 Presupuesto</button>
     <button class="tabbtn" data-tab="gastos">📊 Gastos</button>
     <button class="tabbtn" data-tab="turismo">🗺️ Turismo</button>
+    <button class="tabbtn" data-tab="itinerario">🗓️ Itinerario</button>
     <button class="tabbtn" data-tab="diccionario">🗣️ Frases</button>
     <button class="tabbtn" data-tab="documentos">📄 Documentos</button>
     <button class="tabbtn" data-tab="cotizaciones">💱 Cotizaciones</button>
@@ -2241,6 +2304,32 @@ svg.leaflet-image-layer.leaflet-interactive path {
     </div>
   </section>
 
+  <!-- ================= ITINERARIO ================= -->
+  <section class="panel" id="panel-itinerario">
+    <div class="section-head">
+      <div class="eyebrow">10 · Plan día por día</div>
+      <h2>Itinerario sin prisas</h2>
+      <p>Nueve días pensados por cercanía: <b>3 noches en Río</b> (Hotel Canadá, Copacabana) y <b>5 noches en Búzios</b> (Pousada Brisas), con pausas largas, horarios, cómo moverse, costos, dónde comer y salir de noche. Tocá un día para ver el detalle.</p>
+    </div>
+
+    <div class="it-total" id="itTotal"></div>
+    <div class="it-legend" id="itLegend" aria-label="Referencias de colores"></div>
+    <div class="it-overview" id="itOverview" role="group" aria-label="Días del viaje"></div>
+
+    <div id="itView" aria-live="polite"></div>
+
+    <div class="section-head" style="margin:34px 0 14px 0;">
+      <h3 style="font-family:'Manrope',sans-serif;font-size:1.15rem;color:var(--navy);">🧭 Cómo moverse y qué reservar</h3>
+    </div>
+    <div class="howto-grid">
+      <div class="howto-card"><div class="icon">🚇</div><h5>En Río</h5><p>Metro (≈ R$ 7,90–8,20 por viaje): la estación Siqueira Campos queda a ≈ 550 m del hotel y la Línea 1 une Copacabana con Ipanema (General Osório) y el Centro (Cinelândia, Carioca). Uber/99 para Cosme Velho, Urca y Lapa; de noche, siempre puerta a puerta.</p></div>
+      <div class="howto-card"><div class="icon">🚌</div><h5>Entre ciudades</h5><p>Río → Búzios: bus Viação 1001 desde la Rodoviária Novo Rio (≈ 3 h 10–3 h 50; R$ 81–186), traslado privado (≈ R$ 700 por auto) o compartido desde el aeropuerto (≈ R$ 125 p/p, ref. feb/2025). Confirmá con la agencia si el traslado entre ciudades está incluido. Búzios → aeropuerto: traslado de salida del paquete.</p></div>
+      <div class="howto-card"><div class="icon">🚐</div><h5>En Búzios</h5><p>Uber permitido (viajes normales hasta ≈ R$ 15; de punta a punta ≈ R$ 21), taxis con tarifa tabulada, vans económicas (Cooper Búzios, Coopergeribá) y aquatáxis entre las playas del norte. La Rua das Pedras es peatonal: Uber no entra en todo el tramo (pedirlo en la Praça Santos Dumont).</p></div>
+    </div>
+    <div class="tip-box" style="margin-top:18px;"><b>Reservar con anticipación:</b> Cristo Redentor (tren, con horario), Pão de Açúcar (online), excursión a Arraial do Cabo, escuna del domingo 15/11 (feriado), mesa para las cenas especiales y las entradas de Carioca da Gema o Rio Scenarium.</div>
+    <div class="tip-box" style="margin-top:12px;"><b>Supuestos y avisos:</b> costos <b>por persona</b> en reales (R$), con los viajes en Uber/taxi divididos entre 2; los «≈ US$» usan R$ 4,9 por dólar (referencia de octubre de 2026). Son valores orientativos tomados de fuentes públicas: precios, horarios y días de apertura pueden cambiar, así que confirmalos antes de cada actividad. No incluyen vuelo, alojamiento, desayuno ni traslados del paquete. Noviembre es temporada media en Búzios: varios bares y boliches abren sobre todo viernes y sábado. Las llegadas y salidas dependen de los horarios definitivos del vuelo.</div>
+  </section>
+
   <!-- ================= DICCIONARIO ================= -->
   <section class="panel" id="panel-diccionario">
     <div class="section-head">
@@ -2298,7 +2387,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
         <h2>Cotizaciones del real por PIX</h2>
         <p>Cuánto te cuesta cada real según la app desde la que pagues con PIX, ordenado de la más barata a la más cara. Datos de ComparaPix.</p>
       </div>
-      <a class="edit-btn" href="https://comparapix.ar/" target="_blank" rel="noopener noreferrer">💱 Ver en ComparaPix ↗</a>
     </div>
 
     <div class="quote-controls">
@@ -2308,6 +2396,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
       </div>
       <button type="button" class="doc-btn" id="quotesRefresh">↻ Actualizar</button>
       <span class="quote-status" id="quotesStatus" role="status"></span>
+      <a class="doc-btn cp-inline" href="https://comparapix.ar/" target="_blank" rel="noopener noreferrer">💱 Ver en ComparaPix ↗</a>
     </div>
 
     <div class="quote-reason" id="quotesReason" hidden></div>
@@ -3015,6 +3104,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
     const mm = clone.querySelector('#manualMsg'); if(mm) mm.textContent = '';
     const qr = clone.querySelector('#quotesRefresh'); if(qr) qr.removeAttribute('disabled');
     clone.querySelectorAll('.seg-btn').forEach((b,i)=>{ b.classList.toggle('active', i === 0); b.setAttribute('aria-pressed', String(i === 0)); });
+    ['itOverview','itView','itLegend'].forEach(id=>{ const n = clone.querySelector('#'+id); if(n) n.innerHTML = ''; });
+    const itT = clone.querySelector('#itTotal'); if(itT) itT.textContent = '';
     clone.querySelectorAll('.poi-map').forEach(m=>{ m.innerHTML = ''; m.className = 'poi-map'; m.removeAttribute('tabindex'); m.removeAttribute('style'); });
     clone.querySelectorAll('.poi-list').forEach(l=>{ l.innerHTML = ''; });
     clone.querySelectorAll('.poi-note').forEach(n=>{ n.textContent = ''; n.setAttribute('hidden', ''); });
@@ -4036,6 +4127,320 @@ svg.leaflet-image-layer.leaflet-interactive path {
       });
     }
   });
+
+  // ---------- ITINERARIO DÍA POR DÍA ----------
+  (function(){
+    const RATE = 4.9; // R$ por US$ (referencia oct/2026)
+    const TYPES = {
+      sight:{ label:'Atracción',       cls:'t-sight' },
+      food: { label:'Comida',          cls:'t-food'  },
+      move: { label:'Traslado',        cls:'t-move'  },
+      rest: { label:'Descanso',        cls:'t-rest'  },
+      night:{ label:'Salida nocturna', cls:'t-night' }
+    };
+    const CITY = {
+      rio:   { label:'Río de Janeiro', cls:'it-city-rio' },
+      buzios:{ label:'Búzios',         cls:'it-city-buzios' },
+      viaje: { label:'En viaje',       cls:'it-city-viaje' }
+    };
+    const UBER_RIO = 'Uber / 99';
+    const DAYS = [
+      { n:1, iso:'2026-11-10', label:'Martes 10/11', city:'rio', theme:'Llegada tranquila y Copacabana',
+        title:'Llegada a Río y primer día en Copacabana',
+        sub:'Día suave para recuperar la madrugada: playa, siesta larga y cena con samba a pasos del hotel.',
+        sleep:'Hotel Canadá (Copacabana)', pace:'Muy tranquilo', transport:'A pie casi todo el día',
+        items:[
+          { t:'07:30', type:'move', title:'Llegada a Río y traslado al hotel', desc:'Vuelo directo de Gol que sale de Córdoba a las 03:20 (llegada estimada entre 07:00 y 08:30; confirmar en el voucher). Migraciones y traslado incluido hasta Copacabana (≈ 1 h; en hora pico puede ser más).', q:'Rede Andrade Hotel Canadá, Av. Nossa Senhora de Copacabana 687, Rio de Janeiro', incl:true, how:'Traslado del paquete', dur:'≈ 2 h en total' },
+          { t:'09:30', type:'rest', title:'Dejar las valijas y desayunar', desc:'El check-in suele ser desde las 14:00 (confirmar). Pedí guardar el equipaje y consultá si hay habitación lista para un early check-in. El desayuno del hotel está incluido.', incl:true, dur:'≈ 1 h' },
+          { t:'10:45', type:'sight', title:'Primer paseo por Copacabana', desc:'Caminata suave por la Av. Atlântica y el calçadão de olas blancas y negras, primer baño de mar y agua de coco. Sin apuro: venimos de madrugada.', q:'Praia de Copacabana, Rio de Janeiro', cost:[8,12], note:'Playa gratis; agua de coco ≈ R$ 8–12', how:'A pie (≈ 4–5 min del hotel)', dur:'≈ 2 h' },
+          { t:'12:45', type:'food', title:'Almuerzo: Cervantes (sándwich de lomo con ananá)', desc:'Clásico de Copacabana desde 1955 y Patrimonio Cultural Carioca (Av. Prado Júnior 335), abierto todos los días hasta la madrugada. Alternativa: cualquier restaurante «a quilo» sobre la Av. N. S. de Copacabana.', q:'Restaurante Cervantes, Av. Prado Júnior 335, Rio de Janeiro', cost:[45,75], note:'Sándwich + chopp o refresco (estimado)', how:'Caminata corta o Uber de ≈ R$ 10–15; ver la distancia en el mapa', dur:'≈ 1 h 15' },
+          { t:'14:15', type:'rest', title:'Check-in y siesta larga', desc:'Tres horas de descanso para recuperar la noche en vela. Es también la hora de más calor y de los chaparrones de la tarde.', dur:'≈ 3 h' },
+          { t:'17:15', type:'sight', title:'Atardecer frente al mar', desc:'Sentarse en la orla (Posto 4–5) para ver la puesta de sol, alrededor de las 18:00, con una caipirinha o un chopp de quiosco.', q:'Posto 4 Copacabana, Rio de Janeiro', cost:[20,35], note:'Bebida de quiosco (estimado)', how:'A pie', dur:'≈ 1 h 30' },
+          { t:'19:30', type:'night', title:'Cena con samba en la arena: Coisas de Bamba', desc:'Quiosco del Posto 4 con samba todos los días y abierto las 24 h (según Time Out). Queda cerca del hotel: sin Uber y sin volver tarde.', q:'Coisas de Bamba quiosque Posto 4 Copacabana, Rio de Janeiro', cost:[60,100], note:'Cena y bebidas (estimado)', how:'A pie', dur:'≈ 2 h' },
+          { t:'21:30', type:'rest', title:'A dormir temprano', desc:'Mañana el Cristo se visita mejor temprano.' }
+        ],
+        rain:'Los chaparrones de la tarde suelen ser cortos: refugiate en un café o bar de Copacabana y retomá el paseo cuando pare. Si llueve a la tarde, adelantá la siesta.',
+        tips:['Protector solar y gorra desde el primer paseo: el sol pega fuerte aun nublado.','Caja fuerte para los objetos de valor; en la playa, solo lo justo.'] },
+
+      { n:2, iso:'2026-11-11', label:'Miércoles 11/11', city:'rio', theme:'Cristo Redentor, Santa Teresa y samba en Lapa',
+        title:'Cristo Redentor, Santa Teresa y noche de samba en Lapa',
+        sub:'Mañana en las alturas, tarde por barrios históricos, pausa larga en el hotel y cena con música.',
+        sleep:'Hotel Canadá (Copacabana)', pace:'Intenso, con pausa', transport:'Uber, metro y caminatas cortas',
+        items:[
+          { t:'07:30', type:'rest', title:'Desayuno en el hotel', desc:'Desayuno incluido. Salir sin apuro, con agua, protector y un piloto liviano.', incl:true, dur:'≈ 45 min' },
+          { t:'08:15', type:'move', title:'Uber a Cosme Velho', desc:'Viaje hasta la estación del Trem do Corcovado (Rua Cosme Velho 513).', q:'Trem do Corcovado, Rua Cosme Velho 513, Rio de Janeiro', cost:[10,18], note:'Uber ≈ R$ 20–35 por auto, dividido entre 2', how:UBER_RIO + ' (también sirven los buses 583 y 584)', dur:'≈ 25 min' },
+          { t:'09:00', type:'sight', title:'Trem do Corcovado hasta el Cristo', desc:'Tren de cremallera por la Mata Atlántica (≈ 20 min; salidas cada 20–30 min). La entrada online incluye el ingreso al monumento: R$ 134. Alternativas: van oficial desde Copacabana (R$ 132) o desde Paineiras (R$ 87, yendo por tu cuenta hasta allá). Comprar online con horario: la boletería de la estación solo canjea vouchers.', q:'Trem do Corcovado, Rio de Janeiro', cost:[134,134], note:'Precio adulto 2026; confirmar en el sitio oficial', how:'Reservar el horario de 09:00 a 10:00', dur:'≈ 20 min de tren' },
+          { t:'09:30', type:'sight', title:'Cristo Redentor y mirador del Corcovado', desc:'Visita de 1 h 30 a 2 h (horario habitual 08:00–19:00; confirmar). Ir temprano evita multitudes y nubes bajas. Vistas de Pão de Açúcar, Copacabana e Ipanema.', q:'Cristo Redentor, Rio de Janeiro', incl:true, note:'Ingreso incluido en el ticket del tren', dur:'≈ 2 h' },
+          { t:'11:45', type:'move', title:'Bajada y Uber a Santa Teresa', desc:'Descenso en tren o van y viaje corto hasta el barrio de Santa Teresa.', cost:[9,15], note:'Uber ≈ R$ 18–30 por auto, dividido entre 2', how:UBER_RIO, dur:'≈ 20 min' },
+          { t:'12:30', type:'food', title:'Almuerzo en Santa Teresa: Bar do Mineiro', desc:'Boteco tradicional del barrio (Rua Paschoal Carlos Magno 99). Al lado, Bar Simplesmente ofrece petiscos y comida brasileña. Confirmar el horario del día.', q:'Bar do Mineiro, Rua Paschoal Carlos Magno 99, Santa Teresa, Rio de Janeiro', cost:[60,100], note:'Almuerzo y bebida (estimado)', how:'A pie desde donde te deja el Uber', dur:'≈ 1 h 30' },
+          { t:'14:15', type:'sight', title:'Parque das Ruínas y Escadaria Selarón', desc:'Mirador del Parque das Ruínas (Rua Murtinho Nobre 169; martes a domingo, 08:00–18:00) y bajada a pie por los 215 escalones de mosaicos de la Escadaria Selarón hasta Lapa. Gratis y siempre abierta.', q:'Escadaria Selarón, Rio de Janeiro', cost:[0,0], how:'A pie, en bajada', dur:'≈ 1 h 15' },
+          { t:'15:45', type:'food', title:'Café en la Confeitaria Colombo', desc:'Salón histórico del Centro (Rua Gonçalves Dias 32), a unos 15 min de Lapa; cierra los domingos. Café y pasteles sin apuro.', q:'Confeitaria Colombo, Rua Gonçalves Dias 32, Rio de Janeiro', cost:[40,70], note:'Café + dulces (estimado)', how:'Caminata por los Arcos da Lapa o Uber corto', dur:'≈ 1 h' },
+          { t:'17:00', type:'move', title:'Metro de vuelta a Copacabana', desc:'Estación Cinelândia → Siqueira Campos (Línea 1), a ≈ 550 m del hotel.', cost:[8,9], note:'Pasaje ≈ R$ 7,90–8,20', how:'Metro Línea 1', dur:'≈ 25 min' },
+          { t:'17:45', type:'rest', title:'Descanso y ducha', desc:'Pausa larga antes de la noche: la salida a Lapa se disfruta mucho más descansados.', dur:'≈ 1 h 45' },
+          { t:'19:30', type:'move', title:'Uber a Lapa', desc:'Pedir el auto desde la puerta del hotel; de noche conviene moverse siempre así.', cost:[12,20], note:'Uber ≈ R$ 25–40 por auto, dividido entre 2', how:UBER_RIO, dur:'≈ 25 min' },
+          { t:'20:00', type:'night', title:'Cena y samba en Carioca da Gema', desc:'Av. Mem de Sá 79. Martes y miércoles abre a las 19:30 y el show empieza a las 20:30 (entrada entre semana ≈ R$ 30). Se come en el salón: petiscos, sándwiches y platos calientes. Plan alternativo del miércoles: Gafieira Rio Antigo en Rio Scenarium (19:30; entradas por Sympla ≈ R$ 20).', q:'Carioca da Gema, Av. Mem de Sá 79, Rio de Janeiro', cost:[120,180], note:'Entrada ≈ R$ 30 + comida y bebidas (estimado)', how:'Cena y show en el mismo lugar', dur:'≈ 3 h' },
+          { t:'23:00', type:'move', title:'Uber de vuelta al hotel', desc:'Salir antes de que la zona se vacíe y pedir el auto en la puerta del local.', cost:[12,20], note:'Uber ≈ R$ 25–40 por auto, dividido entre 2', how:UBER_RIO, dur:'≈ 25 min' }
+        ],
+        rain:'Si llueve fuerte o el Corcovado está entre nubes (se ve poco), cambiá el Cristo por el Centro histórico bajo techo: Confeitaria Colombo, Cinelândia y el Teatro Municipal. Ojo: el Museu do Amanhã cierra los miércoles (ver el jueves). Podés intercambiar este día con el jueves y subir al Cristo con cielo despejado.',
+        tips:['El tren del Cristo y la noche de samba conviene reservarlos con anticipación.','Cristo temprano: más claro y menos gente.'] },
+
+      { n:3, iso:'2026-11-12', label:'Jueves 12/11', city:'rio', theme:'Ipanema, Arpoador y Pão de Açúcar',
+        title:'Ipanema, Arpoador y atardecer en el Pão de Açúcar',
+        sub:'Mañana de playa, pausa en el hotel y atardecer con luces de la ciudad. Noche temprana: mañana se viaja a Búzios.',
+        sleep:'Hotel Canadá (Copacabana)', pace:'Moderado', transport:'Metro y Uber',
+        items:[
+          { t:'08:00', type:'rest', title:'Desayuno y mañana sin apuro', desc:'Desayuno incluido y salida a Ipanema sin horarios.', incl:true, dur:'≈ 1 h 45' },
+          { t:'09:45', type:'move', title:'Metro a Ipanema (General Osório)', desc:'Línea 1 desde Siqueira Campos: 3 estaciones, unos 8 min. Luego, 10 min a pie hasta la playa (Posto 9).', cost:[8,8], note:'Pasaje ≈ R$ 7,90–8,20', how:'Metro Línea 1', dur:'≈ 20 min' },
+          { t:'10:15', type:'sight', title:'Playa de Ipanema y caminata a Arpoador', desc:'Mañana de playa en el Posto 9 (alquiler de silla y sombrilla ≈ R$ 10–20 c/u, estimado). Después, caminata de ≈ 20 min por la arena hasta la Pedra do Arpoador y el Parque Garota de Ipanema: miradores gratuitos.', q:'Praia de Ipanema, Rio de Janeiro', cost:[20,40], note:'Silla y sombrilla (estimado)', how:'A pie', dur:'≈ 2 h 30' },
+          { t:'12:45', type:'food', title:'Almuerzo por kilo en Ipanema', desc:'Sobre la Rua Visconde de Pirajá y la Rua Farme de Amoedo hay restaurantes «a quilo» y botecos con plato del día. Opción económica: pastel y jugo en la playa.', q:'restaurante por quilo Ipanema, Rio de Janeiro', cost:[45,80], note:'Almuerzo y bebida (estimado)', how:'A pie', dur:'≈ 1 h 15' },
+          { t:'14:15', type:'move', title:'Metro de vuelta y siesta', desc:'Regreso a Copacabana y descanso en el hotel durante el calor máximo.', cost:[8,8], note:'Pasaje ≈ R$ 7,90–8,20', how:'Metro Línea 1', dur:'≈ 2 h 15 con la siesta' },
+          { t:'15:45', type:'move', title:'Uber a la Praia Vermelha (Pão de Açúcar)', desc:'Copacabana → Urca ≈ R$ 15–30 por auto según Melhores Destinos.', q:'Parque Bondinho Pão de Açúcar, Av. Pasteur 520, Rio de Janeiro', cost:[8,17], note:'Uber ≈ R$ 15–35 por auto, dividido entre 2', how:UBER_RIO, dur:'≈ 20 min' },
+          { t:'16:15', type:'sight', title:'Bondinho: Morro da Urca y Pão de Açúcar', desc:'Comprar la entrada online (≈ R$ 195–230; en 2025 la entera costaba R$ 195). 1.er tramo al Morro da Urca (vista y fotos), 2.º tramo al Pão de Açúcar. Atardecer ≈ 18:00 y luces de la ciudad después. Último descenso: 20:40 (Pão de Açúcar) y 21:00 (Morro da Urca).', q:'Parque Bondinho Pão de Açúcar, Rio de Janeiro', cost:[195,230], note:'Precio de referencia; confirmar en el sitio oficial', how:'Comprar online para evitar filas', dur:'≈ 3 h' },
+          { t:'19:30', type:'food', title:'Cena en Bar Urca (y la mureta)', desc:'Rua Cândido Gaffrée 205. Bar de 9 a 23 h y restaurante de 11:30 a 22 h (Riotur). Pastéis, empadas y bolinho de bacalhau ≈ R$ 14 c/u y chopp ≈ R$ 10 (precios de Time Out, pueden haber subido). Se come en la muretita de enfrente, frente a la bahía.', q:'Bar Urca, Rua Cândido Gaffrée 205, Rio de Janeiro', cost:[70,120], note:'Petiscos, plato y bebidas (estimado)', how:'A pie desde el Pão de Açúcar (≈ 10–15 min)', dur:'≈ 1 h 45' },
+          { t:'21:15', type:'move', title:'Uber al hotel', desc:'Pedirlo desde la puerta del bar.', cost:[10,17], note:'Uber ≈ R$ 20–35 por auto, dividido entre 2', how:UBER_RIO, dur:'≈ 25 min' },
+          { t:'21:45', type:'rest', title:'Armar las valijas', desc:'Mañana a las 08:45 se sale hacia Búzios: dejar todo casi listo.' }
+        ],
+        rain:'Con lluvia, el Pão de Açúcar pierde sentido (se cubre de nubes): cambialo por el Museu do Amanhã en la Praça Mauá (jueves a martes, 10–18 h, última entrada 17 h; ≈ R$ 30, confirmar) y un paseo por el Centro. Si el día mejora, dejá el Pão de Açúcar para otra tarde despejada.',
+        tips:['Comprar el bondinho online y elegir un día claro.','Dejar cargado el celular y el cargador portátil para la noche.'] },
+
+      { n:4, iso:'2026-11-13', label:'Viernes 13/11', city:'viaje', theme:'Río → Búzios y primer paseo',
+        title:'De Río a Búzios: mudanza sin apuro',
+        sub:'Viaje de media mañana, almuerzo cerca de la pousada, descanso y primer paseo al atardecer.',
+        sleep:'Pousada Brisas de Búzios', pace:'Día de viaje', transport:'Uber + bus Viação 1001',
+        items:[
+          { t:'07:30', type:'rest', title:'Desayuno y última caminata', desc:'Desayuno incluido, valijas listas y un último paseo por la playa de Copacabana antes de salir.', incl:true, dur:'≈ 1 h 15' },
+          { t:'08:45', type:'move', title:'Check-out y Uber a la Rodoviária Novo Rio', desc:'Terminal de ómnibus del barrio Santo Cristo. Si la agencia incluye el traslado entre ciudades, salteá este paso y el siguiente: coordiná la hora de recogida (≈ 3 h de viaje).', q:'Rodoviária Novo Rio, Av. Francisco Bicalho 1, Rio de Janeiro', cost:[20,35], note:'Uber ≈ R$ 40–70 por auto, dividido entre 2 (estimado)', how:UBER_RIO, dur:'≈ 35–45 min' },
+          { t:'10:04', type:'move', title:'Bus Viação 1001: Río → Búzios', desc:'Hay unas 10 salidas diarias; la de las 10:04 tarda ≈ 3 h 10 (llegada ≈ 13:15). El pasaje va de R$ 81 a R$ 186 según el servicio (ejemplo: R$ 131,79 en ese horario). Comprarlo online con anticipación.', cost:[90,135], note:'Pasaje (varía por servicio); confirmar horarios y precio', how:'Viação 1001 desde la Rodoviária Novo Rio', dur:'≈ 3 h 10' },
+          { t:'13:15', type:'move', title:'Llegada a Búzios y Uber a la pousada', desc:'Del terminal al alojamiento (Av. José Bento Ribeiro Dantas 1188). El Uber está permitido en Búzios y los viajes normales cuestan hasta ≈ R$ 15 (más con tarifa dinámica).', q:'Pousada Brisas de Búzios, Av. José Bento Ribeiro Dantas 1188, Armação dos Búzios', cost:[5,8], note:'Uber ≈ R$ 10–15 por auto, dividido entre 2', how:'Uber / taxi', dur:'≈ 10–15 min' },
+          { t:'14:00', type:'food', title:'Almuerzo: O Barco (pescados y mariscos)', desc:'Restaurante pequeño de pescados en la misma avenida de la pousada (Av. José Bento Ribeiro Dantas 1054), con buena fama de precio razonable. Confirmar el horario.', q:'O Barco restaurante, Av. José Bento Ribeiro Dantas 1054, Armação dos Búzios', cost:[60,90], note:'Plato de pescado y bebida (estimado)', how:'Ver en el mapa la distancia desde la pousada', dur:'≈ 1 h 15' },
+          { t:'15:30', type:'rest', title:'Check-in, pileta y descanso', desc:'Instalarse, pileta y siesta. Preguntar en recepción por las vans al centro y el horario del desayuno.', incl:true, dur:'≈ 2 h' },
+          { t:'17:30', type:'sight', title:'Primer paseo: Orla Bardot y Rua das Pedras', desc:'Atardecer (≈ 18:00) frente a la Praia da Armação, estatua de Brigitte Bardot y primer reconocimiento de la Rua das Pedras. Calzado cómodo: las piedras son irregulares.', q:'Orla Bardot, Armação dos Búzios', cost:[0,0], how:'Uber / van (a la Rua das Pedras se entra a pie; pedir el Uber en la Praça Santos Dumont)', dur:'≈ 2 h' },
+          { t:'19:45', type:'food', title:'Cena en la Rua Manuel Turíbio de Farias', desc:'Calle paralela a la Rua das Pedras con precios más razonables. Opciones: Restaurante do David (mariscos a buen precio) o Biroska do Peixe (más económico).', q:'Restaurante do David, Armação dos Búzios', cost:[70,110], note:'Plato principal y bebida (estimado)', how:'A pie desde la Rua das Pedras', dur:'≈ 1 h 30' },
+          { t:'21:30', type:'night', title:'Un trago tranquilo', desc:'Anexo Bar & Lounge, frente al mar, o Pátio Havana, con música en vivo (jazz, blues y MPB). Hoy es solo reconocimiento: la gran noche es mañana.', q:'Pátio Havana, Rua das Pedras, Armação dos Búzios', cost:[30,50], opt:true, note:'Un par de tragos (estimado)', how:'A pie', dur:'≈ 1 h 30' },
+          { t:'23:00', type:'move', title:'Uber de vuelta a la pousada', desc:'Pedirlo desde la Praça Santos Dumont o un punto accesible.', cost:[5,8], note:'Uber ≈ R$ 10–15 por auto, dividido entre 2', how:'Uber / taxi', dur:'≈ 10–15 min' }
+        ],
+        rain:'El viaje no depende del clima. Si llueve en Búzios, el paseo de la tarde se cambia por una cena larga en la Rua das Pedras.',
+        tips:['Confirmá con la agencia si el traslado Río → Búzios está incluido antes de comprar el bus.','Con valijas, mejor Uber o taxi que van local.'] },
+
+      { n:5, iso:'2026-11-14', label:'Sábado 14/11', city:'buzios', theme:'Tartaruga y la gran noche de la Rua das Pedras',
+        title:'Playa Tartaruga y noche de fiesta en Búzios',
+        sub:'Mañana de mar calmo, siesta larga y la noche más fuerte de la semana, con salida tarde.',
+        sleep:'Pousada Brisas de Búzios', pace:'Moderado + fiesta', transport:'Uber / van / a pie',
+        items:[
+          { t:'09:00', type:'rest', title:'Desayuno en la pousada', desc:'Desayuno artesanal brasileño incluido. Arrancar con calma.', incl:true, dur:'≈ 1 h' },
+          { t:'10:15', type:'sight', title:'Playa Tartaruga', desc:'Mar tranquilo y sin olas. Varias barracas rústicas prestan sombrilla y sillas si consumís algo; hay corales para snorkel hacia la derecha, donde fondean los barcos.', q:'Praia da Tartaruga, Armação dos Búzios', cost:[20,40], note:'Consumición mínima en la barraca (estimado)', how:'Uber (≈ R$ 10–15), van o a pie según la distancia desde la pousada', dur:'≈ 3 h' },
+          { t:'13:15', type:'food', title:'Almuerzo en la playa de Tartaruga', desc:'Quioscos y restaurantes sobre la orla con pescados, porciones y caipirinhas. Antes de pedir, confirmar si el precio es por porción individual o para dos.', q:'Praia da Tartaruga restaurante, Armação dos Búzios', cost:[60,100], note:'Almuerzo y bebida (estimado)', how:'En la misma playa', dur:'≈ 1 h 15' },
+          { t:'14:45', type:'rest', title:'Siesta y pileta', desc:'Descanso largo para llegar bien a la noche.', dur:'≈ 2 h 30' },
+          { t:'17:15', type:'sight', title:'Rua das Pedras y Orla Bardot al atardecer', desc:'Tiendas, galerías de arte y cafés (muchos abren a media tarde). Puesta de sol ≈ 18:00 frente a la Praia da Armação.', q:'Rua das Pedras, Armação dos Búzios', cost:[0,0], note:'Gratis (compras aparte)', how:'Uber / van', dur:'≈ 2 h' },
+          { t:'19:30', type:'food', title:'Cena: del plato económico a la noche especial', desc:'Para gastar menos: Rua Manuel Turíbio de Farias. Para una cena especial: Bar do Zé (el más encantador) o el Restaurante 74 (autoral), ambos caros.', q:'Bar do Zé, Armação dos Búzios', cost:[80,200], note:'Según el lugar elegido (estimado)', how:'A pie desde la Rua das Pedras', dur:'≈ 1 h 45' },
+          { t:'21:45', type:'night', title:'Bares con música en la Rua das Pedras', desc:'Anexo Bar & Lounge (frente al mar), Pátio Havana (jazz, blues y MPB), Brad Food & Drinks (samba) y Celestinnas (hamburguesas). Es la noche más fuerte de la semana.', q:'Pátio Havana, Rua das Pedras, Armação dos Búzios', cost:[50,100], note:'Tragos y algo para picar (estimado)', how:'A pie', dur:'≈ 2 h 30' },
+          { t:'00:30', type:'night', title:'Opcional: Privilège o Pacha (boliches de la Orla Bardot)', desc:'Los mega-clubes abren los sábados y no tiene sentido llegar antes de la 1 o las 2 de la mañana; por eso la siesta de hoy. Entradas desde ≈ R$ 100 (dato anterior; confirmar).', q:'Privilège Búzios, Armação dos Búzios', cost:[100,200], opt:true, note:'Entrada y consumición (referencia)', how:'A pie desde la Rua das Pedras', dur:'hasta la madrugada' },
+          { t:'Al volver', type:'move', title:'Uber o taxi a la pousada', desc:'De madrugada, mejor Uber o taxi desde la Praça Santos Dumont.', cost:[8,12], note:'Tarifa nocturna (estimado)', how:'Uber / taxi', dur:'≈ 10–15 min' }
+        ],
+        rain:'Con lluvia, la playa pasa a la tarde si despeja; mientras tanto, cafés y galerías de la Rua das Pedras y un almuerzo largo.',
+        tips:['Varios bares y los boliches abren sobre todo viernes y sábado en temporada media: confirmá horarios y entradas el mismo día.','Zapatos cómodos para las piedras de la Rua das Pedras (nada de tacos finos).'] },
+
+      { n:6, iso:'2026-11-15', label:'Domingo 15/11', city:'buzios', theme:'Paseo en escuna y João Fernandes',
+        title:'Escuna por las playas, João Fernandes y atardecer en Manguinhos',
+        sub:'Un día de mar: barco a la mañana, playa a la tarde y atardecer con vista a la bahía. (Domingo feriado en Brasil.)',
+        sleep:'Pousada Brisas de Búzios', pace:'Tranquilo', transport:'Uber',
+        items:[
+          { t:'09:30', type:'rest', title:'Desayuno en la pousada', desc:'Desayuno incluido, con calma (anoche fue la gran noche).', incl:true, dur:'≈ 1 h' },
+          { t:'10:15', type:'move', title:'Uber a la Praia da Armação', desc:'Punto de salida de las escunas, en el centro.', cost:[5,8], note:'Uber ≈ R$ 10–15 por auto, dividido entre 2', how:'Uber / van', dur:'≈ 10–15 min' },
+          { t:'10:45', type:'sight', title:'Paseo en escuna por las playas de Búzios', desc:'Dura ≈ 2 h 30 y sale de la Praia da Armação. Paradas para bañarse y hacer snorkel (equipo según la empresa). Elegir el turno de la mañana y comprar el ticket el día anterior: en feriado hay más demanda.', q:'Praia da Armação, Armação dos Búzios', cost:[150,220], note:'Referencia ≈ US$ 30–45; varía por empresa', how:'Salida desde la playa', dur:'≈ 2 h 30' },
+          { t:'13:30', type:'move', title:'Uber a João Fernandes', desc:'Un viaje corto hasta la playa del almuerzo.', cost:[5,8], note:'Uber ≈ R$ 10–15 por auto, dividido entre 2', how:'Uber / aquatáxi', dur:'≈ 10–15 min' },
+          { t:'14:00', type:'food', title:'Almuerzo en la Praia de João Fernandes', desc:'Es la playa con mejor estructura para almorzar: restaurantes con mesas y sillas y quioscos en forma de barco. Cuidado con los precios por porción.', q:'Praia de João Fernandes, Armação dos Búzios', cost:[80,130], note:'Almuerzo y bebida (estimado)', how:'En la misma playa', dur:'≈ 1 h 30' },
+          { t:'15:45', type:'rest', title:'Tarde de playa y snorkel', desc:'Baño tranquilo y snorkel en la zona demarcada, donde hay coral cerca de la arena. Sin horarios.', q:'Praia de João Fernandes, Armação dos Búzios', cost:[0,0], how:'A pie', dur:'≈ 1 h 45' },
+          { t:'17:30', type:'move', title:'Uber a Porto da Barra (Manguinhos)', desc:'Cruzar la península hacia el lado de la bahía.', cost:[8,11], note:'Uber ≈ R$ 15–21 por auto, dividido entre 2', how:'Uber', dur:'≈ 20 min' },
+          { t:'17:45', type:'sight', title:'Atardecer en Porto da Barra', desc:'Conjunto de restaurantes sobre el muelle de Manguinhos: es uno de los mejores lugares de Búzios para ver la puesta de sol (≈ 18:00).', q:'Porto da Barra, Manguinhos, Armação dos Búzios', cost:[0,0], how:'A pie por el muelle', dur:'≈ 1 h' },
+          { t:'18:45', type:'food', title:'Cena en Porto da Barra: Palermo (italiano)', desc:'Italiano con buen precio entre los restaurantes del complejo; hay opciones más caras, como el Restaurante 74. Reservar por el feriado.', q:'Palermo restaurante Porto da Barra, Armação dos Búzios', cost:[70,120], note:'Plato principal y bebida (estimado)', how:'En el mismo lugar', dur:'≈ 1 h 45' },
+          { t:'20:45', type:'move', title:'Uber de vuelta a la pousada', desc:'Pedirlo desde el complejo.', cost:[8,11], note:'Uber ≈ R$ 15–21 por auto, dividido entre 2', how:'Uber', dur:'≈ 20 min' }
+        ],
+        rain:'Con lluvia o mar picado, las escunas pueden reprogramarse: pasá el barco al lunes o al martes y hoy quedate en Tartaruga o Ferradura (aguas calmas).',
+        tips:['Feriado: reservar la escuna y la mesa de la cena con anticipación.','Llevar efectivo para aquatáxis y quioscos chicos.'] },
+
+      { n:7, iso:'2026-11-16', label:'Lunes 16/11', city:'buzios', theme:'Excursión a Arraial do Cabo',
+        title:'Arraial do Cabo, el «Caribe brasileño»',
+        sub:'Excursión de día completo: se sale temprano pero sin correr, y se vuelve a descansar.',
+        sleep:'Pousada Brisas de Búzios', pace:'Excursión larga', transport:'Excursión organizada',
+        items:[
+          { t:'07:45', type:'rest', title:'Desayuno en la pousada', desc:'Desayuno incluido. Llevar protector, gorra, ropa de baño y calzado cómodo.', incl:true, dur:'≈ 45 min' },
+          { t:'08:15', type:'move', title:'Uber al punto de encuentro (ida y vuelta)', desc:'El traslado hotel–punto de salida suele no estar incluido en el tour: confirmarlo al reservar.', cost:[10,16], note:'Uber ≈ R$ 10–15 por auto, ida y vuelta, dividido entre 2', how:'Uber / taxi', dur:'≈ 10–15 min' },
+          { t:'09:00', type:'sight', title:'Arraial do Cabo y Cabo Frio (día completo)', desc:'Arraial queda a ≈ 35 km (50–70 min). El tour incluye traslado, paseo en barco por aguas cristalinas con paradas para bañarse, tiempo en Cabo Frio y almuerzo (sin bebidas). Reservar 1–2 días antes. Con mar agitado el barco puede cancelarse y se reemplaza por tiempo de playa. Alternativa por tu cuenta: buses de Salineira Búzios–Cabo Frio y Cabo Frio–Arraial (cada tramo ≈ R$ 6–10) más un barco en Arraial (3–4 h).', q:'Arraial do Cabo, Rio de Janeiro', cost:[370,470], note:'Referencia ≈ US$ 75–95, con almuerzo', how:'Excursión con guía', dur:'≈ 8 h' },
+          { t:'17:30', type:'rest', title:'Regreso y descanso', desc:'Pileta y descanso en la pousada.', dur:'≈ 2 h' },
+          { t:'19:45', type:'food', title:'Cena tranquila: O Barco', desc:'Pescados en la misma avenida de la pousada; confirmar si abre los lunes. Alternativa: otro restaurante cercano.', q:'O Barco restaurante, Av. José Bento Ribeiro Dantas 1054, Armação dos Búzios', cost:[60,100], note:'Plato de pescado y bebida (estimado)', how:'Ver el mapa (misma avenida)', dur:'≈ 1 h 15' },
+          { t:'21:15', type:'rest', title:'Noche libre y temprano', desc:'Después de un día de barco y sol, a descansar.' }
+        ],
+        rain:'Si el pronóstico es malo o el mar está agitado, el barco puede suspenderse: intercambiá este día con el martes (día de reserva).',
+        tips:['Llevar toalla, protector y un cambio de ropa; el sol y el viento deshidratan.','Reservar el tour con 1–2 días de anticipación.'] },
+
+      { n:8, iso:'2026-11-17', label:'Martes 17/11', city:'buzios', theme:'Azeda, compras y cena de despedida',
+        title:'Azeda y Azedinha, compras y cena de despedida',
+        sub:'Último día completo: playas más tranquilas, tarde libre y una buena cena.',
+        sleep:'Pousada Brisas de Búzios', pace:'Libre', transport:'Uber / aquatáxi / a pie',
+        items:[
+          { t:'09:30', type:'rest', title:'Desayuno en la pousada', desc:'Desayuno incluido, sin apuro.', incl:true, dur:'≈ 1 h' },
+          { t:'10:30', type:'move', title:'Uber o van a la Praia dos Ossos', desc:'Punto de partida de los aquatáxis hacia Azeda.', cost:[5,8], note:'Uber ≈ R$ 10–15 por auto, dividido entre 2', how:'Uber / van', dur:'≈ 10–15 min' },
+          { t:'11:00', type:'sight', title:'Aquatáxi a Azeda y Azedinha', desc:'Barquitos desde la Praia dos Ossos (o el Cais do Mangue, en la Armação). Por tierra: bajar en Ossos, caminar al extremo derecho y subir una pequeña loma. Playas protegidas y sin bares en la arena: llevar agua, snacks y protector.', q:'Praia da Azeda, Armação dos Búzios', cost:[10,10], note:'Barquito ≈ R$ 10 ida y vuelta, en efectivo', how:'Aquatáxi o caminata corta', dur:'≈ 3 h' },
+          { t:'14:00', type:'food', title:'Almuerzo por kilo: Buzin', desc:'Restaurante «a quilo» cerca de la Rua das Pedras: bueno y barato. Alternativa: Mata Hari (plato feito).', q:'Buzin restaurante, Armação dos Búzios', cost:[45,80], note:'Almuerzo y bebida (estimado)', how:'Uber / a pie desde el centro', dur:'≈ 1 h' },
+          { t:'15:30', type:'sight', title:'Souvenirs en la Rua das Pedras', desc:'Muchas tiendas abren a media tarde. Ideal para artesanías y ropa de playa.', q:'Rua das Pedras, Armação dos Búzios', cost:[0,100], note:'Ver es gratis; compras a tu criterio', how:'A pie', dur:'≈ 1 h 30' },
+          { t:'17:30', type:'rest', title:'Pileta y descanso', desc:'Descanso antes de la cena y, si hace falta, ordenar las valijas.', dur:'≈ 2 h' },
+          { t:'19:30', type:'food', title:'Cena de despedida: Bar do Zé o Cigalon', desc:'Bar do Zé es el más encantador; Cigalon sirve cocina francesa en la casa donde se alojó Brigitte Bardot. Ambos en la zona cara de la Rua das Pedras: conviene reservar.', q:'Cigalon, Rua das Pedras, Armação dos Búzios', cost:[120,220], note:'Cena con bebida (estimado)', how:'Uber / a pie', dur:'≈ 2 h' },
+          { t:'21:45', type:'night', title:'Música en vivo: Pátio Havana', desc:'Jazz, blues y MPB. Confirmar si hay show el martes; alternativa: Anexo Bar & Lounge frente al mar.', q:'Pátio Havana, Rua das Pedras, Armação dos Búzios', cost:[40,80], opt:true, note:'Tragos (estimado)', how:'A pie', dur:'≈ 1 h 30' },
+          { t:'Al volver', type:'move', title:'Uber a la pousada', desc:'Pedirlo desde la Praça Santos Dumont.', cost:[5,8], note:'Uber ≈ R$ 10–15 por auto, dividido entre 2', how:'Uber / taxi', dur:'≈ 10–15 min' }
+        ],
+        rain:'Día de reserva: si alguna actividad se cayó por la lluvia (la escuna o Arraial do Cabo), usalo para recuperarla.',
+        tips:['Dejar casi lista la valija: mañana el traslado sale por la tarde.','Ahorrar efectivo en reales para el último almuerzo y los quioscos.'] },
+
+      { n:9, iso:'2026-11-18', label:'Miércoles 18/11', city:'viaje', theme:'Despedida y regreso a Córdoba',
+        title:'Última mañana en Búzios y regreso',
+        sub:'Playa corta, almuerzo liviano y traslado al aeropuerto de Río con margen. Llegada a Córdoba el 19/11 a las 02:20.',
+        sleep:'En viaje (vuelo nocturno)', pace:'Día de viaje', transport:'Traslado de salida del paquete',
+        items:[
+          { t:'08:30', type:'rest', title:'Desayuno en la pousada', desc:'Último desayuno incluido.', incl:true, dur:'≈ 1 h' },
+          { t:'09:45', type:'sight', title:'Última mañana de playa', desc:'Un baño corto en Tartaruga o un paseo por la Orla Bardot. Hoy no se programan excursiones largas: es día de regreso.', q:'Praia da Tartaruga, Armação dos Búzios', cost:[10,20], note:'Agua de coco o un café (estimado)', how:'Uber / a pie', dur:'≈ 2 h' },
+          { t:'12:00', type:'move', title:'Check-out', desc:'Habitualmente hasta el mediodía (confirmar). Si el traslado sale más tarde, pedir que guarden las valijas en recepción.', incl:true },
+          { t:'12:30', type:'food', title:'Almuerzo liviano antes de viajar', desc:'Por kilo o plato ejecutivo (por ejemplo, Mata Hari). Evitar comidas pesadas antes de tres horas de ruta.', q:'Mata Hari restaurante, Armação dos Búzios', cost:[40,70], note:'Almuerzo (estimado)', how:'A pie / Uber', dur:'≈ 1 h' },
+          { t:'Según agencia', type:'move', title:'Traslado de salida al aeropuerto de Río', desc:'Búzios–Galeão son ≈ 180 km (≈ 3 h; entre 2 h 30 y 3 h 30 según el tránsito). Pedile a la agencia el horario de recogida: tiene que dejarte en el aeropuerto unas 3 h antes del vuelo.', incl:true, how:'Traslado del paquete', dur:'≈ 3 h' },
+          { t:'Según vuelo', type:'move', title:'Check-in y vuelo de regreso', desc:'Llegar con 3 h de anticipación a un vuelo internacional. Tener a mano DNI o pasaporte y hacer el check-in online de Gol.', incl:true },
+          { t:'19/11 · 02:20', type:'move', title:'Llegada a Córdoba', desc:'Aterrizaje previsto a las 02:20 del 19/11.', incl:true }
+        ],
+        rain:'',
+        tips:['Revisar que no quede nada en la caja fuerte ni en la pileta.','Gastar o guardar los reales que sobren.'] }
+    ];
+
+    const nf = n => n.toLocaleString('es-AR');
+    const range = (a, b) => a === b ? 'R$ ' + nf(a) : 'R$ ' + nf(a) + '–' + nf(b);
+    const usd = n => Math.round(n / RATE);
+    const mapsUrl = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+    function mk(tag, cls, text){
+      const n = document.createElement(tag);
+      if(cls) n.className = cls;
+      if(text !== undefined) n.textContent = text;
+      return n;
+    }
+    function totals(d){
+      let mn = 0, mx = 0;
+      d.items.forEach(i=>{ if(i.cost){ if(!i.opt) mn += i.cost[0]; mx += i.cost[1]; } });
+      return [mn, mx];
+    }
+
+    const overview = document.getElementById('itOverview');
+    const view = document.getElementById('itView');
+    const legend = document.getElementById('itLegend');
+    const totalEl = document.getElementById('itTotal');
+    let selected = 0;
+
+    // Leyenda de colores
+    Object.keys(TYPES).forEach(k=>{
+      const span = mk('span', 'it-legend-item ' + TYPES[k].cls);
+      const tag = mk('span', 'it-tag', TYPES[k].label);
+      span.appendChild(tag);
+      legend.appendChild(span);
+    });
+    legend.appendChild(mk('span', 'it-pill opt', 'Opcional: suma solo al máximo'));
+
+    // Total del plan
+    let gMin = 0, gMax = 0;
+    DAYS.forEach(d=>{ const t = totals(d); gMin += t[0]; gMax += t[1]; });
+    totalEl.textContent = 'Plan completo: ' + range(gMin, gMax) + ' por persona (≈ US$ ' + nf(usd(gMin)) + '–' + nf(usd(gMax)) + '), sin vuelo, hotel, desayuno ni traslados del paquete';
+
+    function buildOverview(){
+      overview.innerHTML = '';
+      DAYS.forEach((d, i)=>{
+        const b = mk('button', 'it-day ' + CITY[d.city].cls);
+        b.type = 'button';
+        b.setAttribute('aria-pressed', String(i === selected));
+        b.appendChild(mk('span', 'd-n', 'Día ' + d.n + ' · ' + CITY[d.city].label));
+        b.appendChild(mk('span', 'd-date', d.label));
+        b.appendChild(mk('span', 'd-theme', d.theme));
+        const t = totals(d);
+        b.appendChild(mk('span', 'd-cost', t[1] === 0 ? 'Sin gastos extra' : range(t[0], t[1])));
+        b.addEventListener('click', ()=>{ selected = i; buildOverview(); renderDay(); });
+        overview.appendChild(b);
+      });
+    }
+
+    function pill(cls, text){ return mk('span', 'it-pill ' + cls, text); }
+
+    function renderItem(it){
+      const li = mk('li', 'it-item');
+      li.appendChild(mk('div', 'it-time', it.t));
+      const body = mk('div', 'it-body ' + TYPES[it.type].cls);
+      const head = mk('div', 'it-head-row');
+      head.appendChild(mk('span', 'it-tag', TYPES[it.type].label));
+      head.appendChild(mk('span', 'it-title', it.title));
+      body.appendChild(head);
+      if(it.desc) body.appendChild(mk('p', 'it-desc', it.desc));
+      const chips = mk('div', 'it-chips');
+      if(it.incl){ chips.appendChild(pill('incl', 'Incluido en el paquete')); }
+      if(it.cost){
+        if(it.cost[0] === 0 && it.cost[1] === 0) chips.appendChild(pill('free', 'Gratis'));
+        else chips.appendChild(pill('', range(it.cost[0], it.cost[1]) + ' p/p'));
+      }
+      if(it.note) chips.appendChild(pill('', it.note));
+      if(it.opt) chips.appendChild(pill('opt', 'Opcional'));
+      if(it.how) chips.appendChild(pill('', '🚶 ' + it.how));
+      if(it.dur) chips.appendChild(pill('', '⏱ ' + it.dur));
+      if(it.q){
+        const a = mk('a', 'it-pill', 'Ver en Google Maps ↗');
+        a.href = mapsUrl(it.q); a.target = '_blank'; a.rel = 'noopener noreferrer';
+        chips.appendChild(a);
+      }
+      body.appendChild(chips);
+      li.appendChild(body);
+      return li;
+    }
+
+    function renderDay(){
+      const d = DAYS[selected];
+      view.innerHTML = '';
+      const head = mk('div', 'it-head ' + CITY[d.city].cls);
+      head.appendChild(mk('div', 'it-eyebrow', 'Día ' + d.n + ' · ' + d.label + ' · ' + CITY[d.city].label));
+      head.appendChild(mk('h3', null, d.title));
+      head.appendChild(mk('p', null, d.sub));
+      const meta = mk('div', 'it-meta');
+      meta.appendChild(mk('span', 'it-chip', '🛏️ ' + d.sleep));
+      meta.appendChild(mk('span', 'it-chip', '⏱️ Ritmo: ' + d.pace));
+      meta.appendChild(mk('span', 'it-chip', '🚕 ' + d.transport));
+      const t = totals(d);
+      meta.appendChild(mk('span', 'it-chip', t[1] === 0 ? '💰 Sin gastos extra' : '💰 ' + range(t[0], t[1]) + ' p/p (≈ US$ ' + nf(usd(t[0])) + '–' + nf(usd(t[1])) + ')'));
+      head.appendChild(meta);
+      view.appendChild(head);
+
+      const ol = mk('ol', 'it-list');
+      d.items.forEach(it=>ol.appendChild(renderItem(it)));
+      view.appendChild(ol);
+
+      const extra = mk('div', 'it-extra');
+      if(d.rain){
+        const r = mk('div', 'it-box rain');
+        r.appendChild(mk('h4', null, '☔ Plan B si llueve'));
+        r.appendChild(mk('p', null, d.rain));
+        extra.appendChild(r);
+      }
+      if(d.tips && d.tips.length){
+        const tb = mk('div', 'it-box tips');
+        tb.appendChild(mk('h4', null, '💡 Tips del día'));
+        const ul = mk('ul');
+        d.tips.forEach(x=>ul.appendChild(mk('li', null, x)));
+        tb.appendChild(ul);
+        extra.appendChild(tb);
+      }
+      if(extra.children.length) view.appendChild(extra);
+    }
+
+    // Día inicial: el de hoy si estamos dentro del viaje
+    (function pickToday(){
+      const now = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const iso = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+      const i = DAYS.findIndex(d=>d.iso === iso);
+      if(i >= 0) selected = i;
+    })();
+    buildOverview();
+    renderDay();
+  })();
 
 </script>
 <script>
