@@ -544,7 +544,7 @@
   }
   .dropzone:hover,.dropzone.drag{background:rgba(28,114,147,0.08);border-color:var(--ocean-2);}
   .dropzone .dz-icon{font-size:2rem;}
-  .dropzone b{font-family:'Fraunces',serif;font-size:0.8rem;}
+  .dropzone b{font-family:'Fraunces',serif;font-size:1rem;}
   .dropzone span.dz-sub{font-size:.86rem;color:#4a5f6d;}
   .doc-msg{font-size:.86rem;min-height:1.2em;margin-bottom:6px;color:var(--jungle);font-weight:600;}
   .doc-msg.warn{color:var(--coral-2);}
@@ -562,7 +562,7 @@
   .doc-item[data-cat="seguro"]{--c:var(--sun);}
   .doc-item[data-cat="otros"]{--c:#8a99a1;}
   .doc-info{flex:1 1 220px;min-width:0;}
-  .doc-name{font-weight:700;color:var(--navy);font-size:.75rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .doc-name{font-weight:700;color:var(--navy);font-size:.95rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .doc-meta{font-size:.78rem;color:#6a7b84;margin-top:2px;}
   .doc-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
   .doc-btn{
@@ -584,7 +584,7 @@
     background:var(--paper);border:2px dashed var(--jungle);border-radius:var(--radius);
     padding:20px 22px;display:flex;flex-direction:column;gap:10px;justify-content:center;
   }
-  .link-form h4{font-family:'Fraunces',serif;font-size:1rem;margin:0;color:var(--navy);}
+  .link-form h4{font-family:'Fraunces',serif;font-size:1.15rem;margin:0;color:var(--navy);}
   .link-form input{
     font-family:'Manrope',sans-serif;font-size:.88rem;color:var(--ink);background:var(--sand);
     border:1px solid var(--line);border-radius:8px;padding:9px 11px;width:100%;
@@ -742,6 +742,17 @@
 
 
   /* ---------- MAPAS DE TURISMO ---------- */
+
+  @keyframes pulse-hotel {
+    0% { box-shadow: 0 0 0 0 rgba(11, 46, 66, 0.6); }
+    70% { box-shadow: 0 0 0 12px rgba(11, 46, 66, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(11, 46, 66, 0); }
+  }
+  .poi-marker.hotel {
+    animation: pulse-hotel 2s infinite;
+    z-index: 1000; /* Asegura que quede por encima de los otros pines */
+  }
+
   :root{ --poi-free:#2E9E4E; --poi-paid:#D93025; --poi-hotel:#0B2E42; }
   .poi-block{margin-top:30px;}
   .poi-title{font-family:'Manrope',sans-serif;font-size:1.05rem;color:var(--navy);margin:0 0 10px 0;}
@@ -2387,7 +2398,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
         <label class="dropzone" id="dropzone">
           <input type="file" id="docInput" class="sr-only" accept="application/pdf,.pdf" multiple>
           <span class="dz-icon">📄</span>
-          <b>Subir PDF (queda en este dispositivo)</b>
+          <b>Subir PDF</b>
           <span class="dz-sub">Arrastralos acá o tocá para elegirlos</span>
         </label>
         <form class="link-form" id="linkForm" novalidate>
@@ -4020,7 +4031,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     return box;
   }
 
-  function addBaseTiles(map, key){
+ function addBaseTiles(map, key){
     const osmAttr = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>';
     const carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=cb1_4ij9_1_ef8cb6fb41dea491829fa8f1', {
       subdomains:'abcd', maxZoom:19,
@@ -4052,6 +4063,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     let map;
     try{
       map = L.map(container, { scrollWheelZoom:false, dragging:!POI_TOUCH });
+      L.control.scale({ imperial: false, metric: true, position: 'bottomright' }).addTo(map);
     }catch(e){
       setPoiNote(key, 'No se pudo iniciar el mapa. Usá la lista de abajo para abrir cada punto en Google Maps.');
       return;
@@ -4066,6 +4078,17 @@ svg.leaflet-image-layer.leaflet-interactive path {
       mk.bindPopup(popupFor(p), { maxWidth:270 });
       return mk;
     });
+    // Zoom y centrado inicial: para Río forzamos la vista en Copacabana, para Búzios ajustamos al área de todos los puntos.
+    // Originalmente: map.fitBounds(L.latLngBounds(cfg.pois.map(p=>[p.lat, p.lng])), { padding:[10, 10], maxZoom:17 });
+    /*     if (key === 'rio') {
+      // Forzamos la vista de Río centrada en el Hotel (el primer punto del array) con zoom 14.
+      // Así el mapa arranca enfocado en Copacabana e Ipanema. 
+      // El usuario podrá deslizar para ver Lapa o el Cristo.
+      map.setView([cfg.pois[0].lat, cfg.pois[0].lng], 13.5);
+    } else {
+      // Para Búzios mantenemos el ajuste automático porque los puntos están cerca
+      map.fitBounds(L.latLngBounds(cfg.pois.map(p=>[p.lat, p.lng])), { padding:[10, 10], maxZoom:17 });
+    } */
     map.fitBounds(L.latLngBounds(cfg.pois.map(p=>[p.lat, p.lng])), { padding:[10, 10], maxZoom:17 });
     const wrap = container.parentNode;
     poiMaps[key] = { map:map, markers:markers, wrap:wrap };
@@ -4432,19 +4455,22 @@ svg.leaflet-image-layer.leaflet-interactive path {
     function setNote(text){ mapNote.textContent = text || ''; mapNote.hidden = !text; }
 
     function addTiles(m){
-      const osmAttr = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>';
-      const carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        subdomains:'abcd', maxZoom:19,
-        attribution: osmAttr + ' &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>'
+      // Mapa de fondo sin API key: OpenStreetMap y, si falla, Esri World Street Map
+      const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom:19, referrerPolicy:'strict-origin-when-cross-origin',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
       });
-      const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution: osmAttr });
+      const esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom:19, attribution: 'Tiles &copy; Esri'
+      });
       let ok = 0, bad = 0, ok2 = 0, bad2 = 0, swapped = false;
-      carto.on('tileload', ()=>{ ok++; });
-      carto.on('tileerror', ()=>{ bad++; if(!swapped && ok === 0 && bad >= 2){ swapped = true; m.removeLayer(carto); osm.addTo(m); } });
-      osm.on('tileload', ()=>{ ok2++; setNote(''); });
-      osm.on('tileerror', ()=>{ bad2++; if(ok2 === 0 && bad2 >= 2) setNote('No se pudo cargar el mapa de fondo (revisá tu conexión). Las paradas siguen numeradas en la línea de tiempo y el botón de abajo abre el recorrido en Google Maps.'); });
-      carto.addTo(m);
+      osm.on('tileload', ()=>{ ok++; });
+      osm.on('tileerror', ()=>{ bad++; if(!swapped && ok === 0 && bad >= 2){ swapped = true; m.removeLayer(osm); esri.addTo(m); } });
+      esri.on('tileload', ()=>{ ok2++; setNote(''); });
+      esri.on('tileerror', ()=>{ bad2++; if(ok2 === 0 && bad2 >= 2) setNote('No se pudo cargar el mapa de fondo (revisá tu conexión). Las paradas siguen numeradas en la línea de tiempo y el botón de abajo abre el recorrido en Google Maps.'); });
+      osm.addTo(m);
     }
+    /* VER DIFERENCIA ENTRE LOS 3 MAPAS EN: https://gemini.google.com/app/7762308a5d047e09 */
 
     function ensureMap(){
       if(map || mapFailed) return map;
