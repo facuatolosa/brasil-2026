@@ -5,7 +5,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?logo=javascript&logoColor=black)
 ![PWA](https://img.shields.io/badge/PWA-instalable-5A0FC8?logo=pwa&logoColor=white)
 ![Leaflet](https://img.shields.io/badge/Leaflet-1.9.4-199900?logo=leaflet&logoColor=white)
-![Versión](https://img.shields.io/badge/versi%C3%B3n-11.3.0-0B2E42)
+![Versión](https://img.shields.io/badge/versi%C3%B3n-12.1.1-0B2E42)
 
 Guía de viaje **personalizada** para un viaje a **Río de Janeiro y Búzios (Brasil) del 10 al 18 de noviembre de 2026**, desarrollada como una *Single Page Application* en **un único archivo HTML** (HTML + CSS + JavaScript vanilla), sin frameworks ni proceso de compilación.
 
@@ -29,7 +29,7 @@ Guía de viaje **personalizada** para un viaje a **Río de Janeiro y Búzios (Br
 
 ## 1. Descripción general
 
-El proyecto reúne en una sola aplicación web todo lo necesario para **preparar, vivir y organizar** el viaje: dónde se alojan, qué clima esperar y qué ropa llevar, una lista de verificación editable, presupuesto y control de gastos, cotizaciones del real por PIX en tiempo real, recomendaciones turísticas con mapas, frases útiles en portugués con pronunciación, y un repositorio de documentos del viaje (PDF y enlaces).
+El proyecto reúne en una sola aplicación web todo lo necesario para **preparar, vivir y organizar** el viaje: dónde se alojan, qué clima esperar y qué ropa llevar, una lista de verificación editable, presupuesto y control de gastos, cotizaciones del real por PIX en tiempo real, recomendaciones turísticas con mapas, frases útiles en portugués con pronunciación, y un repositorio de documentos del viaje (PDF y enlaces). Desde la v12 suma un **itinerario día por día** con horarios, costos y un **mapa numerado del recorrido**.
 
 Objetivos de diseño:
 
@@ -56,7 +56,7 @@ Datos que contiene la guía (visibles en la propia página):
 
 ## 3. Funcionalidades
 
-La aplicación se organiza en **9 pestañas** con barra de navegación fija (*sticky*), más un encabezado con cuenta regresiva y un pie de página personal.
+La aplicación se organiza en **10 pestañas** con barra de navegación fija (*sticky*), más un encabezado con cuenta regresiva y un pie de página personal.
 
 ### 3.1 Encabezado (hero) y navegación
 
@@ -105,37 +105,51 @@ La aplicación se organiza en **9 pestañas** con barra de navegación fija (*st
   - Cada marcador está numerado y abre una ficha con descripción y enlace a Google Maps.
   - Debajo del mapa, una **lista** de los mismos puntos: al tocar uno se abre su ficha en el mapa; el botón ↗ abre el lugar en Google Maps.
   - En pantallas táctiles el mapa arranca «bloqueado» (para no interferir con el scroll) y se activa tocando un aviso.
+  - Los marcadores de **alojamiento (🏠)** tienen un efecto de pulso para destacarlos.
+  - Cada mapa incluye una **escala métrica** y se encuadra solo para mostrar todos los puntos.
   - Si el mapa de fondo no carga, los puntos y la lista siguen funcionando.
 
-### 3.8 🗣️ Frases
+### 3.8 🗓️ Itinerario
+
+- **Plan de 9 días** pensado por cercanía: **Río (10, 11 y 12/11)**, **día de mudanza (13/11)**, **Búzios (14 a 17/11)** y **día de regreso (18/11)**.
+- **Vista general** con una tarjeta por día (ciudad en color, fecha, tema y costo estimado); al tocar una se abre el detalle. Si el viaje está en curso, se abre el día de hoy.
+- **Línea de tiempo** con horario, tipo de actividad (atracción, comer y beber, traslado, descanso y salida nocturna, cada una con su color), descripción, **costo por persona** en R$, **cómo moverse**, duración y enlace a Google Maps. Los ítems opcionales se marcan como tales.
+- **Lugares pensados para jóvenes de 20 a 30 años** en lugar de bares clásicos: por ejemplo, la Rua Arnaldo Quintela y la Cobal do Humaitá en Río, y Celestinnas, Chez Michou, Anexo Bar y el club Privilège en Búzios.
+- **Mapa del día** con las paradas **numeradas en orden cronológico** (los mismos números de la línea de tiempo), línea punteada del recorrido y ventana emergente con el detalle de cada parada; un botón abre el recorrido en Google Maps.
+- **Plan B si llueve** y **tips** por día, además del ritmo, el alojamiento y el transporte.
+- **Totales** por día y del plan completo en R$ y en US$ (≈ R$ 4,9 por dólar), sin vuelo, hotel, desayuno ni traslados del paquete: ≈ R$ 2.295 a 3.861 por persona.
+- Sección final **«Cómo moverse y qué reservar»** y avisos de que precios y horarios son de referencia.
+
+### 3.9 🗣️ Frases
 
 - Mini-diccionario de **frases útiles en portugués** (saludo, pedir la cuenta, preguntar el precio, comprar bebida, etc.).
 - Cada frase se puede **editar** y reproducir con la **Web Speech API** (síntesis de voz `pt-BR` a velocidad 0,9).
 
-### 3.9 📄 Documentos
+### 3.10 📄 Documentos
 
 - **Adjuntar PDF** (arrastrar y soltar o seleccionar): quedan guardados en el navegador (IndexedDB), con opciones para abrir, descargar y quitar.
 - **Agregar enlaces** (por ejemplo, de Google Drive) como alternativa, sin duplicar archivos.
 - **Categorías con color**: vuelos e itinerario, comprobantes de pago, alojamiento y traslados, asistencia médica y otros (editables luego de cargar).
 - Resumen de cantidad y peso total, y avisos claros cuando el navegador no permite guardar archivos de forma permanente.
 
-### 3.10 💱 Cotizaciones
+### 3.11 💱 Cotizaciones
 
 - **Cotización del real al pagar por PIX** según cada app (Cocos, ARQ, Ripio, Astropay, Wayni, Global66, Personal Pay, Mercado Pago, Fiwind, P2P.me, Caipi, Decrypto, Lemon, Belo, Prex y otras), con datos de **ComparaPix**.
 - Ordenadas de la más barata a la más cara, con la mejor resaltada, la **diferencia porcentual** contra ella y etiquetas de **Comisiones**, **USDT** y **Dato viejo**.
 - Selector **ARS / USD-USDT** y referencia **fuera de PIX** (tarjeta en pesos y tarjeta con resumen cancelado en dólares).
-- **Conversor rápido BRL ⇄ ARS** que usa la mejor cotización disponible.
+- **Conversor rápido BRL ⇄ moneda seleccionada** (rediseñado en la v11.3.1) que usa la mejor cotización de la tabla; la etiqueta del campo cambia entre *Pesos (AR$)* y *USD / USDT* según el selector.
+- El botón **«Ver en ComparaPix»** queda alineado junto a «Actualizar» en escritorio (en celulares se mantiene arriba a la derecha).
 - Actualización automática cada ~60 segundos con la pestaña abierta, botón «Actualizar» y **logos** de cada aplicación.
 - **Resiliencia**: si falla la conexión se muestra la última cotización guardada o una cotización de referencia embebida, con el **motivo del error** y una opción para **cargar los datos a mano** (pegando la respuesta de la API).
 
-### 3.11 💾 Copia de seguridad (Checklist y Documentos)
+### 3.12 💾 Copia de seguridad (Checklist y Documentos)
 
 - **Guardar copia**: descarga un HTML nuevo con la checklist editada y los enlaces guardados *dentro* del propio archivo.
 - **Restaurar copia**: importa esos datos desde un archivo guardado antes (por ejemplo, para pasarlos a otro dispositivo).
 - Al abrir un archivo con copia incorporada, la aplicación decide si usarla comparando fechas y contenido; si la copia es más reciente que los cambios locales, **pregunta** antes de reemplazar.
 - Los PDF subidos y los gastos **no** se incluyen en la copia (ver [limitaciones](#6-problemas-conocidos-y-deuda-técnica)).
 
-### 3.12 PWA y pie de página
+### 3.13 PWA y pie de página
 
 - **App instalable** (manifest, íconos 192/512 px, `display: standalone`) con **Service Worker** para funcionamiento offline del contenido ya visitado.
 - **Pie de página personal** con foto, perfil profesional y enlaces de contacto (mail, LinkedIn y GitHub).
@@ -144,7 +158,7 @@ La aplicación se organiza en **9 pestañas** con barra de navegación fija (*st
 
 ## 4. Historial de versiones
 
-El proyecto se desarrolló de forma iterativa el **12/10/2026** (hora de Argentina), con **19 commits** en la rama `main`. Cada commit corresponde a una versión (`Brasil 2026 (vX.Y.Z)`).
+El proyecto se desarrolló de forma iterativa entre el **12/10/2026 y el 15/10/2026** (hora de Argentina), con **24 commits** en la rama `main`. Las versiones v1.0.0 a v11.3.0 son del 12/10 (la tabla indica solo la hora); las siguientes indican día y hora. Cada commit corresponde a una versión (`Brasil 2026 (vX.Y.Z)`).
 
 ### Resumen
 
@@ -169,6 +183,11 @@ El proyecto se desarrolló de forma iterativa el **12/10/2026** (hora de Argenti
 | **v11.1.0** | 20:25 | `62a7a41` | Alojamientos incluidos en los mapas |
 | **v11.2.0** | 22:06 | `1ca0049` | Conversor de moneda y scroll horizontal de secciones |
 | **v11.3.0** | 22:43 | `1e42583` | Pie de página personal con datos de contacto |
+| **v11.3.1** | 13/10 · 01:42 | `af472ee` | Ajustes visuales del conversor, etiqueta de moneda, logos faltantes y README |
+| **v12.0.0** | 15/10 · 00:16 | `15648b5` | Nueva pestaña Itinerario y botón de ComparaPix alineado |
+| **v12.0.1** | 15/10 · 00:44 | `3335a7d` | Correcciones de fuentes y logo de Satoshi Tango |
+| **v12.1.0** | 15/10 · 11:31 | `0b790cf` | Itinerario con lugares para jóvenes y mapa del recorrido |
+| **v12.1.1** | 15/10 · 22:13 | `8c3e1d0` | Cambios en la visualización de los mapas |
 
 ### Detalle por versión
 
@@ -246,6 +265,35 @@ El proyecto se desarrolló de forma iterativa el **12/10/2026** (hora de Argenti
 #### v11.3.0 — Pie de página personal
 - Nuevo *footer* con foto, perfil profesional, enlaces de contacto (mail, LinkedIn, GitHub) y aviso de derechos de autor.
 
+#### v11.3.1 — Ajustes visuales, logos faltantes y README
+- **Calculadora de monedas rediseñada**: contenedor en fila con encabezado azul oscuro y área gris, campos con tipografía propia, ícono de intercambio y versión apilada en celulares; el título pasa a «Calculadora».
+- La etiqueta del campo de origen **cambia según el selector** de moneda: «AR Pesos (AR$)» con ARS y «USD / USDT» con USD.
+- Se suben los **6 logos que faltaban** (Binance, Peanut, Takenos, Vesseo, Wallbit y Yodl Pay).
+- Se agrega el `README.md` al repositorio.
+
+#### v12.0.0 — Itinerario y botón de ComparaPix
+- Nueva pestaña **🗓️ Itinerario** con el plan de 9 días: vista general por tarjetas, línea de tiempo con horarios, tipos de actividad con color, costos por persona, cómo moverse, plan B si llueve, tips y totales estimados en R$ y US$.
+- Sección **«Cómo moverse y qué reservar»** con avisos de precios y horarios de referencia.
+- El botón **«Ver en ComparaPix»** se alinea junto a «Actualizar» en escritorio.
+- La copia exportada limpia el contenido generado del itinerario.
+
+#### v12.0.1 — Correcciones de fuentes y logos
+- Tamaños de fuente más chicos en la zona de carga de PDF, los nombres de documentos y el título del formulario de enlaces.
+- La etiqueta del conversor pasa a «Pesos (AR$)».
+- Se agrega el logo y el nombre de **Satoshi Tango** (`assets/logos/satoshi-tango.png`).
+
+#### v12.1.0 — Itinerario para jóvenes y mapa del recorrido
+- El itinerario se ajusta a un público de **20 a 30 años**: bares y restaurantes clásicos se reemplazan por opciones de ambiente joven, y se suman actividades como el Museu da Chácara do Céu (gratis los miércoles) y una tarde en Geribá.
+- **Mapa del día** con Leaflet: paradas **numeradas en orden cronológico**, línea punteada del recorrido, un solo marcador con varios números cuando se vuelve al mismo lugar, ventana emergente por parada y botón para abrir el recorrido en Google Maps (hasta 10 puntos).
+- Los números de parada también aparecen en la línea de tiempo; avisos para los días en que el mapa no dibuja un tramo (viaje Río → Búzios, traslado al aeropuerto y Arraial do Cabo).
+- Se corrige la ubicación de Azeda y Azedinha en el mapa de Turismo.
+
+#### v12.1.1 — Visualización de mapas
+- **Mapas de Turismo**: fondo CARTO Voyager con API key y OpenStreetMap como respaldo, **escala métrica**, **marcadores de alojamiento con efecto de pulso** y encuadre automático más ajustado (`padding` 10 y `maxZoom` 17), con el mismo criterio para Río y Búzios.
+- **Mapa del Itinerario**: se reemplaza CARTO (que pasó a exigir clave) por **OpenStreetMap con Esri como respaldo**.
+- Se restauran los tamaños de fuente de la zona de carga de PDF, los nombres de documentos y el formulario de enlaces, y el título de la zona de carga se acorta a «Subir PDF».
+- Se deja en el código un comentario que apunta a una conversación externa para comparar los tres mapas (ver problemas conocidos).
+
 ---
 
 ## 5. Arquitectura y consideraciones técnicas
@@ -268,16 +316,17 @@ No hay *bundler*, gestor de paquetes, pruebas automatizadas ni integración cont
 
 ```text
 brasil-2026/
-├── index.html          # Toda la aplicación (HTML + CSS + JS + Leaflet) ≈ 318 KB, ~3.970 líneas
+├── index.html          # Toda la aplicación (HTML + CSS + JS + Leaflet) ≈ 385 KB, ~4.730 líneas
 ├── manifest.json       # Web App Manifest (nombre, colores, íconos)
 ├── sw.js               # Service Worker (caché y modo offline)
 ├── favicon.ico         # Copia PNG de 512 px del ícono
+├── README.md           # Esta documentación
 └── assets/
     ├── icon-192.png / icon-512.png   # Íconos de la PWA
     ├── MiFoto.png                    # Foto del pie de página
     ├── logo-brasil-2026.jfif         # Logo (sin referencias en el código)
     ├── logo-brasil-2026-modified.png # Logo (sin referencias en el código)
-    └── logos/                        # 15 logos de apps de la tabla de cotizaciones
+    └── logos/                        # 22 logos de apps de la tabla de cotizaciones
 ```
 
 ### 5.3 Organización interna de `index.html`
@@ -302,14 +351,15 @@ El script principal está dividido en bloques comentados:
 | Clima en tiempo real | OpenWeatherMap |
 | Diccionario / Web Speech | Frases y síntesis de voz |
 | Control de gastos | CRUD de gastos y categorías, gráfico, filtros |
-| Mapas de Turismo | Leaflet, marcadores, listas, bloqueo táctil |
+| Mapas de Turismo | Leaflet, marcadores, listas, bloqueo táctil, escala y marcadores de alojamiento |
+| Itinerario | Datos de los 9 días (`DAYS`), línea de tiempo, totales, mapa numerado y enlace de recorrido |
 
 ### 5.3.1 Diagrama de componentes
 
 ```mermaid
 flowchart LR
   subgraph Cliente["Navegador (PWA)"]
-    UI["index.html<br/>SPA de 9 pestañas"]
+    UI["index.html<br/>SPA de 10 pestañas"]
     LS[("localStorage")]
     IDB[("IndexedDB<br/>PDF")]
     SW["Service Worker<br/>sw.js"]
@@ -319,8 +369,8 @@ flowchart LR
   UI <--> SW
   UI -->|clima| OWM["OpenWeatherMap"]
   UI -->|cotizaciones| WK["Cloudflare Worker<br/>proxy CORS"] --> CP["api.comparapix.ar"]
-  UI -->|mapas| TILES["Tiles CARTO / OSM"]
-  UI -->|iframes| GM["Google Maps (embed)"]
+  UI -->|mapas| TILES["Tiles CARTO / OSM / Esri"]
+  UI -->|iframes| GM["Google Maps (embed y enlaces)"]
 ```
 
 ### 5.4 Navegación (SPA sin enrutador)
@@ -361,8 +411,9 @@ Un HTML estático no puede reescribirse a sí mismo, por lo que la copia se resu
 |---|---|---|
 | **OpenWeatherMap** (`/data/2.5/weather`) | Clima actual en Copacabana y Tartaruga | Consulta directa desde el navegador con *API key* |
 | **ComparaPix** (`api.comparapix.ar/quotes`) | Cotizaciones PIX | Se consulta mediante un **Cloudflare Worker propio** que resuelve CORS |
-| **Google Maps** | `iframe` de alojamientos y enlaces de búsqueda por nombre | Sin API key (modo *embed*) |
-| **CARTO / OpenStreetMap** | Mapa de fondo de Leaflet | Se intenta primero CARTO (Voyager) y, ante errores, OpenStreetMap |
+| **Google Maps** | `iframe` de alojamientos, enlaces de búsqueda por nombre y enlaces de recorrido (`/maps/dir`) | Sin API key (modo *embed* y enlaces) |
+| **CARTO** (Voyager) | Mapa de fondo de los mapas de Turismo | Requiere *API key* (incluida en la URL de los tiles); si falla, se usa OpenStreetMap |
+| **OpenStreetMap / Esri** | Mapa de fondo del Itinerario (y respaldo en Turismo) | OpenStreetMap primero y, ante errores, Esri World Street Map; sin API key |
 | **Web Speech API** | Pronunciación de frases | Depende de las voces `pt-BR` instaladas en el dispositivo |
 | **Google Fonts** | Tipografías | Requiere conexión la primera vez |
 
@@ -390,7 +441,18 @@ flowchart TD
 - Marcadores creados con `L.divIcon` (HTML/CSS): forma por ciudad, color por costo y número visible; la insignia «$» refuerza el color para accesibilidad.
 - Inicialización **diferida** al abrir Turismo (los contenedores ocultos tienen tamaño 0) y `invalidateSize()` posterior.
 - Los contenedores usan `isolation: isolate` para que los controles de Leaflet no queden por encima de la barra fija.
+- Los alojamientos se marcan con `hotel: true` (marcador 🏠 con animación de pulso) y cada mapa incluye `L.control.scale` en metros.
+- El encuadre inicial usa `fitBounds` con `padding` 10 y `maxZoom` 17 para ambos destinos.
 - Las coordenadas son **aproximadas**; los enlaces ↗ abren el lugar por nombre en Google Maps para obtener la ubicación exacta.
+
+### 5.8.2 Itinerario: datos y mapa del recorrido
+
+- Los 9 días viven en la constante `DAYS` (fecha ISO, ciudad, ritmo, alojamiento, transporte, ítems, plan B y tips). Cada ítem define hora, tipo (`sight`, `food`, `move`, `rest`, `night`), título, descripción, costo por persona `[mín, máx]` en R$, si es opcional o está incluido, cómo llegar, duración, consulta de Google Maps (`q`) y, opcionalmente, coordenadas (`ll`).
+- Los totales por día y del viaje se calculan en JavaScript: los ítems opcionales suman solo al máximo y la conversión a dólares usa una constante (`RATE`, ≈ R$ 4,9 por US$).
+- **Paradas del mapa**: `computeStops()` toma los ítems con coordenadas en orden cronológico y los consecutivos en el mismo punto comparten número. Se dibuja una línea punteada entre paradas (recta y aproximada) y los marcadores se agrupan por ubicación (por ejemplo, «1·5·8» para el hotel).
+- **Enlace de recorrido**: `routeUrl()` arma una URL `google.com/maps/dir` con origen, destino y puntos intermedios; como Google admite hasta 10 puntos, se omiten paradas de descanso intermedias cuando hace falta.
+- El mapa se crea **una sola vez** y se mueve dentro de la vista del día; su inicialización es diferida (al abrir la pestaña) y usa el mismo bloqueo táctil que los mapas de Turismo.
+- Los textos se construyen con `textContent` y los días sin coordenadas en un tramo (viaje entre ciudades, aeropuerto) muestran un aviso en lugar de dibujarlo.
 
 ### 5.9 PWA y modo offline
 
@@ -413,11 +475,12 @@ flowchart TD
 - **Los datos personales permanecen en el dispositivo**: PDF, gastos, checklist y enlaces no se envían a ningún servidor propio. No hay analítica ni seguimiento.
 - Las solicitudes a terceros (clima, mapas, cotizaciones, fuentes) exponen la IP y el navegador a esos servicios, como en cualquier página web.
 - La copia exportada **contiene la checklist y los enlaces**: no conviene publicarla en un sitio abierto.
+- El HTML contiene **API keys visibles en el cliente** (OpenWeatherMap y, desde la v12.1.1, CARTO); al ser un repositorio público, cualquiera puede leerlas (ver problemas conocidos).
 - Se validan y limitan los datos importados (cantidad de secciones, ítems y enlaces; solo URLs `http/https`) y los enlaces externos usan `rel="noopener noreferrer"`.
 
 ### 5.12 Rendimiento y peso
 
-- `index.html` pesa ≈ **318 KB**, de los cuales ≈ **163 KB** son Leaflet (JS + CSS) incluido en línea.
+- `index.html` pesa ≈ **385 KB**, de los cuales ≈ **163 KB** son Leaflet (JS + CSS) incluido en línea.
 - Mayor peso de la carpeta `assets`: `MiFoto.png` (≈ 7,7 MB), `logo-brasil-2026-modified.png` (≈ 2,9 MB) y `logo-brasil-2026.jfif` (≈ 2,2 MB); estos dos últimos no se usan en el código.
 - Carga diferida de datos (clima, cotizaciones, mapas) y caché de assets en el Service Worker.
 
@@ -427,16 +490,18 @@ flowchart TD
 
 | # | Tema | Detalle | Sugerencia |
 |---|---|---|---|
-| 1 | 🔑 **API key expuesta** | La clave de OpenWeatherMap está escrita en el HTML de un repositorio público. | Revocarla/regenerarla, restringirla si el proveedor lo permite o moverla a un Worker. |
-| 2 | 🧮 **Conversor en modo USD/USDT** | El conversor toma la mejor cotización *de la moneda seleccionada* en la tabla; con el selector en USD/USDT usa un valor ≈ 0,2 como si fueran pesos. | Calcular la tasa solo con la lista ARS (aunque se esté viendo USD). |
-| 3 | 🖼️ **Logos faltantes** | `APP_LOGOS` referencia 6 imágenes inexistentes (`takenos`, `wallbit`, `vesseo`, `yodl-pay`, `binance`, `peanut`) y no hay `onerror`; en modo USD/USDT se ve la imagen rota. | Agregar los logos o caer a la letra inicial con `onerror`. |
+| 1 | 🔑 **API keys expuestas** | El HTML de este repositorio público contiene una API key de OpenWeatherMap y, desde la v12.1.1, una de CARTO (en la URL de los tiles). | Revocarlas o regenerarlas, restringirlas por dominio si el proveedor lo permite o moverlas a un Worker, y evitar volver a subirlas. |
+| 2 | 🧮 **Conversor y símbolo de moneda** | Con USD/USDT la etiqueta cambia a «USD / USDT» y la conversión usa la tasa en dólares, pero el encabezado «Cotización: $…» sigue mostrando el valor con prefijo `$` y 2 decimales (≈ 0,21). | Mostrar prefijo y decimales según la moneda seleccionada. |
+| 3 | 🖼️ **Nombres de apps** | Los logos faltantes se resolvieron (v11.3.1 y v12.0.1), pero `satoshitango` quedó fuera de `APP_NAMES` en la v12.1.0 y se muestra como «Satoshitango»; sigue sin haber `onerror` en las imágenes. | Restaurar el nombre y caer a la letra inicial con `onerror`. |
 | 4 | 🧩 **Gastos sin escapar** | El módulo de gastos interpola descripción y categoría dentro de `innerHTML` y usa `onclick` en línea; caracteres como `"` o `<` pueden romper la interfaz. Los datos son locales (impacto bajo). | Usar `textContent` / `createElement` y `addEventListener`. |
 | 5 | 💾 **Alcance de la copia** | La copia incluye checklist y enlaces, pero no gastos, PDF ni caché de cotizaciones. | Sumar `gastos` al esquema de la copia (versionando `v`). |
 | 6 | 🗂️ **Assets pesados / sin uso** | `MiFoto.png` (≈ 7,7 MB) se carga en el pie; dos logos (≈ 5 MB) no se referencian; `favicon.ico` es un PNG renombrado. | Optimizar o redimensionar imágenes y eliminar archivos sin uso. |
-| 7 | 🔧 **Service Worker básico** | Nombre de caché fijo (sin versión), no distingue métodos ni orígenes y cachea también respuestas de APIs de terceros. | Versionar el caché, limitar a `GET` del mismo origen y excluir APIs. |
+| 7 | 🔧 **Service Worker básico** | Nombre de caché fijo (sin versión), no distingue métodos ni orígenes y cachea también respuestas de APIs de terceros. No se modifica desde la v10.0.0. | Versionar el caché, limitar a `GET` del mismo origen y excluir APIs. |
 | 8 | ☁️ **Proxy fuera del repo** | El código del Cloudflare Worker de cotizaciones no está versionado en el repositorio. | Incluirlo (por ejemplo en `/worker`) y documentar su despliegue. |
-| 9 | 📍 **Coordenadas aproximadas** | Algunas ubicaciones de los mapas son estimaciones. | Ajustarlas con coordenadas verificadas. |
-| 10 | 🧪 **Sin pruebas ni CI** | La verificación es manual y el código vive en un único archivo de casi 4.000 líneas. | Separar en módulos y agregar pruebas básicas. |
+| 9 | 📍 **Coordenadas y recorrido aproximados** | Muchas ubicaciones de los mapas de Turismo y del Itinerario son estimaciones, y la línea del recorrido es recta, no la ruta real. | Verificar coordenadas y, si hace falta, usar un servicio de ruteo. |
+| 10 | 🗺️ **Tres implementaciones de mapa** | Alojamiento usa un `iframe` de Google Maps; Turismo usa CARTO con API key y respaldo OpenStreetMap; el Itinerario usa OpenStreetMap con respaldo Esri. El respaldo se activa tras 2 errores de tiles sin ninguna carga previa, por lo que un mapa puede cambiar de proveedor y verse distinto de otro. El código de tiles está duplicado entre `addBaseTiles` y `addTiles`. | Unificar en una sola función de tiles (un único proveedor sin clave) y reutilizarla en ambos mapas. |
+| 11 | 🧹 **Comentarios y código muerto** | Hay un comentario con un enlace a una conversación externa de Gemini y un bloque comentado de zoom fijo para Río en `initPoiMap`. | Eliminarlos o pasarlos a la documentación. |
+| 12 | 🧪 **Sin pruebas ni CI** | La verificación es manual y el código vive en un único archivo de casi 4.700 líneas. | Separar en módulos y agregar pruebas básicas. |
 
 ---
 
@@ -459,7 +524,7 @@ python3 -m http.server 8080
 
 **Despliegue**: al ser contenido estático, basta publicar `index.html`, `manifest.json`, `sw.js` y la carpeta `assets/` en cualquier hosting estático (Cloudflare Workers/Pages, GitHub Pages, Netlify, etc.). Para actualizar una versión ya instalada, conviene cambiar `CACHE_NAME` en `sw.js`.
 
-**Adaptar a otro viaje**: editar los textos de las secciones, las fechas de la cuenta regresiva (`new Date(...)` en el bloque *Cuenta regresiva*), las coordenadas del clima, la constante `POI` de los mapas y los datos de alojamiento.
+**Adaptar a otro viaje**: editar los textos de las secciones, las fechas de la cuenta regresiva (`new Date(...)` en el bloque *Cuenta regresiva*), las coordenadas del clima, la constante `POI` de los mapas, el array `DAYS` del itinerario y los datos de alojamiento.
 
 ---
 
@@ -470,6 +535,9 @@ python3 -m http.server 8080
 - Separar el código en archivos (`css/`, `js/`) con un *build* liviano y pruebas.
 - Precarga de mapas y mejoras del modo offline.
 - Modo oscuro y soporte de varios idiomas.
+- Editar el itinerario desde la interfaz y guardarlo en el navegador y en la copia de seguridad.
+- Exportar el itinerario a calendario (`.ics`) o PDF.
+- Dibujar la ruta real entre paradas con un servicio de ruteo.
 
 ---
 
