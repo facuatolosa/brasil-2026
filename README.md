@@ -5,7 +5,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?logo=javascript&logoColor=black)
 ![PWA](https://img.shields.io/badge/PWA-instalable-5A0FC8?logo=pwa&logoColor=white)
 ![Leaflet](https://img.shields.io/badge/Leaflet-1.9.4-199900?logo=leaflet&logoColor=white)
-![Versión](https://img.shields.io/badge/versi%C3%B3n-12.1.1-0B2E42)
+![Versión](https://img.shields.io/badge/versi%C3%B3n-12.1.3-0B2E42)
 
 Guía de viaje **personalizada** para un viaje a **Río de Janeiro y Búzios (Brasil) del 10 al 18 de noviembre de 2026**, desarrollada como una *Single Page Application* en **un único archivo HTML** (HTML + CSS + JavaScript vanilla), sin frameworks ni proceso de compilación.
 
@@ -107,6 +107,9 @@ La aplicación se organiza en **10 pestañas** con barra de navegación fija (*s
   - En pantallas táctiles el mapa arranca «bloqueado» (para no interferir con el scroll) y se activa tocando un aviso.
   - Los marcadores de **alojamiento (🏠)** tienen un efecto de pulso para destacarlos.
   - Cada mapa incluye una **escala métrica** y se encuadra solo para mostrar todos los puntos.
+  - Los marcadores que **quedan fuera de la vista** (al hacer zoom o mover el mapa) se muestran en el **margen del mapa**, con su número, color e ícono, hasta que vuelven a caber; al tocarlos, el mapa se centra en el marcador real y abre su ficha.
+  - El **marcador 6 de Río (Cristo Redentor)** usa un ícono propio (`assets/cristo-redentor.png`) con el borde blanco, el fondo rojo y la insignia «$» de los lugares de pago; si la imagen no carga, vuelve a mostrarse el número.
+  - La atribución del mapa de fondo se muestra como «© CARTO © OpenStreetMap».
   - Si el mapa de fondo no carga, los puntos y la lista siguen funcionando.
 
 ### 3.8 🗓️ Itinerario
@@ -158,7 +161,7 @@ La aplicación se organiza en **10 pestañas** con barra de navegación fija (*s
 
 ## 4. Historial de versiones
 
-El proyecto se desarrolló de forma iterativa entre el **12/10/2026 y el 15/10/2026** (hora de Argentina), con **24 commits** en la rama `main`. Las versiones v1.0.0 a v11.3.0 son del 12/10 (la tabla indica solo la hora); las siguientes indican día y hora. Cada commit corresponde a una versión (`Brasil 2026 (vX.Y.Z)`).
+El proyecto se desarrolló de forma iterativa entre el **12/10/2026 y el 16/10/2026** (hora de Argentina), con **26 commits** en la rama `main`. Las versiones v1.0.0 a v11.3.0 son del 12/10 (la tabla indica solo la hora); las siguientes indican día y hora. Cada commit corresponde a una versión (`Brasil 2026 (vX.Y.Z)`).
 
 ### Resumen
 
@@ -188,6 +191,8 @@ El proyecto se desarrolló de forma iterativa entre el **12/10/2026 y el 15/10/2
 | **v12.0.1** | 15/10 · 00:44 | `3335a7d` | Correcciones de fuentes y logo de Satoshi Tango |
 | **v12.1.0** | 15/10 · 11:31 | `0b790cf` | Itinerario con lugares para jóvenes y mapa del recorrido |
 | **v12.1.1** | 15/10 · 22:13 | `8c3e1d0` | Cambios en la visualización de los mapas |
+| **v12.1.2** | 16/10 · 22:30 | `7e73351` | README, marcador personalizado del Cristo Redentor y EdgeMarker |
+| **v12.1.3** | 16/10 · pendiente | _(sin commit)_ | Corrección de las ubicaciones de Búzios en los mapas |
 
 ### Detalle por versión
 
@@ -294,6 +299,19 @@ El proyecto se desarrolló de forma iterativa entre el **12/10/2026 y el 15/10/2
 - Se restauran los tamaños de fuente de la zona de carga de PDF, los nombres de documentos y el formulario de enlaces, y el título de la zona de carga se acorta a «Subir PDF».
 - Se deja en el código un comentario que apunta a una conversación externa para comparar los tres mapas (ver problemas conocidos).
 
+#### v12.1.2 — README, marcador del Cristo Redentor y EdgeMarker
+- Se actualiza el `README.md` con los cambios desde la v11.3.0 hasta la v12.1.1.
+- **Leaflet.EdgeMarker** (MIT) incluido dentro del HTML: los marcadores de los mapas de Turismo que no entran en la vista se muestran en el **margen del mapa** hasta que caben; cada uno conserva su número, color, imagen e insignia, y al tocarlo centra el mapa y abre su ficha.
+- El **marcador 6 de Río (Cristo Redentor)** pasa a usar la imagen `assets/cristo-redentor.png` dentro del círculo, manteniendo el borde blanco, el fondo rojo y la insignia «$»; también se usa en la lista de puntos y, si la imagen falla, vuelve el número.
+- La atribución del mapa de fondo de Turismo cambia de orden: «© CARTO © OpenStreetMap».
+- Se agrega el archivo `assets/cristo-redentor.png`.
+
+#### v12.1.3 — Corrección de las ubicaciones de Búzios
+- **Pousada Brisas de Búzios** movida unos **720 m al sur** (de `-22.7565, -41.8973` a `-22.7630, -41.8970`): coincide con las coordenadas publicadas por Booking y otros portales y con el pin de Google Maps. Antes quedaba en una zona de monte, lejos del camino.
+- **Playa Tartaruga** y **Playa Ferradura** se recalibran (≈ 310 y 440 m) tomando como referencia la captura de Google Maps de la pousada.
+- **Rua das Pedras**, **Orla Bardot** (estatua de Brigitte Bardot), **muelle / Praia da Armação**, **O Barco**, **Privilège** y **Porto da Barra** se reubican (≈ 550 a 940 m) con coordenadas publicadas por Waze y por un alojamiento local, además de la posición relativa en Google Maps.
+- Los cambios se aplican en los dos mapas que usan estos puntos: **Turismo** e **Itinerario** (que comparten las mismas ubicaciones). Azeda y Azedinha, João Fernandes y Arraial do Cabo se mantienen.
+
 ---
 
 ## 5. Arquitectura y consideraciones técnicas
@@ -305,7 +323,7 @@ El proyecto se desarrolló de forma iterativa entre el **12/10/2026 y el 15/10/2
 | Estructura | HTML5 semántico (`header`, `nav`, `main`, `section`, `footer`) |
 | Estilos | CSS3 con variables personalizadas, Grid, Flexbox, `conic-gradient`, *media queries* |
 | Lógica | JavaScript vanilla (ES2017+: `async/await`, módulos por secciones dentro de un mismo `<script>`) |
-| Mapas | [Leaflet](https://leafletjs.com/) 1.9.4 (BSD-2-Clause), incluido en línea |
+| Mapas | [Leaflet](https://leafletjs.com/) 1.9.4 (BSD-2-Clause) y [Leaflet.EdgeMarker](https://github.com/ubergesundheit/Leaflet.EdgeMarker) (MIT), incluidos en línea |
 | Tipografías | Google Fonts: Fraunces, Manrope y Space Mono |
 | PWA | Web App Manifest + Service Worker |
 | Hosting | Cloudflare Workers (sitio estático); el repositorio está en GitHub |
@@ -316,7 +334,7 @@ No hay *bundler*, gestor de paquetes, pruebas automatizadas ni integración cont
 
 ```text
 brasil-2026/
-├── index.html          # Toda la aplicación (HTML + CSS + JS + Leaflet) ≈ 385 KB, ~4.730 líneas
+├── index.html          # Toda la aplicación (HTML + CSS + JS + Leaflet) ≈ 396 KB, ~5.050 líneas
 ├── manifest.json       # Web App Manifest (nombre, colores, íconos)
 ├── sw.js               # Service Worker (caché y modo offline)
 ├── favicon.ico         # Copia PNG de 512 px del ícono
@@ -324,6 +342,7 @@ brasil-2026/
 └── assets/
     ├── icon-192.png / icon-512.png   # Íconos de la PWA
     ├── MiFoto.png                    # Foto del pie de página
+    ├── cristo-redentor.png           # Ícono personalizado del marcador del Cristo Redentor
     ├── logo-brasil-2026.jfif         # Logo (sin referencias en el código)
     ├── logo-brasil-2026-modified.png # Logo (sin referencias en el código)
     └── logos/                        # 22 logos de apps de la tabla de cotizaciones
@@ -351,7 +370,7 @@ El script principal está dividido en bloques comentados:
 | Clima en tiempo real | OpenWeatherMap |
 | Diccionario / Web Speech | Frases y síntesis de voz |
 | Control de gastos | CRUD de gastos y categorías, gráfico, filtros |
-| Mapas de Turismo | Leaflet, marcadores, listas, bloqueo táctil, escala y marcadores de alojamiento |
+| Mapas de Turismo | Leaflet, marcadores (con imagen opcional), listas, bloqueo táctil, escala, marcadores de alojamiento y marcadores en el margen (EdgeMarker) |
 | Itinerario | Datos de los 9 días (`DAYS`), línea de tiempo, totales, mapa numerado y enlace de recorrido |
 
 ### 5.3.1 Diagrama de componentes
@@ -443,7 +462,9 @@ flowchart TD
 - Los contenedores usan `isolation: isolate` para que los controles de Leaflet no queden por encima de la barra fija.
 - Los alojamientos se marcan con `hotel: true` (marcador 🏠 con animación de pulso) y cada mapa incluye `L.control.scale` en metros.
 - El encuadre inicial usa `fitBounds` con `padding` 10 y `maxZoom` 17 para ambos destinos.
-- Las coordenadas son **aproximadas**; los enlaces ↗ abren el lugar por nombre en Google Maps para obtener la ubicación exacta.
+- **Marcadores en el margen**: se crea una instancia de `L.edgeMarker` por cada marcador (con `layerGroup` de un solo elemento y `rotateIcons: false`) para que cada uno conserve su propio ícono; se crean **después** de `fitBounds` y su `onClick` se sobrescribe para centrar el mapa y abrir el popup. El plugin está envuelto en un `if (typeof L !== 'undefined')` para no fallar si Leaflet no carga.
+- **Marcador con imagen**: un punto del arreglo `POI` puede llevar `img` (por ejemplo `assets/cristo-redentor.png`); `poiIconHtml()` agrega una etiqueta `<img>` dentro del círculo (clase `has-img`, ícono recortado en círculo sobre el fondo rojo) y un listener de `error` en captura la quita y vuelve a mostrar el número si el archivo falta.
+- Las coordenadas son **aproximadas**: las ubicaciones de Búzios se corrigieron en la v12.1.3 con coordenadas publicadas (Booking, Waze, OpenStreetMap) y una captura de Google Maps, y los enlaces ↗ abren el lugar por nombre en Google Maps para obtener la ubicación exacta.
 
 ### 5.8.2 Itinerario: datos y mapa del recorrido
 
@@ -480,7 +501,7 @@ flowchart TD
 
 ### 5.12 Rendimiento y peso
 
-- `index.html` pesa ≈ **385 KB**, de los cuales ≈ **163 KB** son Leaflet (JS + CSS) incluido en línea.
+- `index.html` pesa ≈ **396 KB**, de los cuales ≈ **172 KB** son Leaflet y Leaflet.EdgeMarker (JS + CSS) incluidos en línea.
 - Mayor peso de la carpeta `assets`: `MiFoto.png` (≈ 7,7 MB), `logo-brasil-2026-modified.png` (≈ 2,9 MB) y `logo-brasil-2026.jfif` (≈ 2,2 MB); estos dos últimos no se usan en el código.
 - Carga diferida de datos (clima, cotizaciones, mapas) y caché de assets en el Service Worker.
 
@@ -498,7 +519,7 @@ flowchart TD
 | 6 | 🗂️ **Assets pesados / sin uso** | `MiFoto.png` (≈ 7,7 MB) se carga en el pie; dos logos (≈ 5 MB) no se referencian; `favicon.ico` es un PNG renombrado. | Optimizar o redimensionar imágenes y eliminar archivos sin uso. |
 | 7 | 🔧 **Service Worker básico** | Nombre de caché fijo (sin versión), no distingue métodos ni orígenes y cachea también respuestas de APIs de terceros. No se modifica desde la v10.0.0. | Versionar el caché, limitar a `GET` del mismo origen y excluir APIs. |
 | 8 | ☁️ **Proxy fuera del repo** | El código del Cloudflare Worker de cotizaciones no está versionado en el repositorio. | Incluirlo (por ejemplo en `/worker`) y documentar su despliegue. |
-| 9 | 📍 **Coordenadas y recorrido aproximados** | Muchas ubicaciones de los mapas de Turismo y del Itinerario son estimaciones, y la línea del recorrido es recta, no la ruta real. | Verificar coordenadas y, si hace falta, usar un servicio de ruteo. |
+| 9 | 📍 **Coordenadas y recorrido aproximados** | Las ubicaciones de Búzios se corrigieron en la v12.1.3, pero varias siguen siendo estimaciones (Rua das Pedras, Orla Bardot, muelle, O Barco, Privilège, Porto da Barra, Geribá y varios puntos de Río), y la línea del recorrido es recta, no la ruta real. | Copiar las coordenadas exactas de cada punto desde Google Maps (clic derecho sobre el lugar) y, si hace falta, usar un servicio de ruteo. |
 | 10 | 🗺️ **Tres implementaciones de mapa** | Alojamiento usa un `iframe` de Google Maps; Turismo usa CARTO con API key y respaldo OpenStreetMap; el Itinerario usa OpenStreetMap con respaldo Esri. El respaldo se activa tras 2 errores de tiles sin ninguna carga previa, por lo que un mapa puede cambiar de proveedor y verse distinto de otro. El código de tiles está duplicado entre `addBaseTiles` y `addTiles`. | Unificar en una sola función de tiles (un único proveedor sin clave) y reutilizarla en ambos mapas. |
 | 11 | 🧹 **Comentarios y código muerto** | Hay un comentario con un enlace a una conversación externa de Gemini y un bloque comentado de zoom fijo para Río en `initPoiMap`. | Eliminarlos o pasarlos a la documentación. |
 | 12 | 🧪 **Sin pruebas ni CI** | La verificación es manual y el código vive en un único archivo de casi 4.700 líneas. | Separar en módulos y agregar pruebas básicas. |
